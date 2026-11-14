@@ -26,18 +26,28 @@ export function specimenBox(specimen: Specimen): Box3 {
 }
 
 /**
- * Explode offset for one bone: straight out from the specimen center through
- * the bone's own center. Zero separation always gives exactly (0, 0, 0).
+ * Explode offset for one bone: straight out from `origin` through the bone's
+ * own center. Zero separation always gives exactly (0, 0, 0).
  */
 export function explodeOffset(
   s: Structure,
-  specimenCenter: Vector3,
+  origin: Vector3,
   separation: number,
   out = new Vector3(),
 ): Vector3 {
   const b = structureBox(s)
   if (!b || separation === 0) return out.set(0, 0, 0)
-  return b.getCenter(out).sub(specimenCenter).multiplyScalar(separation * EXPLODE_GAIN)
+  return b.getCenter(out).sub(origin).multiplyScalar(separation * EXPLODE_GAIN)
+}
+
+/**
+ * Where Exploded pushes from: the specimen center normally, or the focused
+ * bone's own center, so the focused bone stays put and the rest clear away.
+ */
+export function explodeOrigin(specimen: Specimen, focusedId: string | null, specimenCenter: Vector3): Vector3 {
+  const focused = focusedId ? specimen.structures.find((x) => x.id === focusedId) : undefined
+  const box = focused && structureBox(focused)
+  return box ? box.getCenter(new Vector3()) : specimenCenter
 }
 
 /**

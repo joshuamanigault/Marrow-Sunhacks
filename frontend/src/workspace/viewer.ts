@@ -35,10 +35,16 @@ export interface ViewerState {
    * reads it.
    */
   pick: Pick | null
+  /**
+   * Bone the visitor is studying in isolation: it stays solid and in place while
+   * every other bone explodes away from it and turns translucent. Null = off.
+   */
+  focusedId: string | null
   /** Latest camera instruction. Only the scene reads this. */
   camera: CameraRequest | null
   select(id: string | null): void
   setVisible(id: string, visible: boolean): void
+  /** Isolate a bone (zoom, explode the rest, fade the rest). Same id again exits. */
   focus(id: string): void
   setMode(mode: DisplayMode): void
   setSeparation(value: number): void
@@ -56,6 +62,7 @@ const initial = {
   separation: 0,
   colorByStructure: true,
   pick: null,
+  focusedId: null,
 } satisfies Partial<ViewerState>
 
 function without(hiddenIds: Record<string, true>, id: string) {
@@ -64,6 +71,16 @@ function without(hiddenIds: Record<string, true>, id: string) {
 }
 
 let seq = 0
+
+/** Separation used when focus starts, unless the visitor already chose one. */
+const FOCUS_SEPARATION = 0.6
+
+/** While a bone is focused, choosing a different bone moves the focus to it. */
+function followFocus(s: ViewerState, id: string | null) {
+  if (!s.focusedId || id === s.focusedId) return {}
+  if (!id) return { focusedId: null }
+  return { focusedId: id, camera: { seq: ++seq, kind: 'focus', id } as const }
+}
 
 export const useViewer = create<ViewerState>()((set) => ({
   ...initial,
@@ -75,6 +92,7 @@ export const useViewer = create<ViewerState>()((set) => ({
       selectedId: id,
       hiddenIds: id ? without(s.hiddenIds, id) : s.hiddenIds,
       pick: s.pick && s.pick.structureId === id ? s.pick : null,
+      ...followFocus(s, id),
     })),
   setVisible: (id, visible) =>
     set((s) => {
@@ -83,19 +101,33 @@ export const useViewer = create<ViewerState>()((set) => ({
         hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
         selectedId: deselect ? null : s.selectedId,
         pick: deselect ? null : s.pick,
+        focusedId: !visible && s.focusedId === id ? null : s.focusedId,
       }
     }),
   focus: (id) =>
-    set((s) => ({
-      selectedId: id,
-      hiddenIds: without(s.hiddenIds, id),
-      pick: s.pick && s.pick.structureId === id ? s.pick : null,
-      camera: { seq: ++seq, kind: 'focus', id },
-    })),
+    set((s) =>
+      s.focusedId === id
+        ? // Second press: reassemble and go back to the home view.
+          { focusedId: null, mode: 'solid', separation: 0, camera: { seq: ++seq, kind: 'reset' } }
+        : {
+            focusedId: id,
+            selectedId: id,
+            hiddenIds: without(s.hiddenIds, id),
+            pick: s.pick && s.pick.structureId === id ? s.pick : null,
+            mode: 'exploded',
+            separation: s.mode === 'exploded' && s.separation ? s.separation : FOCUS_SEPARATION,
+            camera: { seq: ++seq, kind: 'focus', id },
+          },
+    ),
   // Separation is non-zero only in Exploded, so the scene can position parts
   // from `separation` alone. Entering Exploded starts at 50% so it is visible.
+  // Picking a display mode by hand leaves focus.
   setMode: (mode) =>
-    set((s) => ({ mode, separation: mode === 'exploded' ? s.separation || 0.5 : 0 })),
+    set((s) => ({
+      mode,
+      separation: mode === 'exploded' ? s.separation || 0.5 : 0,
+      focusedId: null,
+    })),
   setSeparation: (value) =>
     set((s) =>
       s.mode === 'exploded' && Number.isFinite(value)
@@ -111,5 +143,6 @@ export const useViewer = create<ViewerState>()((set) => ({
       pick,
       selectedId: pick.structureId,
       hiddenIds: without(s.hiddenIds, pick.structureId),
+      ...followFocus(s, pick.structureId),
     })),
 }))

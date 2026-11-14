@@ -156,7 +156,9 @@ function AnatomyPanel({ specimen }: { specimen: Specimen }) {
               <button
                 type="button"
                 className="ws-focus"
-                aria-label={`Focus ${label}`}
+                aria-label={v.focusedId === s.id ? `Stop focusing ${label}` : `Focus ${label}`}
+                aria-pressed={v.focusedId === s.id}
+                title={v.focusedId === s.id ? 'Stop focusing' : 'Focus: zoom in, explode and fade the rest'}
                 onClick={() => v.focus(s.id)}
               >
                 <Icon name="focus" />

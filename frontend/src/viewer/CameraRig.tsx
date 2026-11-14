@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import { PerspectiveCamera, Sphere, Vector3, type Box3 } from 'three'
 import type { Specimen } from '../workspace/specimen'
 import { useViewer } from '../workspace/viewer'
-import { explodeOffset, structureBox } from './layout'
+import { explodeOffset, explodeOrigin, structureBox } from './layout'
 
 // fitToSphere keeps the current viewing angle (fitToBox snaps to the nearest axis).
 const fitTarget = (box: Box3) => box.getBoundingSphere(new Sphere())
@@ -53,9 +53,14 @@ export function CameraRig({ specimen, box, center }: CameraRigProps) {
           const s = specimen.structures.find((x) => x.id === req.id)
           const b = s && structureBox(s)
           if (!s || !b) return
-          // Frame the bone where it is now, including any explode offset.
-          b.translate(explodeOffset(s, center, state.separation))
-          void c.fitToSphere(fitTarget(b), true)
+          // Frame the bone where it will sit: a focused bone stays put, anything
+          // else is framed at its exploded position.
+          const origin = explodeOrigin(specimen, state.focusedId, center)
+          b.translate(explodeOffset(s, origin, state.separation))
+          // A little extra room so the bone isn't jammed against the edges.
+          const sphere = fitTarget(b)
+          sphere.radius *= 1.35
+          void c.fitToSphere(sphere, true)
         }
       }),
     [specimen, center],

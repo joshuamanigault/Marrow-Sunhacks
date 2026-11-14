@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei'
-import type { ThreeEvent } from '@react-three/fiber'
-import { useEffect, useMemo } from 'react'
-import { Mesh, type BufferGeometry, type Color, type Vector3 } from 'three'
+import { useFrame, type ThreeEvent } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import { Mesh, type BufferGeometry, type Color, type Group, type Vector3 } from 'three'
 import { apiUrl, type Structure } from '../workspace/specimen'
 import { useViewer } from '../workspace/viewer'
 import { explodeOffset } from './layout'
@@ -11,6 +11,10 @@ const BONE = '#d9cba9'
 const HIGHLIGHT = '#1f5673'
 /** Pointer travel (px) above which a press counts as a drag, not a click. */
 const CLICK_SLOP = 4
+/** How fast bones glide to their explode position (higher = snappier). */
+const GLIDE = 8
+/** Opacity of bones that are faded back (X-ray, or not the focused bone). */
+const FADED = 0.18
 /** Hidden bones must not catch clicks (three's raycaster ignores `visible`). */
 const noRaycast = () => {}
 
@@ -35,24 +39,39 @@ function useBoneGeometry(url: string): BufferGeometry {
 interface BoneProps {
   structure: Structure
   color: Color
-  specimenCenter: Vector3
+  /** Where Exploded pushes from (specimen center, or the focused bone's center). */
+  explodeOrigin: Vector3
 }
 
-export function Bone({ structure, color, specimenCenter }: BoneProps) {
+export function Bone({ structure, color, explodeOrigin }: BoneProps) {
   const id = structure.id
   const geometry = useBoneGeometry(apiUrl(structure.meshUrl!))
 
   const hidden = useViewer((s) => !!s.hiddenIds[id])
   const selected = useViewer((s) => s.selectedId === id)
   const xray = useViewer((s) => s.mode === 'xray')
+  const focusing = useViewer((s) => s.focusedId !== null)
+  const focused = useViewer((s) => s.focusedId === id)
   const separation = useViewer((s) => s.separation)
   const colorByStructure = useViewer((s) => s.colorByStructure)
   const setPick = useViewer((s) => s.setPick)
 
-  const offset = useMemo(
-    () => explodeOffset(structure, specimenCenter, separation),
-    [structure, specimenCenter, separation],
+  const target = useMemo(
+    () => explodeOffset(structure, explodeOrigin, separation),
+    [structure, explodeOrigin, separation],
   )
+  // Glide to the target instead of jumping, so exploding reads as motion.
+  const group = useRef<Group>(null)
+  useFrame((_, dt) => {
+    const g = group.current
+    if (!g) return
+    if (g.position.distanceToSquared(target) < 1e-8) g.position.copy(target)
+    else g.position.lerp(target, 1 - Math.exp(-dt * GLIDE))
+  })
+
+  // Faded = see-through: everything but the selection in X-ray, and everything
+  // but the focused bone while one is focused.
+  const faded = focusing ? !focused : xray && !selected
 
   function onClick(e: ThreeEvent<MouseEvent>) {
     // Only the nearest bone under the pointer, and never at the end of a drag.
@@ -65,7 +84,7 @@ export function Bone({ structure, color, specimenCenter }: BoneProps) {
 
   return (
     // The group carries the explode offset; the mesh itself stays at identity.
-    <group position={offset} visible={!hidden}>
+    <group ref={group} visible={!hidden}>
       <mesh
         name={id}
         geometry={geometry}
@@ -88,8 +107,8 @@ export function Bone({ structure, color, specimenCenter }: BoneProps) {
           emissiveIntensity={selected ? 0.35 : 0}
           // X-ray is a rendering style, not a radiograph (spec §2).
           transparent
-          opacity={xray ? (selected ? 0.9 : 0.22) : 1}
-          depthWrite={!xray || selected}
+          opacity={faded ? FADED : xray && !focusing ? 0.9 : 1}
+          depthWrite={!faded}
         />
       </mesh>
     </group>
