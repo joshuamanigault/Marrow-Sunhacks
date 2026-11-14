@@ -45,6 +45,12 @@ class StructureSummary(BaseModel):
     side: Side
     sourceFilename: str
     status: StructureStatus
+    color: str | None = Field(
+        default=None,
+        description=(
+            "Stable #rrggbb for swatches / color-by-structure; null if unknown."
+        ),
+    )
     meshUrl: str | None = None
     triangleCount: int | None = None
     bounds: dict[str, list[float]] | None = None
