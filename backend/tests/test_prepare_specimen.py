@@ -106,3 +106,9 @@ def test_write_manifest_does_not_use_stl_counts_for_existing_glb(
     assert nasal["status"] == "ok"
     assert nasal["triangleCount"] == 4
     assert nasal["bounds"]["min"] != [-99.0, -99.0, -99.0]
+    assert nasal["color"] == StructureDef(
+        "nasal_r", "Nasal", "right", "nasalR.stl"
+    ).color
+    maxilla_l = next(s for s in manifest["structures"] if s["id"] == "maxilla_l")
+    maxilla_r = next(s for s in manifest["structures"] if s["id"] == "maxilla_r")
+    assert maxilla_l["color"] != maxilla_r["color"]
