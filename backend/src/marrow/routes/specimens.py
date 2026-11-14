@@ -5,7 +5,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
-from marrow.models.specimen import SpecimenResponse
+from marrow.models.specimen import SpecimenListItem, SpecimenResponse
 from marrow.specimens.store import SpecimenStore, get_specimen_store
 
 router = APIRouter(tags=["specimens"])
@@ -13,6 +13,11 @@ router = APIRouter(tags=["specimens"])
 
 def _store() -> SpecimenStore:
     return get_specimen_store()
+
+
+@router.get("/specimens", response_model=list[SpecimenListItem])
+def list_specimens() -> list[SpecimenListItem]:
+    return _store().list_specimens()
 
 
 @router.get("/specimens/{specimen_id}", response_model=SpecimenResponse)

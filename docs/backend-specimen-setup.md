@@ -48,6 +48,7 @@ Examples:
 
 ```text
 GET http://127.0.0.1:8000/health
+GET http://127.0.0.1:8000/specimens
 GET http://127.0.0.1:8000/specimens/ypm-vp-41198
 GET http://127.0.0.1:8000/specimens/ypm-vp-41198/meshes/nasal_r.glb
 ```

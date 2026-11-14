@@ -8,14 +8,33 @@
 | Method | Path | Result |
 | --- | --- | --- |
 | `GET` | `/health` | `{"status":"ok"}` |
+| `GET` | `/specimens` | Catalog list (id + labels to open) |
 | `GET` | `/specimens/{specimen_id}` | Specimen metadata + structures |
 | `GET` | `/specimens/{specimen_id}/meshes/{structure_id}.glb` | Binary GLB |
 
 Curated MVP id: **`ypm-vp-41198`**.
 
-Unknown specimen → **404**. Unknown / unavailable mesh → **404**. Invalid ids / path tricks → **400**.
+Unknown specimen → **404**. Unknown / unavailable mesh → **404**. Invalid ids / path tricks → **400**. Empty `ASSETS_DIR` (or no valid manifests) → **`[]`** from `GET /specimens`.
 
-## Example response
+## List response (`GET /specimens`)
+
+Scans `ASSETS_DIR` for child directories with a readable `manifest.json` whose `id` matches the folder name. Skips invalid / incomplete manifests rather than failing the whole list.
+
+```json
+[
+  {
+    "id": "ypm-vp-41198",
+    "scientificName": "Eosphorosuchus lacrimosa",
+    "accession": "YPM VP 41198",
+    "commonLabel": "Eosphorosuchus lacrimosa",
+    "institution": "Yale Peabody Museum"
+  }
+]
+```
+
+`institution` may be `null` when absent from the manifest. Use `id` to call `GET /specimens/{id}`.
+
+## Detail response (`GET /specimens/{specimen_id}`)
 
 ```json
 {
@@ -94,7 +113,7 @@ Left and right elements share a display `name` but always have distinct `id` val
 
 ## Frontend integration notes
 
-1. `GET /specimens/ypm-vp-41198` once on open.
+1. `GET /specimens` to discover curated ids (do not hard-code); then `GET /specimens/{id}` once on open.
 2. For each structure with `status === "ok"`, `useGLTF` / `GLTFLoader` on `meshUrl` (prefix with `VITE_API_URL`).
 3. Keep `structure.id` on the Three object / store key — never key solely by display name.
 4. Surface `missing` / `unreadable` rows honestly; do not substitute illustrations.
