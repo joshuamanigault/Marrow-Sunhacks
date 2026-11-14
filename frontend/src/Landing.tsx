@@ -1,10 +1,24 @@
-import type { ReactNode } from 'react'
+import { Component, lazy, Suspense, useEffect, useRef, type ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Icon } from './workspace/Workspace'
 import './landing.css'
 
+// three.js is large, so the hero skull loads after the page text.
+const Skull = lazy(() => import('./Skull'))
+
+/** The skull is decoration: if it fails (no WebGL, missing file), drop it, not the page. */
+class SkipOnError extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
 // ponytail: hard-coded catalog of the one curated specimen (spec §5), so these
-// pages need no server. Fetch GET /specimens once that endpoint is on main.
+// pages need no server. Fetch GET /specimens once the frontend uses it.
 const curated = {
   id: 'ypm-vp-41198',
   scientificName: 'Eosphorosuchus lacrimosa',
@@ -13,137 +27,243 @@ const curated = {
   source: 'Dryad · CC0-1.0',
 }
 const catalog = [curated]
+const openCurated = `/workspace/${curated.id}`
 
-const steps = [
-  {
-    icon: 'focus',
-    title: 'Find a bone',
-    text: 'Turn the specimen, pick a named structure and focus on it.',
-  },
-  {
-    icon: 'sliders',
-    title: 'Look behind it',
-    text: 'Switch between Solid, X-ray and Exploded, or hide what is in the way.',
-  },
-  {
-    icon: 'info',
-    title: 'Know the source',
-    text: 'Every structure comes from the published study, with its citation.',
-  },
-] as const
+// Figures from docs/backend-specimen-setup.md (prepared Appendix 2 meshes).
+const stats = [
+  { value: '21', unit: 'elements', label: 'Named skull structures' },
+  { value: '80k', unit: 'max', label: 'Triangles per mesh' },
+  { value: 'CC0', unit: 'Dryad', label: 'Open data licence' },
+  { value: '0', unit: 'installs', label: 'Runs in the browser' },
+]
 
-function Page(props: { title: string; className: string; children: ReactNode }) {
+function Arrow() {
   return (
-    <div className="ws landing">
+    <span className="mk-arrow">
+      <Icon name="arrow" />
+    </span>
+  )
+}
+
+function Page(props: { title: string; children: ReactNode }) {
+  return (
+    <div className="mk">
       <title>{props.title}</title>
-      <header className="landing-top">
-        <Link className="landing-brand ws-float" to="/">
+      {/* React hoists this into <head>, so only these pages load the font. */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap"
+        precedence="default"
+      />
+      <header className="mk-nav">
+        <Link className="mk-brand" to="/">
           <Icon name="bone" />
-          <strong>Marrow</strong>
+          Marrow
         </Link>
-        <nav className="landing-nav ws-float" aria-label="Site">
+        <nav className="mk-links" aria-label="Site">
           <NavLink to="/explore">Explore</NavLink>
           <NavLink to="/upload">Upload</NavLink>
         </nav>
+        <Link className="mk-btn mk-btn-light mk-nav-cta" to={openCurated}>
+          Open specimen
+          <Arrow />
+        </Link>
       </header>
-      <main className={props.className}>{props.children}</main>
+      {props.children}
     </div>
+  )
+}
+
+export function Landing() {
+  // Scroll progress through the tall hero, 0..1: the skull reads it every
+  // frame, and the overlay fades through the --t custom property.
+  const scroller = useRef<HTMLElement>(null)
+  const progress = useRef(0)
+  useEffect(() => {
+    const update = () => {
+      const el = scroller.current
+      if (!el) return
+      const box = el.getBoundingClientRect()
+      const t = Math.min(1, Math.max(0, -box.top / (box.height - innerHeight)))
+      progress.current = t
+      el.style.setProperty('--t', String(t))
+      // Once the hero text has faded out, take it out of clicks and tab order.
+      el.toggleAttribute('data-faded', t > 0.45)
+    }
+    update()
+    addEventListener('scroll', update, { passive: true })
+    addEventListener('resize', update)
+    return () => {
+      removeEventListener('scroll', update)
+      removeEventListener('resize', update)
+    }
+  }, [])
+
+  return (
+    <Page title="Marrow">
+      <main>
+        <section className="mk-scroll" ref={scroller}>
+          <div className="mk-hero">
+            {/* A CT gantry seen edge-on: two lit rims and the scan beam between them. */}
+            <div className="mk-glow" aria-hidden="true">
+              <div className="mk-arc mk-arc-top" />
+              <div className="mk-arc mk-arc-bottom" />
+              <div className="mk-beam" />
+            </div>
+
+            <SkipOnError>
+              <Suspense fallback={null}>
+                <Skull progress={progress} />
+              </Suspense>
+            </SkipOnError>
+            <p className="mk-illustration">
+              The real skull from the CT study of {curated.accession}.
+            </p>
+            <p className="mk-scroll-cue" aria-hidden="true">
+              Scroll to take it apart
+            </p>
+
+            <div className="mk-hero-body">
+              <div>
+                <p className="mk-tag">[ CT study · {curated.accession} ]</p>
+                <h1 className="mk-display">
+                  A real fossil skull,
+                  <br />
+                  <span className="mk-dim">explored</span> bone by bone,
+                  <br />
+                  <span className="mk-dim">right in your</span> browser.
+                </h1>
+                <div className="mk-actions">
+                  <Link className="mk-btn mk-btn-light" to={openCurated}>
+                    Open the specimen
+                    <Arrow />
+                  </Link>
+                  <Link className="mk-btn mk-btn-dark" to="/explore">
+                    Browse the catalog
+                  </Link>
+                </div>
+              </div>
+
+              <ul className="mk-checks">
+                <li>
+                  <Icon name="check" />
+                  Meshes the researchers extracted, not illustrations
+                </li>
+                <li>
+                  <Icon name="check" />
+                  Every bone traced to the published study
+                </li>
+                <li>
+                  <Icon name="check" />
+                  Nothing to install, no sign-in
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="mk-band" aria-labelledby="mk-band-title">
+          <h2 id="mk-band-title">Specimen data from</h2>
+          <ul>
+            <li className="mk-serif">Yale Peabody Museum</li>
+            <li>Dryad</li>
+            <li className="mk-serif">Proceedings of the Royal Society B</li>
+          </ul>
+        </section>
+
+        <section className="mk-about">
+          <p className="mk-kicker">More about Marrow</p>
+          <div className="mk-about-grid">
+            <h2 className="mk-statement">
+              Researcher-prepared CT anatomy, named, cited and ready to turn in your hand.
+            </h2>
+            <p className="mk-small">
+              Marrow opens <i>{curated.scientificName}</i> ({curated.accession}) from a published
+              micro-CT study. Select a bone, hide what is in the way, separate the parts and put
+              them back. Missing or unreadable files are shown as missing, never replaced.
+            </p>
+            <dl className="mk-stats">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <dt>{s.label}</dt>
+                  <dd>
+                    {s.value}
+                    <sup>[{s.unit}]</sup>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      </main>
+
+      <footer className="mk-footer">
+        Data: Margulis-Ohnuma, Ruebenstahl, Meyer &amp; Bhullar (2026), Dryad, CC0-1.0.
+      </footer>
+    </Page>
   )
 }
 
 function SpecimenMeta({ entry }: { entry: typeof curated }) {
   return (
-    <>
-      <h2>
-        <i>{entry.scientificName}</i>
-      </h2>
-      <dl className="ws-meta">
-        <dt>Specimen</dt>
-        <dd>{entry.accession}</dd>
-        <dt>Collection</dt>
-        <dd>{entry.institution}</dd>
-        <dt>Data source</dt>
-        <dd>{entry.source}</dd>
-      </dl>
-    </>
-  )
-}
-
-export function Landing() {
-  return (
-    <Page title="Marrow" className="landing-main">
-      <section className="landing-hero">
-        <div className="ws-label">Fossil CT study</div>
-        <h1>Explore a real fossil skull, bone by bone.</h1>
-        <p>
-          Marrow opens a published CT study in your browser. See the anatomy the researchers
-          extracted, find a bone and inspect it in context. Nothing to install and no sign-in.
-        </p>
-        <Link className="ws-cta" to={`/workspace/${curated.id}`}>
-          Open the specimen
-        </Link>
-      </section>
-
-      <aside className="landing-card ws-float" aria-label="Curated specimen">
-        <div className="ws-label">Curated specimen</div>
-        <SpecimenMeta entry={curated} />
-      </aside>
-
-      <ul className="landing-steps">
-        {steps.map((s) => (
-          <li key={s.title}>
-            <Icon name={s.icon} />
-            <div>
-              <strong>{s.title}</strong>
-              <span>{s.text}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </Page>
+    <dl className="mk-meta">
+      <dt>Specimen</dt>
+      <dd>{entry.accession}</dd>
+      <dt>Collection</dt>
+      <dd>{entry.institution}</dd>
+      <dt>Data source</dt>
+      <dd>{entry.source}</dd>
+    </dl>
   )
 }
 
 export function Explore() {
   return (
-    <Page title="Explore · Marrow" className="landing-page">
-      <div className="ws-label">Catalog</div>
-      <h1>Explore</h1>
-      <p>Fossil CT studies you can open in the 3D viewer.</p>
-      <ul className="landing-catalog">
-        {catalog.map((entry) => (
-          <li key={entry.id}>
-            <Link className="landing-card ws-float" to={`/workspace/${entry.id}`}>
-              <div className="ws-label">CT study</div>
-              <SpecimenMeta entry={entry} />
-              <span className="landing-open">
-                Open in viewer <Icon name="arrow" />
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <Page title="Explore · Marrow">
+      <main className="mk-page">
+        <p className="mk-tag">[ Catalog ]</p>
+        <h1 className="mk-display">Explore</h1>
+        <p className="mk-lead">Fossil CT studies you can open in the 3D viewer.</p>
+        <ul className="mk-catalog">
+          {catalog.map((entry) => (
+            <li key={entry.id}>
+              <Link className="mk-card" to={`/workspace/${entry.id}`}>
+                <span className="mk-tag">[ CT study ]</span>
+                <h2>
+                  <i>{entry.scientificName}</i>
+                </h2>
+                <SpecimenMeta entry={entry} />
+                <span className="mk-card-open">
+                  Open in viewer <Icon name="arrow" />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
     </Page>
   )
 }
 
 export function Upload() {
   return (
-    <Page title="Upload · Marrow" className="landing-page">
-      <div className="ws-label">Your own scan</div>
-      <h1>Upload</h1>
-      <p>Bring your own fossil CT scan and view it in the 3D viewer.</p>
-      <div className="landing-drop">
-        <Icon name="upload" />
-        <strong>Uploading is not available yet</strong>
-        <span>
-          When it is, you will add your scan here and explore it with the same tools as the catalog
-          specimens.
-        </span>
-        <button className="ws-cta" disabled>
-          Choose a scan
-        </button>
-      </div>
+    <Page title="Upload · Marrow">
+      <main className="mk-page">
+        <p className="mk-tag">[ Your own scan ]</p>
+        <h1 className="mk-display">Upload</h1>
+        <p className="mk-lead">Bring your own fossil CT scan and view it in the 3D viewer.</p>
+        <div className="mk-drop">
+          <Icon name="upload" />
+          <strong>Uploading is not available yet</strong>
+          <span>
+            When it is, you will add your scan here and explore it with the same tools as the
+            catalog specimens.
+          </span>
+          <button className="mk-btn mk-btn-light" disabled>
+            Choose a scan
+          </button>
+        </div>
+      </main>
     </Page>
   )
 }

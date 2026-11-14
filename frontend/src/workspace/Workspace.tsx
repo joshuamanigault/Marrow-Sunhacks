@@ -46,6 +46,7 @@ const icons = {
   external: <path d="M7 17L17 7M8 7h9v9" />,
   upload: <path d="M12 16V4M7 9l5-5 5 5M4 20h16" />,
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
+  check: <path d="M5 12l5 5 9-10" />,
 }
 
 export function Icon({ name }: { name: keyof typeof icons }) {

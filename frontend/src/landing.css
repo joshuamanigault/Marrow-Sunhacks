@@ -1,205 +1,710 @@
-/* Landing page. Reuses the workspace tokens and controls via the .ws class. */
+/* Landing, Explore and Upload. Always dark, so the lit CT rims read. */
 
-.ws.landing {
-  height: auto;
+.mk {
+  color-scheme: dark;
+  --bg: #050708;
+  --ink: #f2f5f7;
+  --muted: #8c98a0;
+  --line: #ffffff1a;
+  --rim: #a9d0e6;
+  --card: #0c1114;
+
   min-height: 100dvh;
-  overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 14px/1.5 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
 }
 
-.landing-top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
+.mk a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.landing-brand {
+.mk svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.mk :focus-visible {
+  outline: 2px solid var(--rim);
+  outline-offset: 3px;
+}
+
+/* Nav */
+
+.mk-nav {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px clamp(16px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
+}
+
+.mk-brand {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 8px 13px;
-  font-size: 13px;
-  color: inherit;
-  text-decoration: none;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
 }
 
-.landing-nav {
+.mk-brand svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mk-links {
   display: flex;
-  gap: 3px;
-  padding: 5px;
+  gap: 4px;
 }
 
-.ws .landing-nav a {
+.mk-links a {
   display: flex;
   align-items: center;
-  padding: 5px 12px;
-  border-radius: 7px;
-  color: inherit;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.ws .landing-nav a:hover {
-  background: var(--soft);
-}
-
-.ws .landing-nav a[aria-current='page'] {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.landing-brand svg,
-.landing-steps svg {
-  color: var(--accent);
-  width: 21px;
-  height: 21px;
-}
-
-.landing-main {
-  flex: 1;
-  align-content: center;
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 40px 48px;
-  width: 100%;
-  max-width: 920px;
-  margin: 0 auto;
-  padding-bottom: 40px;
-}
-
-.landing-hero h1,
-.landing-page h1 {
-  margin: 10px 0 14px;
-  font-size: clamp(28px, 5vw, 44px);
-  line-height: 1.12;
-  font-weight: 650;
-  letter-spacing: -0.5px;
-  text-wrap: balance;
-}
-
-.landing-hero p,
-.landing-page > p {
-  margin: 0 0 24px;
-  max-width: 46ch;
-  font-size: 15px;
-  line-height: 1.6;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 99px;
   color: var(--muted);
+  font-size: 13px;
 }
 
-.landing-card {
-  padding: 18px;
+.mk-links a:hover,
+.mk-links a[aria-current='page'] {
+  color: var(--ink);
+}
+
+.mk-links a[aria-current='page'] {
+  background: #ffffff14;
+}
+
+.mk-nav-cta {
+  justify-self: end;
+}
+
+/* Buttons: a pill with an arrow tile. */
+
+.mk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 4px 0 18px;
+  border: 1px solid #ffffff38;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mk .mk-btn-light {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.mk-btn-dark {
+  padding-right: 18px;
+  background: #000;
+  color: var(--ink);
+}
+
+.mk-btn:hover {
+  filter: brightness(0.9);
+}
+
+.mk-btn-dark:hover {
+  filter: none;
+  border-color: #ffffff70;
+}
+
+.mk .mk-btn:disabled {
+  padding-right: 18px;
+  background: transparent;
+  border-color: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+  filter: none;
+}
+
+.mk-arrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Hero: a tall scroll track with a sticky stage. Scrolling through the track
+   drives --t from 0 to 1, which lifts and explodes the skull. */
+
+.mk-scroll {
+  --t: 0;
+  height: 260vh;
+}
+
+.mk-hero {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 100dvh;
+  min-height: 560px;
+  padding: 0 clamp(16px, 5vw, 72px) clamp(40px, 8vh, 80px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mk-skull {
+  position: absolute !important;
+  inset: 0;
+  z-index: -1;
+  /* Horizontal drags spin the skull; vertical swipes still scroll the page. */
+  touch-action: pan-y;
+}
+
+.mk-hero-body {
+  opacity: clamp(0, 1 - var(--t) * 2.2, 1);
+  transform: translateY(calc(var(--t) * -80px));
+  /* Full-width box over the canvas: let drags reach the skull between the
+     text and buttons. */
+  pointer-events: none;
+}
+
+.mk-hero-body > * {
+  pointer-events: auto;
+}
+
+.mk-scroll[data-faded] .mk-hero-body {
+  visibility: hidden;
+}
+
+.mk-illustration,
+.mk-scroll-cue {
+  position: absolute;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.mk-illustration {
+  top: 20px;
+  right: clamp(16px, 5vw, 72px);
+}
+
+.mk-scroll-cue {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: clamp(0, 1 - var(--t) * 6, 1);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.mk-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Rims fade out toward the sides, as light falling off a curve. */
+  mask-image: linear-gradient(90deg, transparent 2%, #000 30%, #000 70%, transparent 98%);
+}
+
+.mk-arc {
+  position: absolute;
+  left: 50%;
+  width: max(1500px, 150vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.mk-arc-top {
+  bottom: calc(100% - 150px);
+  background: #000;
+  box-shadow:
+    0 1px 0 #ffffffe6,
+    0 4px 18px #dcecf6a0,
+    0 30px 120px #a9d0e640;
+}
+
+.mk-arc-bottom {
+  top: 290px;
+  background: radial-gradient(circle at 50% 0, #101a20, #000 30%);
+  box-shadow:
+    0 -1px 0 #ffffffa0,
+    0 -6px 30px #a9d0e650,
+    0 -40px 160px #a9d0e620;
+}
+
+.mk-beam {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  width: 1px;
+  height: 150px;
+  background: linear-gradient(#fff, #a9d0e680 60%, transparent);
+  box-shadow: 0 0 12px #a9d0e6;
+}
+
+.mk-beam::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 16px 4px #dcecf6;
+}
+
+/* Callouts pinned to bones: a glowing dot on the bone, a hairline out past
+   the skull, then the label. They sit inside .mk-hero, so they fade with
+   --t as the skull bursts. --len is the hairline length. */
+.mk-callout {
+  --len: 56px;
+  position: absolute;
+  display: block;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: #050708cc;
+  white-space: nowrap;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  opacity: clamp(0, 1 - var(--t) * 9 - var(--spun, 0), 1);
+}
+
+.mk-callout::before,
+.mk-callout::after {
+  content: '';
+  position: absolute;
+}
+
+/* The dot, on the bone. */
+.mk-callout::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px 2px var(--rim);
+}
+
+/* The hairline, from the dot to the label. */
+.mk-callout::after {
+  background: #ffffffa0;
+}
+
+.mk-callout-up,
+.mk-callout-down {
+  transform: translateX(-50%);
+}
+
+.mk-callout-up {
+  bottom: var(--len);
+}
+
+.mk-callout-down {
+  top: var(--len);
+}
+
+.mk-callout-up::before,
+.mk-callout-down::before {
+  left: calc(50% - 3.5px);
+}
+
+.mk-callout-up::before {
+  bottom: calc(-1 * var(--len) - 3.5px);
+}
+
+.mk-callout-down::before {
+  top: calc(-1 * var(--len) - 3.5px);
+}
+
+.mk-callout-up::after,
+.mk-callout-down::after {
+  left: 50%;
+  width: 1px;
+  height: var(--len);
+}
+
+.mk-callout-up::after {
+  top: 100%;
+}
+
+.mk-callout-down::after {
+  bottom: 100%;
+}
+
+.mk-callout-right {
+  left: var(--len);
+  transform: translateY(-50%);
+}
+
+.mk-callout-right::before {
+  top: calc(50% - 3.5px);
+  left: calc(-1 * var(--len) - 3.5px);
+}
+
+.mk-callout-right::after {
+  top: 50%;
+  right: 100%;
+  width: var(--len);
+  height: 1px;
+}
+
+.mk-hero > .mk-hero-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px 48px;
+  width: 100%;
+}
+
+.mk-tag {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.mk-display {
+  margin: 0;
+  font-size: clamp(38px, 6.4vw, 84px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.mk-dim {
+  background: linear-gradient(90deg, #f2f5f7 0%, #6c7a83 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.mk-checks {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #c5ced3;
+  font-size: 13px;
+}
+
+.mk-checks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mk-checks svg {
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+  border-radius: 50%;
+  background: #ffffff14;
+  color: var(--ink);
+}
+
+/* Source band: the light card that rises out of the dark. */
+
+.mk-band {
+  margin: 0 clamp(8px, 3vw, 40px);
+  padding: 28px 24px 34px;
+  border-radius: 14px;
+  background: #fff;
+  color: #17232b;
+  text-align: center;
+}
+
+.mk-band h2 {
+  margin: 0 0 20px;
+  color: #687780;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.mk-band ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 56px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #3d4a52;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.mk-serif {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+/* About + stats */
+
+.mk-about {
+  padding: clamp(64px, 12vh, 120px) clamp(16px, 5vw, 72px);
+}
+
+.mk-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.mk-kicker::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rim);
+  box-shadow: 0 0 8px var(--rim);
+}
+
+.mk-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 40px 64px;
+}
+
+.mk-statement {
+  margin: 0;
+  font-size: clamp(28px, 3.8vw, 48px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.mk-small {
+  align-self: end;
+  max-width: 40ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.mk-stats {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.mk-stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+  padding: 24px 0 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mk-stats dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mk-stats dd {
+  margin: 0;
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.mk-stats sup {
+  margin-left: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  vertical-align: top;
+}
+
+.mk-footer {
+  margin-top: auto;
+  padding: 24px clamp(16px, 5vw, 72px);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
 }
 
 /* Explore and Upload */
 
-.landing-page {
+.mk-page {
   width: 100%;
-  max-width: 920px;
-  margin: 24px auto 40px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(48px, 10vh, 96px) clamp(16px, 5vw, 40px) 64px;
 }
 
-.landing-catalog {
+.mk-lead {
+  margin: 18px 0 40px;
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.mk-catalog {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
   gap: 16px;
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
-a.landing-card {
+.mk-card {
   display: block;
-  color: inherit;
-  text-decoration: none;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
 }
 
-a.landing-card:hover {
-  border-color: var(--accent);
+.mk-card:hover {
+  border-color: #a9d0e680;
+  box-shadow: 0 0 40px -12px #a9d0e650;
 }
 
-.landing-open {
-  display: inline-flex;
+.mk-card .mk-tag {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.mk-card h2 {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.mk-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.mk-meta dt {
+  color: var(--muted);
+}
+
+.mk-meta dd {
+  margin: 0;
+}
+
+.mk-card-open {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: 600;
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.landing-drop {
+.mk-drop {
   display: grid;
   justify-items: center;
-  gap: 8px;
-  padding: 40px 20px;
-  border: 1.5px dashed var(--line);
-  border-radius: 12px;
+  gap: 10px;
+  padding: 56px 20px;
+  border: 1px dashed #ffffff30;
+  border-radius: 14px;
+  background: var(--card);
   text-align: center;
 }
 
-.landing-drop svg {
+.mk-drop svg {
   width: 28px;
   height: 28px;
   color: var(--muted);
 }
 
-.landing-drop span {
+.mk-drop span {
   max-width: 44ch;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   color: var(--muted);
 }
 
-.landing-card h2 {
-  margin: 8px 0 12px;
-  font-size: 16px;
-  font-weight: 650;
-}
+@media (max-width: 720px) {
+  .mk-nav {
+    grid-template-columns: 1fr auto;
+  }
 
-.landing-steps {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 20px 0 0;
-  border-top: 1px solid var(--line);
-}
+  .mk-nav-cta {
+    display: none;
+  }
 
-.landing-steps li {
-  display: flex;
-  gap: 11px;
-}
+  /* Arcs move up and the text starts below them, so they never cross it. */
+  .mk-scroll {
+    height: 220vh;
+  }
 
-.landing-steps strong,
-.landing-steps span {
-  display: block;
-}
+  .mk-scroll-cue {
+    display: none;
+  }
 
-.landing-steps span {
-  font-size: 12px;
-  color: var(--muted);
-}
+  /* Shorter leader lines, so labels stay off the caption and headline. */
+  .mk-callout {
+    --len: 22px !important;
+  }
 
-@media (max-width: 620px) {
-  .landing-main,
-  .landing-steps {
+  .mk-arc-top {
+    bottom: calc(100% - 80px);
+  }
+
+  .mk-beam {
+    top: 80px;
+    height: 100px;
+  }
+
+  .mk-arc-bottom {
+    top: 180px;
+  }
+
+  .mk-about-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .landing-main {
-    gap: 28px;
-  }
-}
-
-@media (pointer: coarse) {
-  .landing-brand,
-  .ws .landing-nav a {
-    min-height: 44px;
+  .mk-stats {
+    grid-column: auto;
   }
 }
