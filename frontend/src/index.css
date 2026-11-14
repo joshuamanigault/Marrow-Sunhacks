@@ -1,3 +1,16 @@
+/* Spec §3.1 palette: ivory scene, slate-blue accent */
+:root {
+  --scene: #f5f0e9;
+  --panel: #ffffff;
+  --ink: #1a1f24;
+  --muted: #5c6670;
+  --accent: #1f5673;
+  --border: #d9d2c8;
+  --danger: #8b3a3a;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(26, 31, 36, 0.06), 0 8px 24px rgba(26, 31, 36, 0.06);
+}
+
 *,
 *::before,
 *::after {
@@ -7,16 +20,208 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: system-ui, sans-serif;
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
   line-height: 1.5;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, #fff9f1 0%, transparent 55%),
+    linear-gradient(180deg, #ebe4da 0%, var(--scene) 40%, #efe8de 100%);
 }
 
-main {
-  padding: 2rem;
+code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.9em;
 }
 
-h1 {
-  margin: 0;
-  font-size: 1.5rem;
+a {
+  color: var(--accent);
+}
+
+/* —— Start page —— */
+.start-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.brand {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.75rem, 8vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.brand--compact {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.start-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   font-weight: 600;
+}
+
+.start-lead {
+  margin: 0 0 1.75rem;
+  color: var(--muted);
+  max-width: 28rem;
+}
+
+.start-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.85rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+
+.start-cta:hover {
+  filter: brightness(1.05);
+}
+
+.start-meta {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* —— Workspace —— */
+.workspace-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (min-width: 900px) {
+  .workspace-page {
+    grid-template-columns: 1fr minmax(16rem, 20rem);
+    grid-template-rows: auto 1fr;
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .workspace-header {
+    grid-column: 1 / -1;
+  }
+
+  .specimen-stage {
+    min-height: 60vh;
+  }
+}
+
+.workspace-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.specimen-identity {
+  flex: 1 1 14rem;
+}
+
+.specimen-name {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.specimen-accession,
+.specimen-source {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.workspace-status,
+.workspace-error {
+  margin: 0;
+}
+
+.workspace-error {
+  color: var(--danger);
+}
+
+.back-link {
+  margin-left: auto;
+  font-size: 0.95rem;
+}
+
+.specimen-stage {
+  min-height: 45vh;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.55), transparent 45%),
+    var(--scene);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.stage-placeholder {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.credits-panel {
+  padding: 1rem 1.15rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.credits-panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.credits-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.85rem;
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+}
+
+.credits-list dt {
+  margin: 0;
+  color: var(--muted);
+}
+
+.credits-list dd {
+  margin: 0;
+}
+
+.credits-blurb,
+.pin-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.pin-hint {
+  margin-bottom: 0;
 }
