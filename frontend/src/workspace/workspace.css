@@ -13,12 +13,19 @@
   --bone: #c4ae89;
   --shadow: #25334038;
 
+  /* Width of the chrome column left of the scene: rail only, or rail + panel. */
+  --inset: 76px;
+
   position: relative;
   height: 100dvh;
   overflow: hidden;
   color: var(--ink);
   font: 13px/1.5 ui-sans-serif, system-ui, sans-serif;
   background: radial-gradient(ellipse at 64% 45%, var(--panel) 0%, var(--scene) 80%);
+}
+
+.ws[data-panel] {
+  --inset: 317px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -66,7 +73,8 @@
 
 .ws button:focus-visible,
 .ws input:focus-visible,
-.ws a:focus-visible {
+.ws a:focus-visible,
+.ws-panel:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -110,14 +118,15 @@
 
 .ws-scene {
   position: absolute;
-  inset: 0 0 0 317px;
+  inset: 0 0 0 var(--inset);
 }
 
 .ws-caption {
   position: absolute;
   bottom: 76px;
-  left: 50%;
+  left: calc(50% + var(--inset) / 2);
   transform: translateX(-50%);
+  max-width: calc(100% - var(--inset) - 32px);
   display: flex;
   align-items: center;
   gap: 7px;
@@ -127,7 +136,13 @@
   pointer-events: none;
 }
 
+.ws-caption span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .ws-dot {
+  flex-shrink: 0;
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -136,7 +151,7 @@
 
 .ws-rotation {
   position: absolute;
-  bottom: 20px;
+  top: 16px;
   right: 16px;
   display: flex;
   gap: 3px;
@@ -159,7 +174,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 13px;
-  max-width: calc(100% - 32px);
+  max-width: calc(100% - 130px);
 }
 
 .ws-case > svg {
@@ -200,7 +215,7 @@
   padding: 7px;
 }
 
-.ws .ws-rail button[aria-pressed='true'] {
+.ws .ws-rail button[aria-expanded='true'] {
   background: var(--accent);
   color: var(--accent-ink);
 }
@@ -392,7 +407,7 @@
 .ws-dock {
   position: absolute;
   bottom: 20px;
-  left: 50%;
+  left: calc(50% + var(--inset) / 2);
   transform: translateX(-50%);
   z-index: 4;
   display: flex;
@@ -456,9 +471,11 @@
     bottom: 5px;
     left: 5px;
     transform: none;
+    max-width: calc(100% - 115px);
   }
 
   .ws-rotation {
+    top: auto;
     bottom: 5px;
     right: 5px;
   }

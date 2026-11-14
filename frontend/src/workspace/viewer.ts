@@ -13,6 +13,12 @@ export interface ViewerState {
   /** 0..1. Always 0 unless mode is 'exploded'. */
   separation: number
   colorByStructure: boolean
+  /**
+   * Last point the visitor picked on a bone, in that bone's own space, so it is
+   * independent of camera and explode offset. The scene sets it; the pin flow
+   * reads it. Always null in this stub.
+   */
+  pick: { structureId: string; point: [number, number, number] } | null
   select(id: string | null): void
   setVisible(id: string, visible: boolean): void
   focus(id: string): void
@@ -29,6 +35,7 @@ const initial = {
   mode: 'solid',
   separation: 0,
   colorByStructure: true,
+  pick: null,
 } satisfies Partial<ViewerState>
 
 function without(hiddenIds: Record<string, true>, id: string) {
@@ -54,7 +61,12 @@ export const useViewer = create<ViewerState>()((set) => ({
   // from `separation` alone. Entering Exploded starts at 50% so it is visible.
   setMode: (mode) =>
     set((s) => ({ mode, separation: mode === 'exploded' ? s.separation || 0.5 : 0 })),
-  setSeparation: (value) => set({ separation: Math.min(1, Math.max(0, value)) }),
+  setSeparation: (value) =>
+    set((s) =>
+      s.mode === 'exploded' && Number.isFinite(value)
+        ? { separation: Math.min(1, Math.max(0, value)) }
+        : s,
+    ),
   setColorByStructure: (on) => set({ colorByStructure: on }),
   rotateBy: () => {},
   reset: () => set(initial),

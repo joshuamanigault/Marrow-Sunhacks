@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
 import './workspace.css'
@@ -204,7 +204,10 @@ interface WorkspaceProps {
   specimen: Specimen
   /** The 3D canvas (Ananya). Fills the whole workspace behind the chrome. */
   scene: ReactNode
-  /** Starts the pin flow (Alexandra). The dock button is disabled without it. */
+  /**
+   * Starts the pin flow (Alexandra). The dock button is disabled without it.
+   * The picked bone and bone-space point are in `useViewer.getState().pick`.
+   */
   onPin?: () => void
 }
 
@@ -212,16 +215,32 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
   const v = useViewer()
   const selected = specimen.structures.find((s) => s.id === v.selectedId)
+  const hiddenCount = Object.keys(v.hiddenIds).length
+  const caption = selected
+    ? structureLabel(selected)
+    : hiddenCount
+      ? `${hiddenCount} hidden`
+      : 'All structures visible'
+
+  // The panel is last in the DOM (so tab order matches the narrow layout);
+  // opening it from the rail moves focus into it so keyboard users land there.
+  const panelRef = useRef<HTMLElement>(null)
+  const openedByUser = useRef(false)
+  useEffect(() => {
+    if (openedByUser.current && panel) panelRef.current?.focus()
+  }, [panel])
 
   return (
-    <div className="ws">
+    <div className="ws" data-panel={panel ?? undefined}>
       <header className="ws-case ws-float">
         <Icon name="bone" />
         <div>
           <strong>
             <i>{specimen.taxon}</i>
           </strong>
-          <span>{specimen.accession}</span>
+          <span>
+            {specimen.accession} · {specimen.sourceName}
+          </span>
         </div>
       </header>
 
@@ -232,8 +251,12 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
             type="button"
             aria-label={t.label}
             title={t.label}
-            aria-pressed={panel === t.id}
-            onClick={() => setPanel(panel === t.id ? null : t.id)}
+            aria-expanded={panel === t.id}
+            aria-controls="ws-panel"
+            onClick={() => {
+              openedByUser.current = true
+              setPanel(panel === t.id ? null : t.id)
+            }}
           >
             <Icon name={t.icon} />
           </button>
@@ -244,7 +267,7 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
         <div className="ws-scene">{scene}</div>
         <div className="ws-caption" role="status">
           <span className="ws-dot" />
-          {selected ? structureLabel(selected) : 'All structures visible'}
+          <span>{caption}</span>
         </div>
         <div className="ws-rotation">
           <button
@@ -282,7 +305,7 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
 
       {/* Last in the DOM so tab order matches the narrow layout. */}
       {panel && (
-        <aside className="ws-panel ws-float">
+        <aside className="ws-panel ws-float" id="ws-panel" tabIndex={-1} ref={panelRef}>
           {panel === 'anatomy' && <AnatomyPanel specimen={specimen} />}
           {panel === 'info' && <InfoPanel specimen={specimen} />}
           {panel === 'notes' && (
