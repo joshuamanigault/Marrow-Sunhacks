@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { AssetStatusList } from "../components/AssetStatusList"
+import { PinObservationDock } from "../components/PinObservationDock"
 import { SpecimenInfoPanel } from "../components/SpecimenInfoPanel"
 import {
   loadSpecimenPayload,
@@ -14,13 +15,14 @@ import { useViewerStore } from "../store/viewerStore"
  * Task 1: open specimen id
  * Task 2: §5 info panel
  * Task 3: honest missing/unreadable structure status
- * Three.js stage stays Ananya’s — only ok meshes should load there later.
+ * Task 4: pin observations (localStorage, bone-space points)
+ * Three.js stage stays Ananya’s — she writes selection + bone-space picks.
  */
 export function WorkspacePage() {
   // Read :specimenId from the URL (/workspace/ypm-vp-41198)
   const { specimenId } = useParams<{ specimenId: string }>()
 
-  // Shared store: same id pins will use in task 4
+  // Shared store: specimen id + (later) selection/pick from Ananya
   const openSpecimen = useViewerStore((state) => state.openSpecimen)
   const closeSpecimen = useViewerStore((state) => state.closeSpecimen)
   const activeId = useViewerStore((state) => state.specimenId)
@@ -42,7 +44,7 @@ export function WorkspacePage() {
       return
     }
 
-    // Sync URL → Zustand (refresh / bookmark still open the same study)
+    // Sync URL → Zustand (also clears old selection/pick)
     openSpecimen(specimenId)
 
     // Ignore results if the visitor navigates away mid-request
@@ -79,6 +81,17 @@ export function WorkspacePage() {
       cancelled = true
     }
   }, [specimenId, openSpecimen])
+
+  // Only "ok" bones can be demo-picked / pinned until real meshes arrive
+  const demoStructures = structures
+    .filter((row) => row.status === "ok")
+    .map((row) => ({
+      id: row.id,
+      label:
+        row.side === "none"
+          ? row.displayName
+          : `${row.displayName} (${row.side})`,
+    }))
 
   return (
     <main className="workspace-page">
@@ -120,25 +133,36 @@ export function WorkspacePage() {
 
       {/*
         Ananya’s React Three Fiber / Three.js canvas mounts here.
-        Only load structures where status === "ok" and meshUrl is set.
+        On mesh click she should call:
+          setSelectedStructure(structureId, label)
+          setBoneSpacePick({ x, y, z })  // bone-local, not world/exploded
       */}
       <section className="specimen-stage" aria-label="Specimen study area">
         <p className="stage-placeholder">
           3D viewer slot — active specimen id:{" "}
           <code>{activeId ?? "none"}</code>
           {" · "}
-          {
-            structures.filter((row) => row.status === "ok").length
-          }{" "}
-          ready mesh(es)
+          {structures.filter((row) => row.status === "ok").length} ready
+          mesh(es)
         </p>
       </section>
 
-      {/* Right column: credits (task 2) + honest asset list (task 3) */}
+      {/* Right column: credits + asset status */}
       <div className="workspace-side">
         {credits && <SpecimenInfoPanel credits={credits} />}
         {!loading && !error && <AssetStatusList structures={structures} />}
       </div>
+
+      {/*
+        Task 4: bottom pin dock (spec §3.1 — Pin observation near the canvas).
+        Restores localStorage pins for this specimenId on mount.
+      */}
+      {specimenId && !loading && !error && (
+        <PinObservationDock
+          specimenId={specimenId}
+          demoStructures={demoStructures}
+        />
+      )}
     </main>
   )
 }
