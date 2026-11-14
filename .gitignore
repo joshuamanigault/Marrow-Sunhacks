@@ -1,0 +1,63 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Dependencies and virtual environments
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+.uv/
+
+# Caches and tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.cache/
+*.tsbuildinfo
+.eslintcache
+
+# Build outputs
+frontend/dist/
+frontend/dist-ssr/
+*.local
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Private scratch and large data (outside normal source commits)
+scratch/
+*.scratch.md
+data/
+datasets/
+*.tif
+*.tiff
+*.nii
+*.nii.gz
+*.stl
+*.obj
+*.glb
+*.gltf
+*.zip
+*.tar
+*.tar.gz
+*.7z
