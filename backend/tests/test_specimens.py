@@ -2,10 +2,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from fastapi.testclient import TestClient
 
 from marrow.main import app
-from marrow.models.specimen import SpecimenResponse
+from marrow.models.specimen import SpecimenListItem, SpecimenResponse
+from marrow.settings import get_settings
+from marrow.specimens.store import get_specimen_store
 
 client = TestClient(app)
 
@@ -17,6 +20,74 @@ FIXTURE_GLB = (
     / "meshes"
     / "nasal_r.glb"
 )
+
+
+def test_specimen_list_includes_curated_fixture() -> None:
+    response = client.get("/specimens")
+    assert response.status_code == 200
+    items = [SpecimenListItem.model_validate(row) for row in response.json()]
+    assert len(items) >= 1
+    by_id = {item.id: item for item in items}
+    curated = by_id["ypm-vp-41198"]
+    assert curated.scientificName == "Eosphorosuchus lacrimosa"
+    assert curated.accession == "YPM VP 41198"
+    assert curated.commonLabel == "Eosphorosuchus lacrimosa"
+    assert curated.institution == "Yale Peabody Museum"
+
+
+def test_specimen_list_empty_when_assets_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    empty_dir = tmp_path / "prepared"
+    empty_dir.mkdir()
+    monkeypatch.setenv("ASSETS_DIR", str(empty_dir))
+    get_settings.cache_clear()
+    get_specimen_store.cache_clear()
+    try:
+        response = client.get("/specimens")
+        assert response.status_code == 200
+        assert response.json() == []
+    finally:
+        get_settings.cache_clear()
+        get_specimen_store.cache_clear()
+
+
+def test_specimen_list_skips_invalid_manifests(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "prepared"
+    (root / "bad-id!").mkdir(parents=True)
+    (root / "no-manifest").mkdir()
+    broken = root / "broken-id"
+    broken.mkdir()
+    (broken / "manifest.json").write_text("{not-json", encoding="utf-8")
+    mismatch = root / "id-mismatch"
+    mismatch.mkdir()
+    (mismatch / "manifest.json").write_text(
+        '{"id":"other","scientificName":"X","accession":"Y"}',
+        encoding="utf-8",
+    )
+    good = root / "ypm-vp-41198"
+    good.mkdir()
+    (good / "manifest.json").write_text(
+        (
+            '{"id":"ypm-vp-41198","scientificName":"Eosphorosuchus lacrimosa",'
+            '"accession":"YPM VP 41198","commonLabel":"Eosphorosuchus lacrimosa",'
+            '"institution":"Yale Peabody Museum"}'
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("ASSETS_DIR", str(root))
+    get_settings.cache_clear()
+    get_specimen_store.cache_clear()
+    try:
+        response = client.get("/specimens")
+        assert response.status_code == 200
+        items = [SpecimenListItem.model_validate(row) for row in response.json()]
+        assert [item.id for item in items] == ["ypm-vp-41198"]
+    finally:
+        get_settings.cache_clear()
+        get_specimen_store.cache_clear()
 
 
 def test_specimen_contract_shape() -> None:
