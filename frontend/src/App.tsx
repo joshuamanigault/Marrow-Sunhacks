@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Workspace from './workspace/Workspace'
 import { fetchSpecimen, type Specimen } from './workspace/specimen'
+import SpecimenScene from './viewer/SpecimenScene'
 
 // The one curated specimen (spec §5).
 const SPECIMEN_ID = 'ypm-vp-41198'
@@ -39,13 +40,7 @@ function App() {
     )
   }
 
-  // The 3D canvas replaces this placeholder.
-  const scene = (
-    <div style={{ display: 'grid', placeItems: 'center', height: '100%', opacity: 0.5 }}>
-      3D scene mounts here
-    </div>
-  )
-  return <Workspace specimen={specimen} scene={scene} />
+  return <Workspace specimen={specimen} scene={<SpecimenScene specimen={specimen} />} />
 }
 
 export default App
