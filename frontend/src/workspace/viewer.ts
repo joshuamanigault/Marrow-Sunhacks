@@ -2,8 +2,24 @@ import { create } from 'zustand'
 
 // The shell reads and drives viewer state only through this file.
 // Shape mirrors the state API in docs/roadmap.md (Ananya, task 8).
+// The 3D scene (src/viewer/) reads this state and answers camera requests.
 
 export type DisplayMode = 'solid' | 'xray' | 'exploded'
+
+/** Point on a bone in that bone's own (specimen / source STL) space. */
+export interface Pick {
+  structureId: string
+  point: [number, number, number]
+}
+
+/**
+ * One-shot camera instruction for the scene. `seq` increases on every request
+ * so the same request twice in a row (two Rotate clicks) still fires.
+ */
+export type CameraRequest =
+  | { seq: number; kind: 'focus'; id: string }
+  | { seq: number; kind: 'rotate'; radians: number }
+  | { seq: number; kind: 'reset' }
 
 export interface ViewerState {
   selectedId: string | null
@@ -16,9 +32,11 @@ export interface ViewerState {
   /**
    * Last point the visitor picked on a bone, in that bone's own space, so it is
    * independent of camera and explode offset. The scene sets it; the pin flow
-   * reads it. Always null in this stub.
+   * reads it.
    */
-  pick: { structureId: string; point: [number, number, number] } | null
+  pick: Pick | null
+  /** Latest camera instruction. Only the scene reads this. */
+  camera: CameraRequest | null
   select(id: string | null): void
   setVisible(id: string, visible: boolean): void
   focus(id: string): void
@@ -27,6 +45,8 @@ export interface ViewerState {
   setColorByStructure(on: boolean): void
   rotateBy(radians: number): void
   reset(): void
+  /** Scene only: a click landed on a bone. Selects it and records the point. */
+  setPick(pick: Pick): void
 }
 
 const initial = {
@@ -43,20 +63,35 @@ function without(hiddenIds: Record<string, true>, id: string) {
   return rest
 }
 
-// INTEGRATION: replace this stub with Ananya's store export.
-// The real store also frames the bone on focus(), turns the camera on
-// rotateBy(), and restores the initial camera on reset().
+let seq = 0
+
 export const useViewer = create<ViewerState>()((set) => ({
   ...initial,
+  camera: null,
   // The selected structure is always visible: selecting shows it, hiding deselects it.
+  // A pick only belongs to the bone it was made on.
   select: (id) =>
-    set((s) => ({ selectedId: id, hiddenIds: id ? without(s.hiddenIds, id) : s.hiddenIds })),
-  setVisible: (id, visible) =>
     set((s) => ({
-      hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
-      selectedId: !visible && s.selectedId === id ? null : s.selectedId,
+      selectedId: id,
+      hiddenIds: id ? without(s.hiddenIds, id) : s.hiddenIds,
+      pick: s.pick && s.pick.structureId === id ? s.pick : null,
     })),
-  focus: (id) => set((s) => ({ selectedId: id, hiddenIds: without(s.hiddenIds, id) })),
+  setVisible: (id, visible) =>
+    set((s) => {
+      const deselect = !visible && s.selectedId === id
+      return {
+        hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
+        selectedId: deselect ? null : s.selectedId,
+        pick: deselect ? null : s.pick,
+      }
+    }),
+  focus: (id) =>
+    set((s) => ({
+      selectedId: id,
+      hiddenIds: without(s.hiddenIds, id),
+      pick: s.pick && s.pick.structureId === id ? s.pick : null,
+      camera: { seq: ++seq, kind: 'focus', id },
+    })),
   // Separation is non-zero only in Exploded, so the scene can position parts
   // from `separation` alone. Entering Exploded starts at 50% so it is visible.
   setMode: (mode) =>
@@ -68,6 +103,13 @@ export const useViewer = create<ViewerState>()((set) => ({
         : s,
     ),
   setColorByStructure: (on) => set({ colorByStructure: on }),
-  rotateBy: () => {},
-  reset: () => set(initial),
+  rotateBy: (radians) => set({ camera: { seq: ++seq, kind: 'rotate', radians } }),
+  // Restores the initial display and camera. Pins live elsewhere and are kept.
+  reset: () => set({ ...initial, camera: { seq: ++seq, kind: 'reset' } }),
+  setPick: (pick) =>
+    set((s) => ({
+      pick,
+      selectedId: pick.structureId,
+      hiddenIds: without(s.hiddenIds, pick.structureId),
+    })),
 }))
