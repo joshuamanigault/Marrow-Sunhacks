@@ -14,6 +14,7 @@ from marrow.models.specimen import (
     Citation,
     Coordinates,
     ReuseTerms,
+    SpecimenListItem,
     SpecimenResponse,
     StructureSummary,
 )
@@ -32,6 +33,25 @@ class SpecimenStore:
         if not path.is_relative_to(self.assets_dir):
             raise HTTPException(status_code=400, detail="Invalid specimen id")
         return path
+
+    def list_specimens(self) -> list[SpecimenListItem]:
+        """Scan ASSETS_DIR for directories with a valid manifest.json."""
+        if not self.assets_dir.is_dir():
+            return []
+
+        items: list[SpecimenListItem] = []
+        for child in sorted(self.assets_dir.iterdir(), key=lambda p: p.name):
+            if not child.is_dir():
+                continue
+            specimen_id = child.name
+            if not _SAFE_ID.fullmatch(specimen_id):
+                continue
+            summary = self._list_item_from_manifest(
+                child / "manifest.json", specimen_id
+            )
+            if summary is not None:
+                items.append(summary)
+        return items
 
     def load_manifest(self, specimen_id: str) -> dict[str, Any]:
         directory = self.specimen_dir(specimen_id)
@@ -113,6 +133,36 @@ class SpecimenStore:
         if not path.is_file():
             raise HTTPException(status_code=404, detail="Mesh file not found")
         return path
+
+    @staticmethod
+    def _list_item_from_manifest(
+        manifest_path: Path, specimen_id: str
+    ) -> SpecimenListItem | None:
+        if not manifest_path.is_file():
+            return None
+        try:
+            data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            return None
+        if not isinstance(data, dict) or data.get("id") != specimen_id:
+            return None
+        scientific_name = data.get("scientificName")
+        accession = data.get("accession")
+        if not isinstance(scientific_name, str) or not isinstance(accession, str):
+            return None
+        common_label = data.get("commonLabel", scientific_name)
+        if not isinstance(common_label, str):
+            common_label = scientific_name
+        institution = data.get("institution")
+        if institution is not None and not isinstance(institution, str):
+            institution = None
+        return SpecimenListItem(
+            id=specimen_id,
+            scientificName=scientific_name,
+            accession=accession,
+            commonLabel=common_label,
+            institution=institution,
+        )
 
     @staticmethod
     def _check_id(value: str) -> None:

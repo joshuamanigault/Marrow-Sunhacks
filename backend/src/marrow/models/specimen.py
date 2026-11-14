@@ -50,6 +50,16 @@ class StructureSummary(BaseModel):
     bounds: dict[str, list[float]] | None = None
 
 
+class SpecimenListItem(BaseModel):
+    """Compact catalog row: enough to open a curated specimen."""
+
+    id: str
+    scientificName: str
+    accession: str
+    commonLabel: str
+    institution: str | None = None
+
+
 class SpecimenResponse(BaseModel):
     id: str
     scientificName: str
