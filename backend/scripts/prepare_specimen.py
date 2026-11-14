@@ -126,6 +126,41 @@ def load_mesh(path: Path) -> trimesh.Trimesh:
     return loaded
 
 
+def glb_geometry_stats(path: Path) -> dict[str, Any]:
+    """Read triangle count and bounds from a prepared GLB (authoritative on disk)."""
+    loaded = trimesh.load(path, force="scene")
+    if isinstance(loaded, trimesh.Trimesh):
+        mesh = loaded
+    elif isinstance(loaded, trimesh.Scene):
+        geoms = list(loaded.geometry.values())
+        if not geoms:
+            raise ValueError(f"GLB has no geometry: {path}")
+        mesh = geoms[0] if len(geoms) == 1 else trimesh.util.concatenate(geoms)
+    else:
+        raise ValueError(f"Unexpected GLB type {type(loaded)} for {path}")
+    if not isinstance(mesh, trimesh.Trimesh):
+        raise ValueError(f"Expected Trimesh geometry in {path}")
+    return {
+        "triangleCount": int(len(mesh.faces)),
+        "bounds": {
+            "min": [float(x) for x in mesh.bounds[0]],
+            "max": [float(x) for x in mesh.bounds[1]],
+        },
+    }
+
+
+def load_conversion_log(path: Path) -> dict[str, dict[str, Any]]:
+    if not path.is_file():
+        return {}
+    try:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(rows, list):
+        return {}
+    return {row["id"]: row for row in rows if isinstance(row, dict) and "id" in row}
+
+
 def inventory_meshes(raw_dir: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     stl_files = sorted(raw_dir.glob("*.stl"))
@@ -196,17 +231,46 @@ def convert_one(
     *,
     max_faces: int,
     force: bool,
+    prior: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     src = raw_dir / entry.source_filename
     out = meshes_dir / f"{entry.id}.glb"
     if out.exists() and not force:
-        return {
+        # Keep GLB-authoritative counts/bounds so a no-op rerun does not fall
+        # back to pre-decimation STL inventory numbers in the manifest.
+        try:
+            stats = glb_geometry_stats(out)
+        except Exception as exc:  # noqa: BLE001
+            return {
+                "id": entry.id,
+                "status": "unreadable",
+                "meshFile": f"meshes/{entry.id}.glb",
+                "skipped": True,
+                "bytes": out.stat().st_size,
+                "error": f"existing GLB unreadable: {exc}",
+            }
+        result: dict[str, Any] = {
             "id": entry.id,
             "status": "ok",
             "meshFile": f"meshes/{entry.id}.glb",
+            "sourceFilename": entry.source_filename,
             "skipped": True,
             "bytes": out.stat().st_size,
+            "triangleCount": stats["triangleCount"],
+            "bounds": stats["bounds"],
+            "sourceToDisplay": "identity",
+            "error": None,
         }
+        if prior:
+            for key in (
+                "sourceTriangleCount",
+                "sourceBounds",
+                "decimated",
+                "maxFaces",
+            ):
+                if prior.get(key) is not None:
+                    result[key] = prior[key]
+        return result
     if not src.is_file():
         return {
             "id": entry.id,
@@ -337,14 +401,14 @@ def write_manifest(
         if conv is not None:
             status = conv["status"]
             mesh_file = conv.get("meshFile")
-            triangle_count = conv.get("triangleCount") or inv.get("triangleCount")
-            bounds = conv.get("bounds") or inv.get("bounds")
+            triangle_count = conv.get("triangleCount")
+            bounds = conv.get("bounds")
             error = conv.get("error")
         elif glb_path.is_file():
             status = "ok"
             mesh_file = glb_rel
-            triangle_count = inv.get("triangleCount")
-            bounds = inv.get("bounds")
+            triangle_count = None
+            bounds = None
             error = None
         else:
             status = inv.get("status") or "missing"
@@ -359,10 +423,22 @@ def write_manifest(
         if status == "ok":
             if not mesh_file:
                 mesh_file = glb_rel
-            if not (out_dir / mesh_file).is_file():
+            mesh_path = out_dir / mesh_file
+            if not mesh_path.is_file():
                 status = "missing"
                 mesh_file = None
                 error = "Declared GLB missing on disk"
+            elif triangle_count is None or bounds is None:
+                # Prefer prepared GLB geometry over raw STL inventory counts.
+                try:
+                    stats = glb_geometry_stats(mesh_path)
+                    triangle_count = triangle_count or stats["triangleCount"]
+                    bounds = bounds or stats["bounds"]
+                except Exception as exc:  # noqa: BLE001
+                    status = "unreadable"
+                    mesh_file = None
+                    error = f"prepared GLB unreadable: {exc}"
+
 
         structures.append(
             {
@@ -446,6 +522,8 @@ def cmd_convert(args: argparse.Namespace) -> list[dict[str, Any]]:
         entries = entries[: args.limit]
 
     meshes_dir = args.out_dir / "meshes"
+    log_path = args.out_dir / "conversion-log.json"
+    prior_by_id = load_conversion_log(log_path)
     results: list[dict[str, Any]] = []
     for entry in entries:
         print(f"converting {entry.source_filename} → {entry.id}.glb ...", flush=True)
@@ -455,6 +533,7 @@ def cmd_convert(args: argparse.Namespace) -> list[dict[str, Any]]:
             meshes_dir,
             max_faces=args.max_faces,
             force=args.force,
+            prior=prior_by_id.get(entry.id),
         )
         results.append(result)
         size = (
@@ -469,7 +548,6 @@ def cmd_convert(args: argparse.Namespace) -> list[dict[str, Any]]:
         )
         print(f"  {result['status']}{size}{faces}", flush=True)
 
-    log_path = args.out_dir / "conversion-log.json"
     args.out_dir.mkdir(parents=True, exist_ok=True)
     log_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"Wrote {log_path}")
