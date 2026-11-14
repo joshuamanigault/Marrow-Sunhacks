@@ -44,9 +44,12 @@ const icons = {
   rotateLeft: <path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" />,
   rotateRight: <path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5" />,
   external: <path d="M7 17L17 7M8 7h9v9" />,
+  upload: <path d="M12 16V4M7 9l5-5 5 5M4 20h16" />,
+  arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
+  check: <path d="M5 12l5 5 9-10" />,
 }
 
-function Icon({ name }: { name: keyof typeof icons }) {
+export function Icon({ name }: { name: keyof typeof icons }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -241,7 +244,10 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
   return (
     <div className="ws" data-panel={panel ?? undefined}>
       <header className="ws-case ws-float">
-        <Icon name="bone" />
+        {/* Plain link, so the workspace does not need a router around it. */}
+        <a href="/" aria-label="Marrow start page">
+          <Icon name="bone" />
+        </a>
         <div>
           <strong>
             <i>{specimen.scientificName}</i>
