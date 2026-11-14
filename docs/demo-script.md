@@ -10,7 +10,8 @@ Use this click order for a live demo. Each block is one §2 row.
 **How to start**
 
 1. Run the API (`backend`) and frontend (`frontend`: `npm run dev`).
-2. Open the printed Vite URL (usually `http://localhost:5173`).
+2. Open **http://localhost:5173/workspace/ypm-vp-41198** (or `/` — redirects into the workspace).  
+   There is **no curated start-page button** on this branch (Alexandra part 1 scraped).
 
 ---
 
@@ -18,11 +19,10 @@ Use this click order for a live demo. Each block is one §2 row.
 
 | Step | Click / look | Pass when… |
 | --- | --- | --- |
-| 1 | Start page | **Marrow** + **Open YPM VP 41198** |
-| 2 | Click **Open YPM VP 41198** | URL `/workspace/ypm-vp-41198`; workspace loads from the API |
-| 3 | Header (top-left) | Scientific name, accession, institution |
-| 4 | Tool rail → **Specimen information** | Researchers, citation, Dryad link, “what you’re looking at” blurb |
-| 5 | Tool rail → **Anatomy** | Structure list shows Ready vs Missing/Unreadable; no fake stand-in art |
+| 1 | Open `/workspace/ypm-vp-41198` | Workspace loads from Joshua’s API |
+| 2 | Header (top-left) | Scientific name, accession, institution |
+| 3 | Tool rail → **Specimen information** | Researchers, citation, Dryad link, “what you’re looking at” blurb |
+| 4 | Tool rail → **Anatomy** | Structure list shows Ready vs Missing/Unreadable; no fake stand-in art |
 
 **Fail if:** API error with no plain-language message; missing parts replaced by illustrations.
 
@@ -60,7 +60,7 @@ Use this click order for a live demo. Each block is one §2 row.
 | 15 | **Pin observation** (dock) or Observations panel | Notes panel opens |
 | 16 | Demo pick (or 3D pick) + note → **Save pin** | Pin listed with bone-space `(x,y,z)` |
 | 17 | Reset / reassemble | Pin stays on same anatomical point (bone-space) |
-| 18 | Back to start → open specimen again | Same note restores (`localStorage` `marrow:pins:ypm-vp-41198`) |
+| 18 | Refresh or reopen `/workspace/ypm-vp-41198` | Same note restores (`localStorage` `marrow:pins:ypm-vp-41198`) |
 | 19 | Privacy | Copy says anonymous / this browser only |
 
 ---
@@ -76,7 +76,7 @@ Use this click order for a live demo. Each block is one §2 row.
 
 | §2 row | Builders |
 | --- | --- |
-| Opens | Alexandra entry + Joshua API + Alex info panel |
+| Opens | Joshua API + Alex workspace header/info (no start-page entry on this branch) |
 | Inspects | Ananya + Alex anatomy list |
 | Looks behind | Ananya + Alex modes / Reset |
 | Pins | Alexandra notes panel + Ananya `useViewer().pick` |

@@ -1,4 +1,4 @@
-/* Global + start-page styles. Scanner chrome lives in workspace/workspace.css. */
+/* Global styles. Scanner chrome lives in workspace/workspace.css. */
 
 :root {
   --scene: #f5f0e9;
@@ -36,62 +36,6 @@ code {
 
 a {
   color: var(--accent);
-}
-
-/* —— Start page (Alexandra task 1) —— */
-.start-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 36rem;
-  margin: 0 auto;
-  padding: 2rem 1.25rem 3rem;
-}
-
-.brand {
-  margin: 0 0 1.5rem;
-  font-size: clamp(2.75rem, 8vw, 4rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--accent);
-}
-
-.start-title {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
-  font-weight: 600;
-}
-
-.start-lead {
-  margin: 0 0 1.75rem;
-  color: var(--muted);
-  max-width: 28rem;
-}
-
-.start-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  padding: 0.85rem 1.35rem;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: var(--shadow);
-}
-
-.start-cta:hover {
-  filter: brightness(1.05);
-}
-
-.start-meta {
-  margin: 1.25rem 0 0;
-  color: var(--muted);
-  font-size: 0.9rem;
 }
 
 /* —— Plain-language status (Alexandra task 6) —— */

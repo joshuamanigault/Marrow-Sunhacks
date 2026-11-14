@@ -1,20 +1,28 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { StartPage } from './pages/StartPage'
 import { WorkspaceRoute } from './pages/WorkspaceRoute'
 
+/** Curated specimen id — opens workspace directly (no start-page entry). */
+const CURATED_SPECIMEN_ID = 'ypm-vp-41198'
+
 /**
- * App routing (Alexandra task 1 + Alex/Joshua main shell).
+ * App routing: Alexandra tasks 2–6 on Alex’s workspace + Joshua’s API.
  *
- * /                      → curated start button
- * /workspace/:specimenId → fetch Joshua’s API → Alex’s Workspace
+ * /                      → /workspace/ypm-vp-41198
+ * /workspace/:specimenId → fetch specimen → Workspace
  */
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<StartPage />} />
+        <Route
+          path="/"
+          element={<Navigate to={`/workspace/${CURATED_SPECIMEN_ID}`} replace />}
+        />
         <Route path="/workspace/:specimenId" element={<WorkspaceRoute />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="*"
+          element={<Navigate to={`/workspace/${CURATED_SPECIMEN_ID}`} replace />}
+        />
       </Routes>
     </BrowserRouter>
   )
