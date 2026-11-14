@@ -1,0 +1,205 @@
+/* Landing page. Reuses the workspace tokens and controls via the .ws class. */
+
+.ws.landing {
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+}
+
+.landing-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  font-size: 13px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.landing-nav {
+  display: flex;
+  gap: 3px;
+  padding: 5px;
+}
+
+.ws .landing-nav a {
+  display: flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 7px;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ws .landing-nav a:hover {
+  background: var(--soft);
+}
+
+.ws .landing-nav a[aria-current='page'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.landing-brand svg,
+.landing-steps svg {
+  color: var(--accent);
+  width: 21px;
+  height: 21px;
+}
+
+.landing-main {
+  flex: 1;
+  align-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px 48px;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.landing-hero h1,
+.landing-page h1 {
+  margin: 10px 0 14px;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.12;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+  text-wrap: balance;
+}
+
+.landing-hero p,
+.landing-page > p {
+  margin: 0 0 24px;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.landing-card {
+  padding: 18px;
+}
+
+/* Explore and Upload */
+
+.landing-page {
+  width: 100%;
+  max-width: 920px;
+  margin: 24px auto 40px;
+}
+
+.landing-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a.landing-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.landing-card:hover {
+  border-color: var(--accent);
+}
+
+.landing-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.landing-drop {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 40px 20px;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.landing-drop svg {
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+}
+
+.landing-drop span {
+  max-width: 44ch;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.landing-card h2 {
+  margin: 8px 0 12px;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.landing-steps {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.landing-steps li {
+  display: flex;
+  gap: 11px;
+}
+
+.landing-steps strong,
+.landing-steps span {
+  display: block;
+}
+
+.landing-steps span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 620px) {
+  .landing-main,
+  .landing-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-main {
+    gap: 28px;
+  }
+}
+
+@media (pointer: coarse) {
+  .landing-brand,
+  .ws .landing-nav a {
+    min-height: 44px;
+  }
+}
