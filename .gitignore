@@ -57,6 +57,8 @@ datasets/
 *.obj
 *.glb
 *.gltf
+!backend/tests/fixtures/**/*.glb
+!backend/tests/fixtures/**/*.gltf
 *.zip
 *.tar
 *.tar.gz

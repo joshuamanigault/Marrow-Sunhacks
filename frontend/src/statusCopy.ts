@@ -1,39 +1,31 @@
 /**
- * Plain-language visitor copy for empty / error states
- * (Alexandra roadmap task 6).
- *
- * Keep wording short, calm, and free of stack traces or jargon.
+ * Plain-language visitor copy (Alexandra task 6).
  */
 
 export const STATUS_COPY = {
-  /** Shown while credits/structures are loading */
-  loading: "Loading this specimen…",
+  loading: 'Loading this specimen…',
 
-  /** API /health or specimen fetch could not be reached */
-  apiDownTitle: "Server unavailable",
+  apiDownTitle: 'Server unavailable',
   apiDownBody:
-    "We could not reach the Marrow server right now. You can still explore the curated local copy of this study. Pins you save stay in this browser only.",
+    'We could not reach the Marrow server. Check that the API is running, then try again. Pins you already saved stay in this browser only.',
+  apiDownRetry: 'Try again',
 
-  /** Retry hint under API-down banner */
-  apiDownRetry: "Try again",
-
-  /** One or more meshes cannot be shown in 3D */
-  meshFailTitle: "Some 3D parts could not be shown",
+  meshFailTitle: 'Some 3D parts could not be shown',
   meshFailBody:
-    "At least one bone mesh is missing, unreadable, or failed to load. Marrow will not invent a picture to fill the gap — check Prepared structures for which parts are ready.",
+    'At least one bone is missing or unreadable in the prepared inventory. Marrow will not invent a picture to fill the gap — see the anatomy list for status.',
 
-  /** Zero ready meshes for the stage */
-  meshNoneTitle: "No 3D meshes ready yet",
+  meshNoneTitle: 'No 3D meshes ready yet',
   meshNoneBody:
-    "Nothing in this study is marked ready to display in 3D. Attribution and notes can still work; the fossil model will appear when prepared meshes are available.",
+    'Nothing in this study is marked ready to display in 3D yet. Attribution and notes can still work when prepared meshes arrive.',
 
-  /** Pin list empty state */
-  noPinsTitle: "No pins yet",
+  noPinsTitle: 'No pins yet',
   noPinsBody:
-    "Select a bone, add a short note about what you noticed, then save. Pins stay on this device only and come back when you reopen the same specimen.",
+    'Select a bone (or use a demo pick), write a short note, then save. Pins stay on this device only and return when you reopen the same specimen.',
 
-  /** Generic load failure (unknown id, bad response) */
-  loadErrorTitle: "Could not open this specimen",
+  loadErrorTitle: 'Could not open this specimen',
   loadErrorBody:
-    "Something went wrong while opening the study. Go back to start and open the curated specimen again.",
+    'Something went wrong while opening the study. Go back to start and open the curated specimen again.',
+
+  needPick:
+    'Select a bone and pick a point on it first (demo pick works until the 3D picker is ready).',
 } as const

@@ -1,4 +1,5 @@
-/* Spec §3.1 palette: ivory scene, slate-blue accent */
+/* Global + start-page styles. Scanner chrome lives in workspace/workspace.css. */
+
 :root {
   --scene: #f5f0e9;
   --panel: #ffffff;
@@ -20,7 +21,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  font-family: system-ui, sans-serif;
   line-height: 1.5;
   color: var(--ink);
   background:
@@ -37,7 +38,7 @@ a {
   color: var(--accent);
 }
 
-/* —— Start page —— */
+/* —— Start page (Alexandra task 1) —— */
 .start-page {
   min-height: 100vh;
   display: flex;
@@ -55,11 +56,6 @@ a {
   letter-spacing: -0.03em;
   line-height: 1;
   color: var(--accent);
-}
-
-.brand--compact {
-  margin: 0 0 0.75rem;
-  font-size: 1.25rem;
 }
 
 .start-title {
@@ -98,428 +94,13 @@ a {
   font-size: 0.9rem;
 }
 
-/* —— Workspace —— */
-.workspace-page {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-@media (min-width: 900px) {
-  .workspace-page {
-    grid-template-columns: 1fr minmax(16rem, 22rem);
-    grid-template-rows: auto 1fr auto;
-    padding: 1.25rem;
-    gap: 1.25rem;
-  }
-
-  .workspace-header {
-    grid-column: 1 / -1;
-  }
-
-  .specimen-stage {
-    min-height: 60vh;
-  }
-
-  .workspace-side {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .pin-dock {
-    grid-column: 1 / -1;
-  }
-}
-
-.workspace-side {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.workspace-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 1rem 1.5rem;
-  padding: 1rem 1.15rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.specimen-identity {
-  flex: 1 1 14rem;
-}
-
-.specimen-name {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-}
-
-.specimen-accession,
-.specimen-source {
-  margin: 0.2rem 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.workspace-status,
-.workspace-error {
-  margin: 0;
-}
-
-.workspace-error {
-  color: var(--danger);
-}
-
-.back-link {
-  margin-left: auto;
-  font-size: 0.95rem;
-}
-
-.specimen-stage {
-  min-height: 45vh;
-  display: grid;
-  place-items: center;
-  background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.55), transparent 45%),
-    var(--scene);
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-}
-
-.stage-placeholder {
-  margin: 0;
-  padding: 1rem;
-  text-align: center;
-  color: var(--muted);
-}
-
-/* Alex’s Specimen information panel (roadmap task 2 / §5 credits) */
-.specimen-info-panel {
-  padding: 1rem 1.15rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.specimen-info-heading {
-  margin: 0 0 0.85rem;
-  font-size: 1rem;
-}
-
-.specimen-info-list {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.55rem 0.85rem;
-  margin: 0 0 1rem;
-  font-size: 0.92rem;
-}
-
-.specimen-info-list dt {
-  margin: 0;
-  color: var(--muted);
-}
-
-.specimen-info-list dd {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.specimen-info-sub {
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-style: normal;
-}
-
-.specimen-info-blurb {
-  margin: 0 0 0.85rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
-}
-
-.specimen-info-blurb-title {
-  margin: 0 0 0.4rem;
-  font-size: 0.92rem;
-}
-
-.specimen-info-blurb p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--muted);
-}
-
-.specimen-info-pin-note {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Honest asset status list (roadmap task 3) */
-.asset-status {
-  padding: 1rem 1.15rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.asset-status-heading {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-}
-
-.asset-status-notice {
-  margin: 0 0 0.85rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #e0cfc0;
-  background: #f8f1e8;
-  color: var(--ink);
-  font-size: 0.88rem;
-}
-
-.asset-status-notice--ok {
-  border-color: #c9d6c8;
-  background: #eef4ee;
-}
-
-.asset-status-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-}
-
-.asset-status-row {
-  display: grid;
-  grid-template-columns: 0.75rem 1fr auto;
-  gap: 0.65rem;
-  align-items: center;
-}
-
-.asset-status-swatch {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-}
-
-.asset-status-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 0;
-}
-
-.asset-status-name {
-  font-size: 0.92rem;
-}
-
-.asset-status-source {
-  color: var(--muted);
-  font-size: 0.78rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.asset-status-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-}
-
-.asset-status-badge--ok {
-  color: #2f5d3a;
-  border-color: #b9d0be;
-  background: #eef6f0;
-}
-
-.asset-status-badge--missing,
-.asset-status-badge--unreadable {
-  color: var(--danger);
-  border-color: #e0c0c0;
-  background: #f7eeee;
-}
-
-/* Pin observation dock (roadmap task 4 / spec §2 pin row) */
-.pin-dock {
-  display: grid;
-  gap: 1rem;
-  padding: 1rem 1.15rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-@media (min-width: 800px) {
-  .pin-dock {
-    grid-template-columns: 1.2fr 1fr;
-    align-items: start;
-  }
-}
-
-.pin-dock-heading,
-.pin-dock-subheading {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-}
-
-.pin-dock-subheading {
-  font-size: 0.95rem;
-}
-
-.pin-dock-meta {
-  margin: 0 0 0.75rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.pin-dock-demo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.pin-dock-demo-label {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.pin-dock-demo-btn {
-  border: 1px solid var(--border);
-  background: var(--scene);
-  color: var(--ink);
-  border-radius: 8px;
-  padding: 0.35rem 0.6rem;
-  font: inherit;
-  cursor: pointer;
-}
-
-.pin-dock-label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-size: 0.9rem;
-}
-
-.pin-dock-input {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 0.75rem;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font: inherit;
-  resize: vertical;
-  background: #fff;
-}
-
-.pin-dock-save {
-  border: none;
-  border-radius: var(--radius);
-  padding: 0.7rem 1.1rem;
-  background: var(--accent);
-  color: #fff;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.pin-dock-save:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.pin-dock-message {
-  margin: 0.75rem 0 0;
-  font-size: 0.88rem;
-  color: var(--muted);
-}
-
-.pin-dock-empty {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.pin-dock-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.pin-dock-item {
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--scene);
-}
-
-.pin-dock-item-bone {
-  margin: 0 0 0.25rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.pin-dock-item-note,
-.pin-dock-item-point {
-  margin: 0 0 0.35rem;
-  font-size: 0.88rem;
-  color: var(--muted);
-}
-
-.pin-dock-delete {
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--danger);
-  border-radius: 6px;
-  padding: 0.25rem 0.5rem;
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-/* Task 6: plain-language status banners */
-.workspace-banners {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-@media (min-width: 900px) {
-  .workspace-banners {
-    grid-column: 1 / -1;
-  }
-}
-
+/* —— Plain-language status (Alexandra task 6) —— */
 .status-banner {
   padding: 0.75rem 0.9rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--panel);
+  margin: 0 0 0.75rem;
 }
 
 .status-banner-title {
@@ -565,7 +146,107 @@ a {
   background: var(--scene);
 }
 
-.status-banner--info {
-  background: #eef3f6;
-  border-color: #c9d6de;
+.load-screen {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Pin form inside Observations panel */
+.pin-form-label {
+  display: block;
+  margin: 0.75rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.pin-form-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.pin-form-save {
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pin-form-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pin-form-meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pin-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.pin-item {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--scene);
+}
+
+.pin-item-bone {
+  margin: 0 0 0.2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pin-item-note,
+.pin-item-point {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pin-item-delete {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--danger);
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.pin-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.pin-demo-btn {
+  border: 1px solid var(--border);
+  background: var(--scene);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
 }

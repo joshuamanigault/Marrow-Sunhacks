@@ -1,0 +1,78 @@
+{
+  "id": "ypm-vp-41198",
+  "scientificName": "Eosphorosuchus lacrimosa",
+  "commonLabel": "Eosphorosuchus lacrimosa",
+  "accession": "YPM VP 41198",
+  "institution": "Yale Peabody Museum",
+  "citation": {
+    "text": "Test citation",
+    "datasetDoi": "10.5061/dryad.q83bk3jvv",
+    "datasetUrl": "https://doi.org/10.5061/dryad.q83bk3jvv",
+    "articleDoi": "10.1098/rspb.2026.0130",
+    "articleUrl": "https://doi.org/10.1098/rspb.2026.0130"
+  },
+  "credits": [
+    "Miranda Margulis-Ohnuma",
+    "Alexander Ruebenstahl",
+    "Dalton Meyer",
+    "Bhart-Anjan Bhullar"
+  ],
+  "reuseTerms": {
+    "license": "CC0-1.0",
+    "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+    "notes": "Fixture for tests"
+  },
+  "coordinates": {
+    "frame": "source_stl",
+    "units": "unknown",
+    "axisConvention": "unknown",
+    "sourceToDisplay": "identity",
+    "notes": "Test fixture"
+  },
+  "structures": [
+    {
+      "id": "nasal_r",
+      "name": "Nasal",
+      "side": "right",
+      "sourceFilename": "nasalR.stl",
+      "status": "ok",
+      "color": "#78c373",
+      "meshFile": "meshes/nasal_r.glb",
+      "triangleCount": 4,
+      "bounds": {
+        "min": [
+          0,
+          0,
+          0
+        ],
+        "max": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "maxilla_l",
+      "name": "Maxilla",
+      "side": "left",
+      "sourceFilename": "maxillaL.stl",
+      "status": "missing",
+      "color": "#b9ae5b",
+      "meshFile": null,
+      "triangleCount": null,
+      "bounds": null
+    },
+    {
+      "id": "quadrate_l",
+      "name": "Quadrate",
+      "side": "left",
+      "sourceFilename": "quadrateL.stl",
+      "status": "unreadable",
+      "color": "#6fc185",
+      "meshFile": null,
+      "triangleCount": null,
+      "bounds": null
+    }
+  ]
+}

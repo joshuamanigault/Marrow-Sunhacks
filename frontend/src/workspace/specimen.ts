@@ -1,0 +1,78 @@
+// Specimen data from Joshua's API. Shapes follow docs/api/specimen-contract.md.
+
+export type StructureStatus = 'ok' | 'missing' | 'unreadable'
+
+export interface Structure {
+  /** Stable structure id (e.g. 'maxilla_l'); never the display name. */
+  id: string
+  name: string
+  side: 'left' | 'right' | 'none'
+  /** File in the published dataset this structure came from (spec §5). */
+  sourceFilename: string
+  status: StructureStatus
+  /** Path on the API host; pass through apiUrl(). Only set when status is 'ok'. */
+  meshUrl?: string | null
+  /**
+   * Stable #rrggbb from Joshua’s API (derived from structure id).
+   * Prefer this over client-invented hues for swatches / color-by-structure.
+   */
+  color?: string | null
+  triangleCount?: number | null
+  /** In source STL space, like the mesh vertices. */
+  bounds?: { min: number[]; max: number[] } | null
+}
+
+export interface Specimen {
+  id: string
+  scientificName: string
+  commonLabel: string
+  accession: string
+  institution: string
+  citation: {
+    text: string
+    datasetDoi: string
+    datasetUrl: string
+    articleDoi?: string | null
+    articleUrl?: string | null
+  }
+  /** Researchers who published the study. */
+  credits: string[]
+  reuseTerms: { license: string; licenseUrl: string; notes: string }
+  structures: Structure[]
+}
+
+const API: string = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'
+
+/** Absolute URL for an API path such as a structure's meshUrl. */
+export function apiUrl(path: string): string {
+  return API + path
+}
+
+export async function fetchSpecimen(id: string, signal?: AbortSignal): Promise<Specimen> {
+  const res = await fetch(apiUrl(`/specimens/${encodeURIComponent(id)}`), { signal })
+  if (!res.ok) {
+    throw new Error(
+      res.status === 404
+        ? 'The server has no prepared data for this specimen.'
+        : `The server answered ${res.status}.`,
+    )
+  }
+  return res.json()
+}
+
+export function structureLabel(s: Structure): string {
+  return s.side === 'none' ? s.name : `${s.name} (${s.side === 'left' ? 'L' : 'R'})`
+}
+
+/**
+ * Prefer Joshua’s stable API `structure.color`; fall back to a list-index hue
+ * only when the payload has no color (older stubs).
+ */
+export function structureColor(
+  structure: Structure,
+  index: number,
+  count: number,
+): string {
+  if (structure.color) return structure.color
+  return `hsl(${Math.round((index * 360) / Math.max(count, 1))} 35% 62%)`
+}
