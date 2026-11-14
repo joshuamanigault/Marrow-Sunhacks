@@ -100,7 +100,7 @@ A visitor can do all of the following on **one** curated specimen (*Eosphorosuch
 2. **Specimen information** content for Alex’s info panel: animal, YPM accession, Dryad/citation link, researcher credits, short “what you’re looking at” blurb grounded in the real study (no invented anatomy).
 3. **Honest asset status:** if the payload marks a part missing/unreadable, show that in the list or a small notice — never substitute an illustration.
 4. **Pin observation MVP:** UI to place a note on the selected bone (Ananya supplies bone id + bone-space point); save anonymously in **this browser** only; restore on reopen of the same specimen; confirm pin still sits on the bone after explode → reassemble → reset.
-5. **Demo script** (short checklist in `docs/` or Superpowers): what a judge should click, in order, mapped to §2 rows.
+5. **Demo script** (short checklist in `docs/` or Superpowers): what a judge should click, in order, mapped to §2 rows. → [docs/demo-script.md](demo-script.md)
 6. Polish empty/error states: API down, mesh fail, no pin yet — plain language.
 
 **Handoffs out:** pin persistence shape; final attribution copy; demo checklist for the whole team.
