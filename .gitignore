@@ -58,6 +58,7 @@ datasets/
 *.glb
 *.gltf
 !backend/tests/fixtures/**/*.glb
+!frontend/public/skull.glb
 !backend/tests/fixtures/**/*.gltf
 *.zip
 *.tar
