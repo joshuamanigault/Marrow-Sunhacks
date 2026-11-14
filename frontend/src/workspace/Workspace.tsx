@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { structureLabel, type Specimen } from './specimen'
+import { structureColor, structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
 import './workspace.css'
 
@@ -114,12 +114,16 @@ function AnatomyPanel({ specimen }: { specimen: Specimen }) {
       <div className="ws-line" />
       <div className="ws-label">Structures</div>
       <ul className="ws-structures">
-        {specimen.structures.map((s) => {
+        {specimen.structures.map((s, i) => {
           const label = structureLabel(s)
           const swatch = (
             <span
               className="ws-swatch"
-              style={v.colorByStructure && s.color ? { background: s.color } : undefined}
+              style={
+                v.colorByStructure
+                  ? { background: structureColor(i, specimen.structures.length) }
+                  : undefined
+              }
             />
           )
           if (s.status !== 'ok') {
@@ -178,7 +182,7 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
     <section aria-labelledby="ws-info-title">
       <h2 id="ws-info-title">Specimen information</h2>
       <h3>
-        <i>{specimen.taxon}</i>
+        <i>{specimen.scientificName}</i>
       </h3>
       <dl className="ws-meta">
         <dt>Specimen</dt>
@@ -187,13 +191,15 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dd>{specimen.institution}</dd>
         <dt>Data source</dt>
         <dd>
-          {specimen.sourceName} · {specimen.license}
+          doi:{specimen.citation.datasetDoi} · {specimen.reuseTerms.license}
         </dd>
+        <dt>Researchers</dt>
+        <dd>{specimen.credits.join(', ')}</dd>
         <dt>Citation</dt>
-        <dd>{specimen.citation}</dd>
+        <dd>{specimen.citation.text}</dd>
       </dl>
       {/* SLOT (Alexandra): "what you're looking at" blurb grounded in the study. */}
-      <a className="ws-source" href={specimen.sourceUrl} target="_blank" rel="noreferrer">
+      <a className="ws-source" href={specimen.citation.datasetUrl} target="_blank" rel="noreferrer">
         View source dataset <Icon name="external" />
       </a>
     </section>
@@ -236,10 +242,10 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
         <Icon name="bone" />
         <div>
           <strong>
-            <i>{specimen.taxon}</i>
+            <i>{specimen.scientificName}</i>
           </strong>
           <span>
-            {specimen.accession} · {specimen.sourceName}
+            {specimen.accession} · {specimen.institution}
           </span>
         </div>
       </header>

@@ -390,6 +390,7 @@
 .ws-meta dd {
   margin: 0;
   font-size: 12px;
+  overflow-wrap: anywhere;
 }
 
 .ws-source {
