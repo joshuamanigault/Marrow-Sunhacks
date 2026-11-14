@@ -396,6 +396,11 @@
   color: var(--muted);
 }
 
+.ws .ws-focus[aria-pressed='true'] {
+  color: var(--accent);
+  background: var(--soft);
+}
+
 .ws .ws-focus svg {
   width: 14px;
   height: 14px;

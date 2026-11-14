@@ -10,6 +10,11 @@ export interface Structure {
   /** File in the published dataset this structure came from (spec §5). */
   sourceFilename: string
   status: StructureStatus
+  /**
+   * Stable #rrggbb for swatches and color-by-structure, or null when unknown.
+   * Fall back to natural bone tone when null (docs/api/specimen-contract.md).
+   */
+  color: string | null
   /** Path on the API host; pass through apiUrl(). Only set when status is 'ok'. */
   meshUrl?: string | null
   triangleCount?: number | null
@@ -59,10 +64,13 @@ export function structureLabel(s: Structure): string {
   return s.side === 'none' ? s.name : `${s.name} (${s.side === 'left' ? 'L' : 'R'})`
 }
 
+/** Natural bone tone when structure.color is null (matches Bone.tsx). */
+export const NATURAL_BONE = '#d9cba9'
+
 /**
- * The API sends no colors, so each structure gets an evenly spaced hue by its
- * position in the list. The panel swatch and the 3D scene should both use this.
+ * Stable API color for list swatches and color-by-structure.
+ * Returns null when unknown — callers should use NATURAL_BONE.
  */
-export function structureColor(index: number, count: number): string {
-  return `hsl(${Math.round((index * 360) / count)} 35% 62%)`
+export function structureColor(s: Structure): string | null {
+  return s.color
 }

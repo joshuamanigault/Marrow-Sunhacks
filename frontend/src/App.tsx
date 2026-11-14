@@ -3,10 +3,18 @@ import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-r
 import { Explore, Landing, Upload } from './Landing'
 import Workspace from './workspace/Workspace'
 import { fetchSpecimen, type Specimen } from './workspace/specimen'
+import { useViewer } from './workspace/viewer'
+import SpecimenScene from './viewer/SpecimenScene'
 
 function SpecimenWorkspace({ specimenId, onRetry }: { specimenId: string; onRetry: () => void }) {
   const [specimen, setSpecimen] = useState<Specimen>()
   const [error, setError] = useState<string>()
+
+  // Zustand store is module-global; clear it when this workspace mounts so a
+  // prior specimen's hide/focus/mode/pick state does not leak across routes.
+  useEffect(() => {
+    useViewer.getState().reset()
+  }, [specimenId])
 
   useEffect(() => {
     const request = new AbortController()
@@ -41,16 +49,10 @@ function SpecimenWorkspace({ specimenId, onRetry }: { specimenId: string; onRetr
     )
   }
 
-  // The 3D canvas replaces this placeholder.
-  const scene = (
-    <div style={{ display: 'grid', placeItems: 'center', height: '100%', opacity: 0.5 }}>
-      3D scene mounts here
-    </div>
-  )
   return (
     <>
       <title>{`${specimen.scientificName} · Marrow`}</title>
-      <Workspace specimen={specimen} scene={scene} />
+      <Workspace specimen={specimen} scene={<SpecimenScene specimen={specimen} />} />
     </>
   )
 }
