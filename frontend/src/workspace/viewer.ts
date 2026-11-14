@@ -78,8 +78,15 @@ const FOCUS_SEPARATION = 0.6
 /** While a bone is focused, choosing a different bone moves the focus to it. */
 function followFocus(s: ViewerState, id: string | null) {
   if (!s.focusedId || id === s.focusedId) return {}
-  if (!id) return { focusedId: null }
+  if (!id) return { focusedId: null, camera: { seq: ++seq, kind: 'reset' } as const }
   return { focusedId: id, camera: { seq: ++seq, kind: 'focus', id } as const }
+}
+
+/** Clear focus; if one was active, also reset the camera to the home view. */
+function leaveFocus(s: ViewerState) {
+  return s.focusedId
+    ? { focusedId: null as null, camera: { seq: ++seq, kind: 'reset' } as const }
+    : { focusedId: null as null }
 }
 
 export const useViewer = create<ViewerState>()((set) => ({
@@ -97,11 +104,16 @@ export const useViewer = create<ViewerState>()((set) => ({
   setVisible: (id, visible) =>
     set((s) => {
       const deselect = !visible && s.selectedId === id
+      // Hiding the focused bone exits focus the same way a second Focus press does.
+      const unfocus = !visible && s.focusedId === id
       return {
         hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
         selectedId: deselect ? null : s.selectedId,
         pick: deselect ? null : s.pick,
-        focusedId: !visible && s.focusedId === id ? null : s.focusedId,
+        focusedId: unfocus ? null : s.focusedId,
+        ...(unfocus
+          ? { mode: 'solid' as const, separation: 0, camera: { seq: ++seq, kind: 'reset' as const } }
+          : {}),
       }
     }),
   focus: (id) =>
@@ -121,12 +133,12 @@ export const useViewer = create<ViewerState>()((set) => ({
     ),
   // Separation is non-zero only in Exploded, so the scene can position parts
   // from `separation` alone. Entering Exploded starts at 50% so it is visible.
-  // Picking a display mode by hand leaves focus.
+  // Picking a display mode by hand leaves focus (and resets the camera if focused).
   setMode: (mode) =>
     set((s) => ({
       mode,
       separation: mode === 'exploded' ? s.separation || 0.5 : 0,
-      focusedId: null,
+      ...leaveFocus(s),
     })),
   setSeparation: (value) =>
     set((s) =>

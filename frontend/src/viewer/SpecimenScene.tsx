@@ -1,7 +1,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Component, Suspense, useMemo, useRef, type ReactNode } from 'react'
-import { Vector3, type DirectionalLight } from 'three'
-import { structureLabel, type Specimen, type Structure } from '../workspace/specimen'
+import { Color, Vector3, type DirectionalLight } from 'three'
+import { NATURAL_BONE, structureLabel, type Specimen, type Structure } from '../workspace/specimen'
 import { Bone } from './Bone'
 import { CameraRig } from './CameraRig'
 import { boneColor, explodeOrigin, specimenBox } from './layout'
@@ -52,7 +52,6 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
   const box = useMemo(() => specimenBox(specimen), [specimen])
   const center = useMemo(() => box.getCenter(new Vector3()), [box])
   const radius = useMemo(() => box.getSize(new Vector3()).length() / 2 || 1, [box])
-  const count = specimen.structures.length
   const focusedId = useViewer((s) => s.focusedId)
   const origin = useMemo(() => explodeOrigin(specimen, focusedId, center), [specimen, focusedId, center])
 
@@ -64,11 +63,15 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
     >
       <hemisphereLight args={['#ffffff', '#8a7a62', 0.9]} />
       <KeyLight center={center} radius={radius} />
-      {specimen.structures.map((s, i) =>
+      {specimen.structures.map((s) =>
         s.status === 'ok' && s.meshUrl ? (
           <MeshBoundary key={s.id} structure={s}>
             <Suspense fallback={null}>
-              <Bone structure={s} color={boneColor(i, count)} explodeOrigin={origin} />
+              <Bone
+                structure={s}
+                color={boneColor(s) ?? new Color(NATURAL_BONE)}
+                explodeOrigin={origin}
+              />
             </Suspense>
           </MeshBoundary>
         ) : null,

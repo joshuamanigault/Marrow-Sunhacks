@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { structureColor, structureLabel, type Specimen } from './specimen'
+import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
 import './workspace.css'
 
@@ -114,14 +114,14 @@ function AnatomyPanel({ specimen }: { specimen: Specimen }) {
       <div className="ws-line" />
       <div className="ws-label">Structures</div>
       <ul className="ws-structures">
-        {specimen.structures.map((s, i) => {
+        {specimen.structures.map((s) => {
           const label = structureLabel(s)
           const swatch = (
             <span
               className="ws-swatch"
               style={
                 v.colorByStructure
-                  ? { background: structureColor(i, specimen.structures.length) }
+                  ? { background: structureColor(s) ?? NATURAL_BONE }
                   : undefined
               }
             />

@@ -1,4 +1,4 @@
-import { Box3, Color, SRGBColorSpace, Vector3 } from 'three'
+import { Box3, Color, Vector3 } from 'three'
 import type { Specimen, Structure } from '../workspace/specimen'
 
 // Positions here are in specimen / source STL space (docs/api/specimen-contract.md).
@@ -51,9 +51,10 @@ export function explodeOrigin(specimen: Specimen, focusedId: string | null, spec
 }
 
 /**
- * Same hue as the panel swatch from structureColor(): three can't parse its
- * space-separated hsl() string, so build the color directly.
+ * three.js Color from structure.color (#rrggbb). Same source as the panel
+ * swatch (structureColor). Returns null when unknown — caller uses bone tone.
  */
-export function boneColor(index: number, count: number): Color {
-  return new Color().setHSL(Math.round((index * 360) / count) / 360, 0.35, 0.62, SRGBColorSpace)
+export function boneColor(s: Structure): Color | null {
+  if (!s.color) return null
+  return new Color(s.color)
 }
