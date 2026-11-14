@@ -34,7 +34,18 @@ uv run python scripts/prepare_specimen.py convert --ids nasal_r palatine_r jugal
 uv run python scripts/prepare_specimen.py write-manifest
 ```
 
-Outputs land in `data/prepared/ypm-vp-41198/`. Conversion settings: merge duplicate STL vertices; quadric decimate only when faces exceed **80 000**; **identity** transforms (no per-bone centering).
+Outputs land in `data/prepared/ypm-vp-41198/`. Conversion settings: merge duplicate STL vertices; quadric decimate only when faces exceed **80 000**; **identity** transforms (no per-bone centering). Each structure row in `manifest.json` includes a stable `color` (`#rrggbb`) from the structure catalog.
+
+### Refresh colors only (existing GLBs)
+
+If meshes are already prepared and you only need an updated `manifest.json` (e.g. after catalog color changes):
+
+```powershell
+cd backend
+uv run python scripts/prepare_specimen.py write-manifest
+```
+
+Do not commit `data/prepared/` binaries or manifests.
 
 ## Run API
 

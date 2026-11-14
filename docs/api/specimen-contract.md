@@ -75,6 +75,7 @@ Scans `ASSETS_DIR` for child directories with a readable `manifest.json` whose `
       "side": "left",
       "sourceFilename": "maxillaL.stl",
       "status": "ok",
+      "color": "#b9ae5b",
       "meshUrl": "/specimens/ypm-vp-41198/meshes/maxilla_l.glb",
       "triangleCount": 80000,
       "bounds": {
@@ -88,6 +89,7 @@ Scans `ASSETS_DIR` for child directories with a readable `manifest.json` whose `
       "side": "right",
       "sourceFilename": "maxillaR.stl",
       "status": "ok",
+      "color": "#5a6ab8",
       "meshUrl": "/specimens/ypm-vp-41198/meshes/maxilla_r.glb",
       "triangleCount": 80000,
       "bounds": {
@@ -100,6 +102,8 @@ Scans `ASSETS_DIR` for child directories with a readable `manifest.json` whose `
 ```
 
 `status` is one of: `ok` | `missing` | `unreadable`. Only `ok` structures include `meshUrl`.
+
+`color` is a stable `#rrggbb` string for swatches and “Color by structure”, or `null` when unknown. Catalogued Appendix 2 structures always receive a color. **Rule:** color is derived from `structure.id` (same id → same hex across runs). Left and right of the same bone name get **distinct** colors because their ids differ (`maxilla_l` vs `maxilla_r`). Source of truth is `marrow.structures.color_for_structure_id`; prepare writes `color` into `manifest.json`; the API prefers the manifest value and falls back to the catalog for known ids.
 
 Left and right elements share a display `name` but always have distinct `id` values (`maxilla_l` vs `maxilla_r`).
 
@@ -116,9 +120,10 @@ Left and right elements share a display `name` but always have distinct `id` val
 1. `GET /specimens` to discover curated ids (do not hard-code); then `GET /specimens/{id}` once on open.
 2. For each structure with `status === "ok"`, `useGLTF` / `GLTFLoader` on `meshUrl` (prefix with `VITE_API_URL`).
 3. Keep `structure.id` on the Three object / store key — never key solely by display name.
-4. Surface `missing` / `unreadable` rows honestly; do not substitute illustrations.
-5. At explode separation `0`, meshes should sit in authored positions because assets were not individually recentered.
-6. GLB node name equals `structure.id` (single mesh per file).
+4. Use `structure.color` for list swatches and color-by-structure; fall back to the natural bone tone when `color` is `null`. Do not invent per-bone hex values in the shell.
+5. Surface `missing` / `unreadable` rows honestly; do not substitute illustrations.
+6. At explode separation `0`, meshes should sit in authored positions because assets were not individually recentered.
+7. GLB node name equals `structure.id` (single mesh per file).
 
 ## Asset layout (local)
 

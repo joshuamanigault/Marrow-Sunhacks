@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -9,6 +10,9 @@ from marrow.main import app
 from marrow.models.specimen import SpecimenListItem, SpecimenResponse
 from marrow.settings import get_settings
 from marrow.specimens.store import get_specimen_store
+from marrow.structures import color_for_structure_id
+
+_HEX = re.compile(r"^#[0-9a-f]{6}$")
 
 client = TestClient(app)
 
@@ -106,11 +110,16 @@ def test_specimen_contract_shape() -> None:
     assert by_id["nasal_r"].meshUrl == (
         "/specimens/ypm-vp-41198/meshes/nasal_r.glb"
     )
+    assert by_id["nasal_r"].color == color_for_structure_id("nasal_r")
+    assert by_id["nasal_r"].color is not None
+    assert _HEX.fullmatch(by_id["nasal_r"].color)
     assert by_id["maxilla_l"].status == "missing"
     assert by_id["maxilla_l"].meshUrl is None
     assert by_id["maxilla_l"].side == "left"
+    assert by_id["maxilla_l"].color == color_for_structure_id("maxilla_l")
     assert by_id["quadrate_l"].status == "unreadable"
     assert by_id["quadrate_l"].meshUrl is None
+    assert by_id["quadrate_l"].color == color_for_structure_id("quadrate_l")
 
 
 def test_mesh_delivery_returns_glb_bytes() -> None:

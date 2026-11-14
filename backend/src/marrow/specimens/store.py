@@ -19,6 +19,7 @@ from marrow.models.specimen import (
     StructureSummary,
 )
 from marrow.settings import Settings, get_settings
+from marrow.structures import color_for_structure_id, structure_by_id
 
 _SAFE_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
 
@@ -86,6 +87,7 @@ class SpecimenStore:
                     side=raw["side"],
                     sourceFilename=raw["sourceFilename"],
                     status=status,
+                    color=self._structure_color(structure_id, raw.get("color")),
                     meshUrl=mesh_url,
                     triangleCount=raw.get("triangleCount"),
                     bounds=raw.get("bounds"),
@@ -163,6 +165,15 @@ class SpecimenStore:
             commonLabel=common_label,
             institution=institution,
         )
+
+    @staticmethod
+    def _structure_color(structure_id: str, raw_color: object) -> str | None:
+        """Prefer manifest color; fall back to catalog for known ids."""
+        if isinstance(raw_color, str) and raw_color:
+            return raw_color
+        if structure_by_id(structure_id) is not None:
+            return color_for_structure_id(structure_id)
+        return None
 
     @staticmethod
     def _check_id(value: str) -> None:

@@ -447,6 +447,7 @@ def write_manifest(
                 "side": entry.side,
                 "sourceFilename": entry.source_filename,
                 "status": status,
+                "color": entry.color,
                 "meshFile": mesh_file,
                 "triangleCount": triangle_count,
                 "bounds": bounds,

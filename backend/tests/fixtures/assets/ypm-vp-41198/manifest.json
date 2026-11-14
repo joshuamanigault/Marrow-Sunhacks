@@ -36,6 +36,7 @@
       "side": "right",
       "sourceFilename": "nasalR.stl",
       "status": "ok",
+      "color": "#78c373",
       "meshFile": "meshes/nasal_r.glb",
       "triangleCount": 4,
       "bounds": {
@@ -57,6 +58,7 @@
       "side": "left",
       "sourceFilename": "maxillaL.stl",
       "status": "missing",
+      "color": "#b9ae5b",
       "meshFile": null,
       "triangleCount": null,
       "bounds": null
@@ -67,6 +69,7 @@
       "side": "left",
       "sourceFilename": "quadrateL.stl",
       "status": "unreadable",
+      "color": "#6fc185",
       "meshFile": null,
       "triangleCount": null,
       "bounds": null
