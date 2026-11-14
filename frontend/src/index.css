@@ -501,3 +501,71 @@ a {
   font-size: 0.85rem;
   cursor: pointer;
 }
+
+/* Task 6: plain-language status banners */
+.workspace-banners {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+@media (min-width: 900px) {
+  .workspace-banners {
+    grid-column: 1 / -1;
+  }
+}
+
+.status-banner {
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.status-banner-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.status-banner-body {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.status-banner-retry {
+  margin-top: 0.65rem;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-banner--warning {
+  border-color: #e0cfc0;
+  background: #f8f1e8;
+}
+
+.status-banner--error {
+  border-color: #e0c0c0;
+  background: #f7eeee;
+}
+
+.status-banner--error .status-banner-title {
+  color: var(--danger);
+}
+
+.status-banner--empty {
+  border-style: dashed;
+  background: var(--scene);
+}
+
+.status-banner--info {
+  background: #eef3f6;
+  border-color: #c9d6de;
+}

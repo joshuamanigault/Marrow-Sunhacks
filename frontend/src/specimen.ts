@@ -7,6 +7,7 @@
  * Same id (`ypm-vp-41198`) for pins (§2) and Three.js (Ananya).
  */
 
+import { checkApiHealth, type ApiReachability } from "./api/health"
 import { CURATED_STRUCTURES } from "./curatedStructures"
 import type { SpecimenStructure } from "./types/specimenAssets"
 
@@ -98,25 +99,41 @@ export const CURATED_SPECIMEN_CREDITS: SpecimenCredits = {
     "You are looking at prepared 3D surfaces of skull elements that the researchers extracted from a published micro-CT study of this Yale Peabody specimen. The Dryad deposit lists a CT TIFF stack (Appendix 1) and separately named skull-element meshes (Appendix 2). Marrow shows those researcher-prepared meshes — not an artist reconstruction, and not invented anatomy.",
 }
 
+/** What the workspace needs after a load attempt (task 6 status included) */
+export type SpecimenLoadResult = {
+  payload: SpecimenPayload
+  /** Did we reach the Marrow API? */
+  apiStatus: ApiReachability
+}
+
 /**
  * Load credits + structure inventory for a specimen id.
- * Today: local curated stub. Later: Joshua’s GET /specimens/:id
+ * Today: local curated stub after an optional /health check.
+ * Later: Joshua’s GET /specimens/:id can replace the stub body.
  */
 export async function loadSpecimenPayload(
   specimenId: string,
-): Promise<SpecimenPayload> {
+): Promise<SpecimenLoadResult> {
+  // Probe the API so the UI can show a plain-language "server down" banner
+  const apiStatus = await checkApiHealth()
+
   // Small delay so beginners can see loading → ready in the UI
   await new Promise((resolve) => setTimeout(resolve, 200))
 
   // Only the curated demo id is supported until Joshua’s API lands
   if (specimenId !== CURATED_SPECIMEN_ID) {
-    throw new Error(`Unknown specimen id: ${specimenId}`)
+    throw new Error(
+      "This specimen id is not in the curated demo. Go back and open YPM VP 41198.",
+    )
   }
 
   // Credits (task 2) + structure statuses (task 3) together
   return {
-    credits: CURATED_SPECIMEN_CREDITS,
-    structures: CURATED_STRUCTURES,
+    payload: {
+      credits: CURATED_SPECIMEN_CREDITS,
+      structures: CURATED_STRUCTURES,
+    },
+    apiStatus,
   }
 }
 
@@ -126,6 +143,6 @@ export async function loadSpecimenPayload(
 export async function loadSpecimenCredits(
   specimenId: string,
 ): Promise<SpecimenCredits> {
-  const payload = await loadSpecimenPayload(specimenId)
-  return payload.credits
+  const result = await loadSpecimenPayload(specimenId)
+  return result.payload.credits
 }

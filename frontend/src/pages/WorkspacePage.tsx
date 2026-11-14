@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+import type { ApiReachability } from "../api/health"
 import { AssetStatusList } from "../components/AssetStatusList"
 import { PinObservationDock } from "../components/PinObservationDock"
 import { SpecimenInfoPanel } from "../components/SpecimenInfoPanel"
+import { StatusBanner } from "../components/StatusBanner"
 import {
   loadSpecimenPayload,
   type SpecimenCredits,
 } from "../specimen"
+import { STATUS_COPY } from "../statusCopy"
 import type { SpecimenStructure } from "../types/specimenAssets"
 import { useViewerStore } from "../store/viewerStore"
 
 /**
  * Workspace after Start.
- * Task 1: open specimen id
- * Task 2: §5 info panel
- * Task 3: honest missing/unreadable structure status
- * Task 4: pin observations (localStorage, bone-space points)
- * Three.js stage stays Ananya’s — she writes selection + bone-space picks.
+ * Tasks 1–5 plus task 6 plain-language empty/error states:
+ * API down, mesh fail / none ready, load error; pin empty lives in the dock.
  */
 export function WorkspacePage() {
   // Read :specimenId from the URL (/workspace/ypm-vp-41198)
@@ -31,15 +31,23 @@ export function WorkspacePage() {
   const [credits, setCredits] = useState<SpecimenCredits | null>(null)
   // Task 3 structure inventory with ok / missing / unreadable
   const [structures, setStructures] = useState<SpecimenStructure[]>([])
-  // Error message if the id is unknown or load fails
-  const [error, setError] = useState<string | null>(null)
+  // Task 6: did /health succeed?
+  const [apiStatus, setApiStatus] = useState<ApiReachability>("skipped")
+  // Task 6: plain-language load failure (unknown id, etc.)
+  const [loadError, setLoadError] = useState<string | null>(null)
   // true until loadSpecimenPayload finishes
   const [loading, setLoading] = useState(true)
+  // Bump this to re-run the load (Try again on API-down banner)
+  const [retryCount, setRetryCount] = useState(0)
+
+  const retryLoad = useCallback(() => {
+    setRetryCount((n) => n + 1)
+  }, [])
 
   useEffect(() => {
     // Guard: route without an id
     if (!specimenId) {
-      setError("Missing specimen id in the URL.")
+      setLoadError(STATUS_COPY.loadErrorBody)
       setLoading(false)
       return
     }
@@ -52,21 +60,23 @@ export function WorkspacePage() {
 
     async function run() {
       setLoading(true)
-      setError(null)
+      setLoadError(null)
       try {
-        // One payload: credits + structure statuses
-        const data = await loadSpecimenPayload(specimenId!)
+        // Payload + API reachability for task 6 banners
+        const result = await loadSpecimenPayload(specimenId!)
         if (!cancelled) {
-          setCredits(data.credits)
-          setStructures(data.structures)
+          setCredits(result.payload.credits)
+          setStructures(result.payload.structures)
+          setApiStatus(result.apiStatus)
         }
       } catch (err) {
         if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : "Failed to load specimen.",
+          setLoadError(
+            err instanceof Error ? err.message : STATUS_COPY.loadErrorBody,
           )
           setCredits(null)
           setStructures([])
+          setApiStatus("down")
         }
       } finally {
         if (!cancelled) {
@@ -80,18 +90,25 @@ export function WorkspacePage() {
     return () => {
       cancelled = true
     }
-  }, [specimenId, openSpecimen])
+  }, [specimenId, openSpecimen, retryCount])
+
+  // Mesh health derived from Joshua-style status rows (honest, no fake art)
+  const readyMeshes = structures.filter((row) => row.status === "ok")
+  const problemMeshes = structures.filter(
+    (row) => row.status === "missing" || row.status === "unreadable",
+  )
+  const showMeshFail = !loading && !loadError && problemMeshes.length > 0
+  const showMeshNone =
+    !loading && !loadError && structures.length > 0 && readyMeshes.length === 0
 
   // Only "ok" bones can be demo-picked / pinned until real meshes arrive
-  const demoStructures = structures
-    .filter((row) => row.status === "ok")
-    .map((row) => ({
-      id: row.id,
-      label:
-        row.side === "none"
-          ? row.displayName
-          : `${row.displayName} (${row.side})`,
-    }))
+  const demoStructures = readyMeshes.map((row) => ({
+    id: row.id,
+    label:
+      row.side === "none"
+        ? row.displayName
+        : `${row.displayName} (${row.side})`,
+  }))
 
   return (
     <main className="workspace-page">
@@ -99,12 +116,8 @@ export function WorkspacePage() {
       <header className="workspace-header">
         <p className="brand brand--compact">Marrow</p>
 
-        {loading && <p className="workspace-status">Loading specimen…</p>}
-
-        {error && (
-          <p className="workspace-error" role="alert">
-            {error}
-          </p>
+        {loading && (
+          <p className="workspace-status">{STATUS_COPY.loading}</p>
         )}
 
         {credits && (
@@ -131,6 +144,41 @@ export function WorkspacePage() {
         </Link>
       </header>
 
+      {/* Task 6 banners — plain language, above the 3D stage */}
+      <div className="workspace-banners">
+        {loadError && (
+          <StatusBanner
+            kind="error"
+            title={STATUS_COPY.loadErrorTitle}
+            onRetry={retryLoad}
+          >
+            {loadError}
+          </StatusBanner>
+        )}
+
+        {!loading && !loadError && apiStatus === "down" && (
+          <StatusBanner
+            kind="warning"
+            title={STATUS_COPY.apiDownTitle}
+            onRetry={retryLoad}
+          >
+            {STATUS_COPY.apiDownBody}
+          </StatusBanner>
+        )}
+
+        {showMeshNone && (
+          <StatusBanner kind="warning" title={STATUS_COPY.meshNoneTitle}>
+            {STATUS_COPY.meshNoneBody}
+          </StatusBanner>
+        )}
+
+        {showMeshFail && !showMeshNone && (
+          <StatusBanner kind="warning" title={STATUS_COPY.meshFailTitle}>
+            {STATUS_COPY.meshFailBody}
+          </StatusBanner>
+        )}
+      </div>
+
       {/*
         Ananya’s React Three Fiber / Three.js canvas mounts here.
         On mesh click she should call:
@@ -138,26 +186,33 @@ export function WorkspacePage() {
           setBoneSpacePick({ x, y, z })  // bone-local, not world/exploded
       */}
       <section className="specimen-stage" aria-label="Specimen study area">
-        <p className="stage-placeholder">
-          3D viewer slot — active specimen id:{" "}
-          <code>{activeId ?? "none"}</code>
-          {" · "}
-          {structures.filter((row) => row.status === "ok").length} ready
-          mesh(es)
-        </p>
+        {showMeshNone ? (
+          <StatusBanner kind="empty" title={STATUS_COPY.meshNoneTitle}>
+            {STATUS_COPY.meshNoneBody}
+          </StatusBanner>
+        ) : (
+          <p className="stage-placeholder">
+            3D viewer slot — active specimen id:{" "}
+            <code>{activeId ?? "none"}</code>
+            {" · "}
+            {readyMeshes.length} ready mesh(es)
+            {problemMeshes.length > 0
+              ? ` · ${problemMeshes.length} unavailable`
+              : ""}
+          </p>
+        )}
       </section>
 
       {/* Right column: credits + asset status */}
       <div className="workspace-side">
         {credits && <SpecimenInfoPanel credits={credits} />}
-        {!loading && !error && <AssetStatusList structures={structures} />}
+        {!loading && !loadError && <AssetStatusList structures={structures} />}
       </div>
 
       {/*
-        Task 4: bottom pin dock (spec §3.1 — Pin observation near the canvas).
-        Restores localStorage pins for this specimenId on mount.
+        Task 4 + 6: pin dock (includes polished "no pins yet" empty state).
       */}
-      {specimenId && !loading && !error && (
+      {specimenId && !loading && !loadError && (
         <PinObservationDock
           specimenId={specimenId}
           demoStructures={demoStructures}

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { addPin, loadPins, removePin } from "../pins/storage"
+import { STATUS_COPY } from "../statusCopy"
 import { useViewerStore } from "../store/viewerStore"
 import type { PinObservation } from "../types/pins"
+import { StatusBanner } from "./StatusBanner"
 
 /**
  * Bottom dock: Pin observation MVP (Alexandra task 4 / spec §2 + §3.1).
@@ -186,7 +188,10 @@ export function PinObservationDock({
         <h3 className="pin-dock-subheading">Saved pins</h3>
 
         {pins.length === 0 ? (
-          <p className="pin-dock-empty">No pins yet for this specimen.</p>
+          // Task 6: plain-language empty state (not an error)
+          <StatusBanner kind="empty" title={STATUS_COPY.noPinsTitle}>
+            {STATUS_COPY.noPinsBody}
+          </StatusBanner>
         ) : (
           <ul className="pin-dock-list">
             {pins.map((pin) => (
