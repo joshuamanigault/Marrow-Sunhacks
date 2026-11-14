@@ -4,9 +4,12 @@ version = "0.1.0"
 description = "Marrow fossil CT workspace API"
 requires-python = ">=3.13"
 dependencies = [
+    "fast-simplification>=0.2.0",
     "fastapi>=0.163.0",
+    "numpy>=2.5.4",
     "psycopg>=3.3.9",
     "pydantic-settings>=2.16.3",
+    "trimesh[easy]>=5.2.1",
     "uvicorn[standard]>=0.54.0",
 ]
 
