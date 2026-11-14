@@ -1,14 +1,14 @@
 /**
- * Curated specimen identity + attribution (Alexandra roadmap task 2).
+ * Curated specimen identity, attribution, and structure inventory loader.
  *
- * Spec §1 / §2 “Opens the specimen” / §5 credits:
- * a visitor must see the animal, museum accession, source, and researchers
- * without invented anatomy.
+ * Task 1–2: id + §5 credits for Alex’s info panel.
+ * Task 3: structure rows with ok / missing / unreadable (honest status).
  *
- * Same id as task 1 (`ypm-vp-41198`) so pins (§2) and Three.js (Ananya)
- * stay keyed to one study. Swap the loader for Joshua’s API later —
- * keep this field shape so Alex’s info panel does not change.
+ * Same id (`ypm-vp-41198`) for pins (§2) and Three.js (Ananya).
  */
+
+import { CURATED_STRUCTURES } from "./curatedStructures"
+import type { SpecimenStructure } from "./types/specimenAssets"
 
 /** Stable id the whole app uses to open this specimen. */
 export const CURATED_SPECIMEN_ID = "ypm-vp-41198"
@@ -47,6 +47,12 @@ export type SpecimenCredits = {
    * inventory (micro-CT + named skull-element meshes). No fake bones.
    */
   blurb: string
+}
+
+/** Full payload shape Joshua’s API should eventually return */
+export type SpecimenPayload = {
+  credits: SpecimenCredits
+  structures: SpecimenStructure[]
 }
 
 /** Credits + copy shown in Alex’s info panel after open. */
@@ -93,12 +99,12 @@ export const CURATED_SPECIMEN_CREDITS: SpecimenCredits = {
 }
 
 /**
- * Load attribution for a specimen id.
- * Today: local curated object. Later: Joshua’s GET /specimens/:id
+ * Load credits + structure inventory for a specimen id.
+ * Today: local curated stub. Later: Joshua’s GET /specimens/:id
  */
-export async function loadSpecimenCredits(
+export async function loadSpecimenPayload(
   specimenId: string,
-): Promise<SpecimenCredits> {
+): Promise<SpecimenPayload> {
   // Small delay so beginners can see loading → ready in the UI
   await new Promise((resolve) => setTimeout(resolve, 200))
 
@@ -107,6 +113,19 @@ export async function loadSpecimenCredits(
     throw new Error(`Unknown specimen id: ${specimenId}`)
   }
 
-  // Return the §5 content object for Alex’s panel
-  return CURATED_SPECIMEN_CREDITS
+  // Credits (task 2) + structure statuses (task 3) together
+  return {
+    credits: CURATED_SPECIMEN_CREDITS,
+    structures: CURATED_STRUCTURES,
+  }
+}
+
+/**
+ * Convenience wrapper if you only need §5 credits.
+ */
+export async function loadSpecimenCredits(
+  specimenId: string,
+): Promise<SpecimenCredits> {
+  const payload = await loadSpecimenPayload(specimenId)
+  return payload.credits
 }

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+import { AssetStatusList } from "../components/AssetStatusList"
 import { SpecimenInfoPanel } from "../components/SpecimenInfoPanel"
 import {
-  loadSpecimenCredits,
+  loadSpecimenPayload,
   type SpecimenCredits,
 } from "../specimen"
+import type { SpecimenStructure } from "../types/specimenAssets"
 import { useViewerStore } from "../store/viewerStore"
 
 /**
- * Workspace after Start (task 1).
- * Loads Joshua’s specimen id, shows §5 identity in the header,
- * mounts Alex’s Specimen information panel (task 2),
- * and leaves the 3D stage for Ananya’s Three.js canvas.
+ * Workspace after Start.
+ * Task 1: open specimen id
+ * Task 2: §5 info panel
+ * Task 3: honest missing/unreadable structure status
+ * Three.js stage stays Ananya’s — only ok meshes should load there later.
  */
 export function WorkspacePage() {
   // Read :specimenId from the URL (/workspace/ypm-vp-41198)
@@ -22,11 +25,13 @@ export function WorkspacePage() {
   const closeSpecimen = useViewerStore((state) => state.closeSpecimen)
   const activeId = useViewerStore((state) => state.specimenId)
 
-  // Holds the attribution object for the info panel (or null while loading)
+  // Task 2 attribution object
   const [credits, setCredits] = useState<SpecimenCredits | null>(null)
+  // Task 3 structure inventory with ok / missing / unreadable
+  const [structures, setStructures] = useState<SpecimenStructure[]>([])
   // Error message if the id is unknown or load fails
   const [error, setError] = useState<string | null>(null)
-  // true until loadSpecimenCredits finishes
+  // true until loadSpecimenPayload finishes
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -47,10 +52,11 @@ export function WorkspacePage() {
       setLoading(true)
       setError(null)
       try {
-        // Task 2 data: animal, accession, citation, researchers, blurb
-        const data = await loadSpecimenCredits(specimenId!)
+        // One payload: credits + structure statuses
+        const data = await loadSpecimenPayload(specimenId!)
         if (!cancelled) {
-          setCredits(data)
+          setCredits(data.credits)
+          setStructures(data.structures)
         }
       } catch (err) {
         if (!cancelled) {
@@ -58,6 +64,7 @@ export function WorkspacePage() {
             err instanceof Error ? err.message : "Failed to load specimen.",
           )
           setCredits(null)
+          setStructures([])
         }
       } finally {
         if (!cancelled) {
@@ -89,13 +96,10 @@ export function WorkspacePage() {
 
         {credits && (
           <div className="specimen-identity">
-            {/* Animal name */}
             <h1 className="specimen-name">
               <em>{credits.scientificName}</em>
             </h1>
-            {/* YPM accession */}
             <p className="specimen-accession">{credits.accession}</p>
-            {/* Collection + Dryad shortcut */}
             <p className="specimen-source">
               {credits.collection} ·{" "}
               <a href={credits.citationUrl} target="_blank" rel="noreferrer">
@@ -116,21 +120,25 @@ export function WorkspacePage() {
 
       {/*
         Ananya’s React Three Fiber / Three.js canvas mounts here.
-        Keep bone picks in specimen/bone space for Alexandra’s pins.
+        Only load structures where status === "ok" and meshUrl is set.
       */}
       <section className="specimen-stage" aria-label="Specimen study area">
         <p className="stage-placeholder">
           3D viewer slot — active specimen id:{" "}
           <code>{activeId ?? "none"}</code>
+          {" · "}
+          {
+            structures.filter((row) => row.status === "ok").length
+          }{" "}
+          ready mesh(es)
         </p>
       </section>
 
-      {/*
-        Task 2: Alex’s Specimen information panel content.
-        When Alex’s tool rail exists, this same component can render
-        inside that panel slot instead of the page column.
-      */}
-      {credits && <SpecimenInfoPanel credits={credits} />}
+      {/* Right column: credits (task 2) + honest asset list (task 3) */}
+      <div className="workspace-side">
+        {credits && <SpecimenInfoPanel credits={credits} />}
+        {!loading && !error && <AssetStatusList structures={structures} />}
+      </div>
     </main>
   )
 }
