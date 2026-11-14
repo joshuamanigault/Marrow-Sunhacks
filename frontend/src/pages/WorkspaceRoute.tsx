@@ -59,7 +59,9 @@ export function WorkspaceRoute() {
             {error}
           </StatusBanner>
           <p>
-            <Link to="/">← Back to start</Link>
+            <Link to={`/workspace/${specimenId ?? 'ypm-vp-41198'}`}>
+              ← Back to specimen
+            </Link>
           </p>
         </div>
       </main>
