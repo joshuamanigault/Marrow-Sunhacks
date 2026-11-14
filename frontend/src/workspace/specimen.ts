@@ -19,6 +19,8 @@ export interface Specimen {
   taxon: string
   accession: string
   institution: string
+  /** Repository name, e.g. 'Dryad'. */
+  sourceName: string
   sourceUrl: string
   license: string
   citation: string
@@ -34,6 +36,7 @@ export const stubSpecimen: Specimen = {
   taxon: 'Eosphorosuchus lacrimosa',
   accession: 'YPM VP 41198',
   institution: 'Yale Peabody Museum',
+  sourceName: 'Dryad',
   sourceUrl: 'https://datadryad.org/dataset/doi:10.5061/dryad.q83bk3jvv',
   license: 'CC0-1.0',
   citation: 'Margulis-Ohnuma, Ruebenstahl, Meyer & Bhullar (2026), Dryad dataset',

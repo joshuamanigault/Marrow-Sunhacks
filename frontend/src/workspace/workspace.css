@@ -2,15 +2,16 @@
 
 .ws {
   color-scheme: light dark;
-  --accent: light-dark(#1f5673, #a9d0e6);
-  --accent-ink: light-dark(#fff, #142d3a);
-  --ink: light-dark(#17232b, #e3e8ec);
-  --muted: light-dark(#687780, #9cabb4);
-  --line: light-dark(#dce2e5, #384750);
-  --panel: light-dark(#ffffff, #202b32);
-  --soft: light-dark(#eaf0f5, #2a3a45);
-  --scene: light-dark(#f5f0e9, #182128);
-  --bone: light-dark(#c4ae89, #cdb99a);
+  --accent: #1f5673;
+  --accent-ink: #fff;
+  --ink: #17232b;
+  --muted: #687780;
+  --line: #dce2e5;
+  --panel: #ffffff;
+  --soft: #eaf0f5;
+  --scene: #f5f0e9;
+  --bone: #c4ae89;
+  --shadow: #25334038;
 
   position: relative;
   height: 100dvh;
@@ -20,8 +21,19 @@
   background: radial-gradient(ellipse at 64% 45%, var(--panel) 0%, var(--scene) 80%);
 }
 
-.ws [hidden] {
-  display: none !important;
+@media (prefers-color-scheme: dark) {
+  .ws {
+    --accent: #a9d0e6;
+    --accent-ink: #142d3a;
+    --ink: #e3e8ec;
+    --muted: #9cabb4;
+    --line: #384750;
+    --panel: #202b32;
+    --soft: #2a3a45;
+    --scene: #182128;
+    --bone: #cdb99a;
+    --shadow: #00000060;
+  }
 }
 
 .ws button,
@@ -84,10 +96,12 @@
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 12px;
-  box-shadow: 0 5px 16px -8px light-dark(#25334038, #00000060);
+  box-shadow: 0 5px 16px -8px var(--shadow);
 }
 
-/* Stage: the scene fills the workspace; floating chrome overlays it. */
+/* Stage: fills the workspace; floating chrome overlays it. The scene itself
+   starts right of the rail + panel column so the open panel never covers the
+   specimen (the canvas is transparent, so the backdrop still spans it all). */
 
 .ws-stage {
   position: absolute;
@@ -96,7 +110,7 @@
 
 .ws-scene {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 317px;
 }
 
 .ws-caption {
@@ -199,7 +213,7 @@
   left: 75px;
   z-index: 3;
   width: 226px;
-  max-height: calc(100% - 92px - 16px);
+  max-height: calc(100% - 92px - 100px);
   overflow-y: auto;
   padding: 15px;
 }
@@ -397,15 +411,8 @@
   height: 15px;
 }
 
-@media (max-width: 850px) {
-  .ws-panel {
-    left: 68px;
-    width: 205px;
-    padding: 13px;
-  }
-}
-
-/* Narrow: specimen first, then actions, then the panel. Page scrolls. */
+/* Narrow: everything stacks in DOM order — header, rail, specimen, dock,
+   panel — so focus order matches the screen. Page scrolls. */
 @media (max-width: 620px) {
   .ws {
     height: auto;
@@ -426,12 +433,10 @@
   }
 
   .ws-case {
-    order: 0;
     max-width: none;
   }
 
   .ws-rail {
-    order: 1;
     flex-direction: row;
     align-self: flex-start;
   }
@@ -439,9 +444,12 @@
   .ws-stage {
     position: relative;
     inset: auto;
-    order: 2;
     height: 280px;
     flex-shrink: 0;
+  }
+
+  .ws-scene {
+    inset: 0;
   }
 
   .ws-caption {
@@ -456,20 +464,13 @@
   }
 
   .ws-dock {
-    order: 3;
     justify-content: center;
     flex-wrap: wrap;
   }
 
   .ws-panel {
-    order: 4;
     width: auto;
     max-height: none;
-    padding: 15px;
-  }
-
-  .ws-label {
-    font-size: 11px;
   }
 }
 

@@ -186,7 +186,9 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dt>Collection</dt>
         <dd>{specimen.institution}</dd>
         <dt>Data source</dt>
-        <dd>Dryad · {specimen.license}</dd>
+        <dd>
+          {specimen.sourceName} · {specimen.license}
+        </dd>
         <dt>Citation</dt>
         <dd>{specimen.citation}</dd>
       </dl>
@@ -204,23 +206,12 @@ interface WorkspaceProps {
   scene: ReactNode
   /** Starts the pin flow (Alexandra). The dock button is disabled without it. */
   onPin?: () => void
-  /** Pinned-observation list (Alexandra) for the Observations panel. */
-  observations?: ReactNode
 }
 
-export default function Workspace({ specimen, scene, onPin, observations }: WorkspaceProps) {
+export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
-  const selectedId = useViewer((s) => s.selectedId)
-  const hiddenCount = useViewer((s) => Object.keys(s.hiddenIds).length)
-  const rotateBy = useViewer((s) => s.rotateBy)
-  const reset = useViewer((s) => s.reset)
-
-  const selected = specimen.structures.find((s) => s.id === selectedId)
-  const caption = selected
-    ? structureLabel(selected)
-    : hiddenCount
-      ? `${hiddenCount} hidden`
-      : 'All structures visible'
+  const v = useViewer()
+  const selected = specimen.structures.find((s) => s.id === v.selectedId)
 
   return (
     <div className="ws">
@@ -249,39 +240,24 @@ export default function Workspace({ specimen, scene, onPin, observations }: Work
         ))}
       </nav>
 
-      {panel && (
-        <aside className="ws-panel ws-float">
-          {panel === 'anatomy' && <AnatomyPanel specimen={specimen} />}
-          {panel === 'info' && <InfoPanel specimen={specimen} />}
-          {panel === 'notes' && (
-            <section aria-labelledby="ws-notes-title">
-              <h2 id="ws-notes-title">Observations</h2>
-              {observations ?? (
-                <p className="ws-subtle">Pinned observations will appear here.</p>
-              )}
-            </section>
-          )}
-        </aside>
-      )}
-
       <main className="ws-stage" aria-label="Specimen view">
         <div className="ws-scene">{scene}</div>
         <div className="ws-caption" role="status">
           <span className="ws-dot" />
-          {caption}
+          {selected ? structureLabel(selected) : 'All structures visible'}
         </div>
         <div className="ws-rotation">
           <button
             type="button"
             aria-label="Rotate specimen left"
-            onClick={() => rotateBy(-ROTATE_STEP)}
+            onClick={() => v.rotateBy(-ROTATE_STEP)}
           >
             <Icon name="rotateLeft" />
           </button>
           <button
             type="button"
             aria-label="Rotate specimen right"
-            onClick={() => rotateBy(ROTATE_STEP)}
+            onClick={() => v.rotateBy(ROTATE_STEP)}
           >
             <Icon name="rotateRight" />
           </button>
@@ -289,7 +265,7 @@ export default function Workspace({ specimen, scene, onPin, observations }: Work
       </main>
 
       <div className="ws-dock ws-float">
-        <button type="button" onClick={reset}>
+        <button type="button" onClick={v.reset}>
           <Icon name="home" />
           Reset view
         </button>
@@ -303,6 +279,21 @@ export default function Workspace({ specimen, scene, onPin, observations }: Work
           Pin observation
         </button>
       </div>
+
+      {/* Last in the DOM so tab order matches the narrow layout. */}
+      {panel && (
+        <aside className="ws-panel ws-float">
+          {panel === 'anatomy' && <AnatomyPanel specimen={specimen} />}
+          {panel === 'info' && <InfoPanel specimen={specimen} />}
+          {panel === 'notes' && (
+            <section aria-labelledby="ws-notes-title">
+              <h2 id="ws-notes-title">Observations</h2>
+              {/* SLOT (Alexandra): pinned-observation list. */}
+              <p className="ws-subtle">Pinned observations will appear here.</p>
+            </section>
+          )}
+        </aside>
+      )}
     </div>
   )
 }
