@@ -61,3 +61,4 @@ datasets/
 *.tar
 *.tar.gz
 *.7z
+.local/
