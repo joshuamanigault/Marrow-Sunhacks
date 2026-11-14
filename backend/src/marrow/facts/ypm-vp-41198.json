@@ -1,0 +1,61 @@
+{
+  "_readme": "Grounded facts the AI features may use for YPM VP 41198. Every fact names its source. The AI is told to use these and nothing else, so add per-bone facts under `structures` only from the paper or the Dryad README, never from memory. Bone name, side and source file are added automatically from the manifest.",
+  "specimen": [
+    {
+      "text": "Eosphorosuchus lacrimosa is an early crocodylomorph (an early relative of crocodiles) from the Late Triassic of Ghost Ranch, New Mexico.",
+      "source": "Dryad dataset abstract (Margulis-Ohnuma et al. 2026)",
+      "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+    },
+    {
+      "text": "Its skull differs from other early crocodylomorphs, including Hesperosuchus agilis, the species it had earlier been tentatively assigned to.",
+      "source": "Dryad dataset abstract (Margulis-Ohnuma et al. 2026)",
+      "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+    },
+    {
+      "text": "The researchers describe its facial region as unusually short and reinforced by bone.",
+      "source": "Dryad dataset abstract (Margulis-Ohnuma et al. 2026)",
+      "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+    },
+    {
+      "text": "The study's authors describe a short snout, a heavily reinforced skull and enlarged jaw muscles suited to snapping shut on large prey.",
+      "source": "Yale news release, via ScienceDaily (July 2026)",
+      "url": "https://sciencedaily.com/releases/2026/07/260729010732.htm"
+    },
+    {
+      "text": "It lived about 210 million years ago and is described as a fast-running land predator that lived near rivers and lakes.",
+      "source": "Yale news release, via ScienceDaily (July 2026)",
+      "url": "https://sciencedaily.com/releases/2026/07/260729010732.htm"
+    },
+    {
+      "text": "It was found in the same fossil assemblage as Hesperosuchus agilis. The researchers read their different skulls and jaws as a sign that closely related predators were already dividing up food resources with different feeding strategies.",
+      "source": "Yale news release, via ScienceDaily (July 2026)",
+      "url": "https://sciencedaily.com/releases/2026/07/260729010732.htm"
+    },
+    {
+      "text": "The holotype, YPM VP 41198 at the Yale Peabody Museum, includes parts of the skull, lower jaw, vertebrae, limbs and armor.",
+      "source": "Sci.News summary of the paper (April 2026)",
+      "url": "https://www.sci.news/paleontology/eosphorosuchus-lacrimosa-14708.html"
+    },
+    {
+      "text": "The team's phylogenetic analysis places Eosphorosuchus near the base of Crocodylomorpha.",
+      "source": "Sci.News summary of the paper (April 2026)",
+      "url": "https://www.sci.news/paleontology/eosphorosuchus-lacrimosa-14708.html"
+    },
+    {
+      "text": "The species was identified using CT scans of a decades-old museum specimen, which let the team study bones still enclosed in rock and separate the skull elements digitally.",
+      "source": "Sci.News summary of the paper (April 2026)",
+      "url": "https://www.sci.news/paleontology/eosphorosuchus-lacrimosa-14708.html"
+    },
+    {
+      "text": "The name refers to Eosphoros, the 'dawn-bringer', pointing to the dawn of crocodylomorph ecological diversity; 'suchus' comes from the Greek word for crocodile.",
+      "source": "Etymology from the paper, quoted by NovaTaxa (April 2026)",
+      "url": "https://novataxa.blogspot.com/2026/04/eosphorosuchus.html"
+    },
+    {
+      "text": "The 3D bone models in this viewer come from Appendix 2 of the authors' Dryad dataset, which holds 3D meshes of the skull elements extracted from the micro-CT scan; Appendix 1 holds the scan itself.",
+      "source": "Dryad dataset file descriptions",
+      "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+    }
+  ],
+  "structures": {}
+}
