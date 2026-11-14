@@ -1,67 +1,112 @@
 /**
- * Curated specimen for the first Marrow demo.
+ * Curated specimen identity + attribution (Alexandra roadmap task 2).
  *
- * Spec §5 / roadmap: one real study — *Eosphorosuchus lacrimosa*,
- * Yale Peabody Museum YPM VP 41198 (Dryad dataset).
+ * Spec §1 / §2 “Opens the specimen” / §5 credits:
+ * a visitor must see the animal, museum accession, source, and researchers
+ * without invented anatomy.
  *
- * Joshua owns the API + mesh files. Until his endpoint exists, we keep
- * the SAME id string everywhere (start button, URL, Zustand, pins).
- * When he publishes, swap the fetch URL — do not invent a second id.
+ * Same id as task 1 (`ypm-vp-41198`) so pins (§2) and Three.js (Ananya)
+ * stay keyed to one study. Swap the loader for Joshua’s API later —
+ * keep this field shape so Alex’s info panel does not change.
  */
 
 /** Stable id the whole app uses to open this specimen. */
 export const CURATED_SPECIMEN_ID = "ypm-vp-41198"
 
 /**
- * Local stub of the fields Alexandra needs for §5 credits / info panel.
- * Replace this object with data from Joshua’s specimen JSON when ready.
+ * Shape of content for Alex’s Specimen information panel.
+ * Each field maps to something a museum visitor should be able to repeat.
  */
 export type SpecimenCredits = {
+  /** Same id as the start button / URL / pin storage key */
   id: string
+  /** Scientific name of the animal (italicize in the UI) */
   scientificName: string
+  /** Plain-language label — not a new species claim */
   commonLabel: string
+  /** Museum accession number visitors cite */
   accession: string
+  /** Holding institution */
   collection: string
+  /** Geologic age from the study context */
   period: string
+  /** Where the fossil was found */
   locality: string
+  /** Short data-source line for the header */
   dataSource: string
+  /** Named researchers who deposited the study */
+  researchers: string[]
+  /** Full citation string for the info panel */
   citation: string
+  /** Clickable Dryad / DOI link */
   citationUrl: string
+  /** License / reuse note (Dryad reports CC0-1.0) */
   reuse: string
+  /**
+   * “What you’re looking at” — only claims grounded in the published
+   * inventory (micro-CT + named skull-element meshes). No fake bones.
+   */
   blurb: string
 }
 
-/** Credits shown after the visitor opens the curated specimen. */
+/** Credits + copy shown in Alex’s info panel after open. */
 export const CURATED_SPECIMEN_CREDITS: SpecimenCredits = {
+  // Must match CURATED_SPECIMEN_ID so reopen/pins use one key
   id: CURATED_SPECIMEN_ID,
+
+  // Animal (spec §5 first candidate)
   scientificName: "Eosphorosuchus lacrimosa",
-  commonLabel: "Triassic archosauriform skull",
+  commonLabel: "Extinct archosauriform (skull study)",
+
+  // Museum accession visitors should be able to find again
   accession: "YPM VP 41198",
   collection: "Yale Peabody Museum",
+
+  // Context from the curated study / preview metadata
   period: "Late Triassic",
   locality: "Ghost Ranch, New Mexico",
+
+  // Source line for the floating header
   dataSource: "Dryad · CC0 1.0",
+
+  // Researcher credits (authors on the Dryad deposit)
+  researchers: [
+    "Margulis-Ohnuma",
+    "Ruebenstahl",
+    "Meyer",
+    "Bhullar",
+  ],
+
+  // Citation text + live Dryad link (spec §5)
   citation:
-    "Margulis-Ohnuma, Ruebenstahl, Meyer & Bhullar (2026). Dryad dataset doi:10.5061/dryad.q83bk3jvv",
+    "Margulis-Ohnuma, Ruebenstahl, Meyer & Bhullar (2026). Data from: Eosphorosuchus lacrimosa micro-CT and skull-element meshes. Dryad. https://doi.org/10.5061/dryad.q83bk3jvv",
   citationUrl: "https://datadryad.org/dataset/doi%3A10.5061/dryad.q83bk3jvv",
-  reuse: "CC0 1.0 — retain specimen identifiers and citation in the app.",
+
+  // Reuse terms from Dryad metadata research notes
+  reuse:
+    "CC0 1.0. Keep specimen identifiers and this citation visible in the app.",
+
+  // Grounded blurb: Appendix 1 = CT stack, Appendix 2 = skull STLs.
+  // Do not name bones that are not in the prepared inventory.
   blurb:
-    "Prepared skull-element meshes from a published micro-CT study. You are looking at researcher-extracted anatomy, not an illustration.",
+    "You are looking at prepared 3D surfaces of skull elements that the researchers extracted from a published micro-CT study of this Yale Peabody specimen. The Dryad deposit lists a CT TIFF stack (Appendix 1) and separately named skull-element meshes (Appendix 2). Marrow shows those researcher-prepared meshes — not an artist reconstruction, and not invented anatomy.",
 }
 
 /**
- * Later: call Joshua’s API, e.g. GET /specimens/ypm-vp-41198
- * For now we only accept the curated id and return the stub above.
+ * Load attribution for a specimen id.
+ * Today: local curated object. Later: Joshua’s GET /specimens/:id
  */
 export async function loadSpecimenCredits(
   specimenId: string,
 ): Promise<SpecimenCredits> {
-  // Pretend network delay so beginners see loading → ready.
+  // Small delay so beginners can see loading → ready in the UI
   await new Promise((resolve) => setTimeout(resolve, 200))
 
+  // Only the curated demo id is supported until Joshua’s API lands
   if (specimenId !== CURATED_SPECIMEN_ID) {
     throw new Error(`Unknown specimen id: ${specimenId}`)
   }
 
+  // Return the §5 content object for Alex’s panel
   return CURATED_SPECIMEN_CREDITS
 }

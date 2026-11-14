@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+import { SpecimenInfoPanel } from "../components/SpecimenInfoPanel"
 import {
   loadSpecimenCredits,
   type SpecimenCredits,
@@ -7,49 +8,55 @@ import {
 import { useViewerStore } from "../store/viewerStore"
 
 /**
- * Workspace after Start.
- * Syncs the URL specimen id into Zustand, loads §5 credits,
- * and leaves a clear slot where Ananya’s Three.js canvas will mount.
+ * Workspace after Start (task 1).
+ * Loads Joshua’s specimen id, shows §5 identity in the header,
+ * mounts Alex’s Specimen information panel (task 2),
+ * and leaves the 3D stage for Ananya’s Three.js canvas.
  */
 export function WorkspacePage() {
-  // React Router puts :specimenId from the path into params.
+  // Read :specimenId from the URL (/workspace/ypm-vp-41198)
   const { specimenId } = useParams<{ specimenId: string }>()
 
-  // Zustand actions / values used by pins later.
+  // Shared store: same id pins will use in task 4
   const openSpecimen = useViewerStore((state) => state.openSpecimen)
   const closeSpecimen = useViewerStore((state) => state.closeSpecimen)
   const activeId = useViewerStore((state) => state.specimenId)
 
-  // Local UI state for the credits fetch.
+  // Holds the attribution object for the info panel (or null while loading)
   const [credits, setCredits] = useState<SpecimenCredits | null>(null)
+  // Error message if the id is unknown or load fails
   const [error, setError] = useState<string | null>(null)
+  // true until loadSpecimenCredits finishes
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // No id in the URL → nothing to open.
+    // Guard: route without an id
     if (!specimenId) {
       setError("Missing specimen id in the URL.")
       setLoading(false)
       return
     }
 
-    // Keep Zustand in sync (needed if someone bookmarks / refreshes).
+    // Sync URL → Zustand (refresh / bookmark still open the same study)
     openSpecimen(specimenId)
 
+    // Ignore results if the visitor navigates away mid-request
     let cancelled = false
 
     async function run() {
       setLoading(true)
       setError(null)
       try {
-        // Today: stub. Later: Joshua’s GET /specimens/:id
+        // Task 2 data: animal, accession, citation, researchers, blurb
         const data = await loadSpecimenCredits(specimenId!)
         if (!cancelled) {
           setCredits(data)
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Failed to load specimen.")
+          setError(
+            err instanceof Error ? err.message : "Failed to load specimen.",
+          )
           setCredits(null)
         }
       } finally {
@@ -61,7 +68,6 @@ export function WorkspacePage() {
 
     void run()
 
-    // Cleanup if the visitor navigates away mid-load.
     return () => {
       cancelled = true
     }
@@ -69,7 +75,7 @@ export function WorkspacePage() {
 
   return (
     <main className="workspace-page">
-      {/* Floating-style header: animal + accession + source (spec §3.1). */}
+      {/* Floating header: animal + accession + source (spec §3.1) */}
       <header className="workspace-header">
         <p className="brand brand--compact">Marrow</p>
 
@@ -83,10 +89,13 @@ export function WorkspacePage() {
 
         {credits && (
           <div className="specimen-identity">
+            {/* Animal name */}
             <h1 className="specimen-name">
               <em>{credits.scientificName}</em>
             </h1>
+            {/* YPM accession */}
             <p className="specimen-accession">{credits.accession}</p>
+            {/* Collection + Dryad shortcut */}
             <p className="specimen-source">
               {credits.collection} ·{" "}
               <a href={credits.citationUrl} target="_blank" rel="noreferrer">
@@ -106,40 +115,22 @@ export function WorkspacePage() {
       </header>
 
       {/*
-        Ananya’s React Three Fiber canvas goes here.
+        Ananya’s React Three Fiber / Three.js canvas mounts here.
         Keep bone picks in specimen/bone space for Alexandra’s pins.
       */}
-      <section
-        className="specimen-stage"
-        aria-label="Specimen study area"
-      >
+      <section className="specimen-stage" aria-label="Specimen study area">
         <p className="stage-placeholder">
           3D viewer slot — active specimen id:{" "}
           <code>{activeId ?? "none"}</code>
         </p>
       </section>
 
-      {/* §5 credits block — attribution stays visible with the study. */}
-      {credits && (
-        <aside className="credits-panel" aria-label="Specimen information">
-          <h2>Specimen information</h2>
-          <dl className="credits-list">
-            <dt>Period</dt>
-            <dd>{credits.period}</dd>
-            <dt>Locality</dt>
-            <dd>{credits.locality}</dd>
-            <dt>Citation</dt>
-            <dd>{credits.citation}</dd>
-            <dt>Reuse</dt>
-            <dd>{credits.reuse}</dd>
-          </dl>
-          <p className="credits-blurb">{credits.blurb}</p>
-          <p className="pin-hint">
-            Pins (roadmap task 4) will save under localStorage key tied to{" "}
-            <code>{credits.id}</code> in this browser only.
-          </p>
-        </aside>
-      )}
+      {/*
+        Task 2: Alex’s Specimen information panel content.
+        When Alex’s tool rail exists, this same component can render
+        inside that panel slot instead of the page column.
+      */}
+      {credits && <SpecimenInfoPanel credits={credits} />}
     </main>
   )
 }

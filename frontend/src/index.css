@@ -185,7 +185,8 @@ a {
   color: var(--muted);
 }
 
-.credits-panel {
+/* Alex’s Specimen information panel (roadmap task 2 / §5 credits) */
+.specimen-info-panel {
   padding: 1rem 1.15rem;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -193,35 +194,56 @@ a {
   box-shadow: var(--shadow);
 }
 
-.credits-panel h2 {
-  margin: 0 0 0.75rem;
+.specimen-info-heading {
+  margin: 0 0 0.85rem;
   font-size: 1rem;
 }
 
-.credits-list {
+.specimen-info-list {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.35rem 0.85rem;
+  gap: 0.55rem 0.85rem;
   margin: 0 0 1rem;
   font-size: 0.92rem;
 }
 
-.credits-list dt {
+.specimen-info-list dt {
   margin: 0;
   color: var(--muted);
 }
 
-.credits-list dd {
+.specimen-info-list dd {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-.credits-blurb,
-.pin-hint {
-  margin: 0 0 0.75rem;
+.specimen-info-sub {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: normal;
+}
+
+.specimen-info-blurb {
+  margin: 0 0 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.specimen-info-blurb-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+}
+
+.specimen-info-blurb p {
+  margin: 0;
   font-size: 0.92rem;
   color: var(--muted);
 }
 
-.pin-hint {
-  margin-bottom: 0;
+.specimen-info-pin-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
