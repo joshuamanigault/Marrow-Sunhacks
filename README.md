@@ -60,62 +60,15 @@ docs/              Spec, roadmap, demo script, API contracts, setup guides
 
 ---
 
-## Quick start (local)
+## Architecture
 
-**Prerequisites:** Node.js 22+, Python 3.13, [uv](https://docs.astral.sh/uv/). Windows works without Docker/WSL.
+Browser SPA, FastAPI specimen API, offline evidence prep, and AWS edge hosting (CloudFront, S3, Lambda):
 
-### 1. Backend
+<p align="center">
+  <img src="docs/marrow-architecture.png" alt="Marrow architecture diagram" width="900" />
+</p>
 
-```powershell
-cd backend
-copy .env.example .env
-uv sync
-uv run uvicorn marrow.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-Prepared meshes default to `data/prepared/`. To rebuild from the Dryad Appendix 2 archive, see [`docs/backend-specimen-setup.md`](docs/backend-specimen-setup.md).
-
-Optional Gemini (Ask panel):
-
-```text
-# backend/.env
-GEMINI_API_KEY=your-key-here
-GEMINI_MODEL=                 # blank → gemini-3.5-flash-lite
-```
-
-Details: [`docs/handoff-gemini-setup.md`](docs/handoff-gemini-setup.md), [`docs/api/ai-contract.md`](docs/api/ai-contract.md).
-
-### 2. Frontend
-
-```powershell
-cd frontend
-copy .env.example .env
-npm install
-npm run dev
-```
-
-Open [http://localhost:5173/](http://localhost:5173/) or go straight to the featured workspace:
-
-[http://localhost:5173/workspace/ypm-vp-41198](http://localhost:5173/workspace/ypm-vp-41198)
-
-`VITE_API_BASE_URL` must point at the API (default `http://127.0.0.1:8000`).
-
-### 3. Checks
-
-```powershell
-# backend
-cd backend
-uv run pytest -q
-uv run ruff check src tests scripts
-uv run pyright
-
-# frontend
-cd frontend
-npm run typecheck
-npm run lint
-```
-
-Judge click-order checklist: [`docs/demo-script.md`](docs/demo-script.md).
+Source: [`docs/marrow-architecture.svg`](docs/marrow-architecture.svg).
 
 ---
 
@@ -174,8 +127,67 @@ That keeps every PR tied to the judge-facing demo story without a separate ops f
 | --- | --- |
 | Joshua | Specimen evidence, conversion, API, deploy |
 | Ananya | 3D viewer, Gemini Ask, hand control |
-| Alex | Scanner workspace UI shell; AWS S3, Lambda, and CloudFront hosting |}
+| Alex | Scanner workspace UI shell; AWS S3, Lambda, and CloudFront hosting |
 | Alexandra | Attribution, pins, demo script |
+
+---
+
+## Quick start (local)
+
+**Prerequisites:** Node.js 22+, Python 3.13, [uv](https://docs.astral.sh/uv/). Windows works without Docker/WSL.
+
+### 1. Backend
+
+```powershell
+cd backend
+copy .env.example .env
+uv sync
+uv run uvicorn marrow.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Prepared meshes default to `data/prepared/`. To rebuild from the Dryad Appendix 2 archive, see [`docs/backend-specimen-setup.md`](docs/backend-specimen-setup.md).
+
+Optional Gemini (Ask panel):
+
+```text
+# backend/.env
+GEMINI_API_KEY=your-key-here
+GEMINI_MODEL=                 # blank → gemini-3.5-flash-lite
+```
+
+Details: [`docs/handoff-gemini-setup.md`](docs/handoff-gemini-setup.md), [`docs/api/ai-contract.md`](docs/api/ai-contract.md).
+
+### 2. Frontend
+
+```powershell
+cd frontend
+copy .env.example .env
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173/](http://localhost:5173/) or go straight to the featured workspace:
+
+[http://localhost:5173/workspace/ypm-vp-41198](http://localhost:5173/workspace/ypm-vp-41198)
+
+`VITE_API_BASE_URL` must point at the API (default `http://127.0.0.1:8000`).
+
+### 3. Checks
+
+```powershell
+# backend
+cd backend
+uv run pytest -q
+uv run ruff check src tests scripts
+uv run pyright
+
+# frontend
+cd frontend
+npm run typecheck
+npm run lint
+```
+
+Judge click-order checklist: [`docs/demo-script.md`](docs/demo-script.md).
 
 ---
 
