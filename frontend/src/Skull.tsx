@@ -18,7 +18,9 @@ import * as THREE from 'three'
 //   weld merged.glb welded.glb
 //   simplify welded.glb s.glb --ratio 0.15 --error 0.01
 //   meshopt s.glb skull.glb --level high
-// The workspace loads the full-detail meshes from the API instead.
+// Catalog card previews for other specimens use the same pipeline into
+// public/previews/{specimenId}.glb (see catalogPreviews.ts). The workspace
+// loads the full-detail meshes from the API instead.
 const SKULL_URL = `${import.meta.env.BASE_URL}skull.glb`
 
 /** Roof-of-mouth bones, hidden while the skull is assembled. */
@@ -58,8 +60,8 @@ function smoothstep(t: number) {
   return c * c * (3 - 2 * c)
 }
 
-function useBones() {
-  const { scene } = useGLTF(SKULL_URL)
+function useBones(url: string = SKULL_URL) {
+  const { scene } = useGLTF(url)
   return useMemo(() => {
     scene.updateMatrixWorld(true)
     const sources: THREE.Mesh[] = []
@@ -265,13 +267,22 @@ function Bones({ progress }: { progress: RefObject<number> }) {
 }
 
 /** Shared canvas: transparent, with a warm key light and a cold CT-blue rim light. */
-function Stage({ className, children }: { className: string; children: ReactNode }) {
+function Stage({
+  className,
+  children,
+  /** Card grids keep dpr at 1 so many WebGL contexts stay cheap. */
+  dpr = [1, 2],
+}: {
+  className: string
+  children: ReactNode
+  dpr?: number | [number, number]
+}) {
   return (
     <Canvas
       className={className}
       camera={{ position: [0, 0.2, 7], fov: 35 }}
-      dpr={[1, 2]}
-      gl={{ alpha: true, antialias: true }}
+      dpr={dpr}
+      gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       aria-hidden="true"
     >
       <hemisphereLight args={['#fff6e8', '#1a2328', 0.9]} />
@@ -291,9 +302,9 @@ export default function Skull({ progress }: { progress: RefObject<number> }) {
 }
 
 /** The whole skull, assembled, turning slowly in the same side-profile tilt. */
-function Turntable() {
+function Turntable({ url = SKULL_URL }: { url?: string }) {
   const group = useRef<THREE.Group>(null)
-  const { bones, scale } = useBones()
+  const { bones, scale } = useBones(url)
   const still = useMemo(() => matchMedia('(prefers-reduced-motion: reduce)').matches, [])
   useFrame((state) => {
     group.current?.rotation.set(0, still ? 0 : state.clock.elapsedTime * 0.4, -0.6)
@@ -307,11 +318,16 @@ function Turntable() {
   )
 }
 
-/** Spinning preview for catalog cards. */
-export function SkullPreview() {
+/** Spinning GLB preview for Explore catalog cards (any prepared specimen URL). */
+export function CatalogPreview({ url }: { url: string }) {
   return (
-    <Stage className="mk-card-skull">
-      <Turntable />
+    <Stage className="mk-card-skull" dpr={1}>
+      <Turntable url={url} />
     </Stage>
   )
+}
+
+/** YPM hero-asset preview; kept for call sites that only need the featured skull. */
+export function SkullPreview() {
+  return <CatalogPreview url={SKULL_URL} />
 }

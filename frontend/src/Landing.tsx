@@ -1,5 +1,6 @@
 import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { catalogPreviewUrl } from './catalogPreviews'
 import { Icon } from './workspace/Workspace'
 import { UploadForm } from './uploads/UploadForm'
 import { fetchSpecimens, type SpecimenListItem } from './workspace/specimen'
@@ -7,17 +8,59 @@ import './landing.css'
 
 // three.js is large, so the hero skull loads after the page text.
 const Skull = lazy(() => import('./Skull'))
-const SkullPreview = lazy(() => import('./Skull').then((m) => ({ default: m.SkullPreview })))
+const CatalogPreview = lazy(() => import('./Skull').then((m) => ({ default: m.CatalogPreview })))
 
-/** The skull is decoration: if it fails (no WebGL, missing file), drop it, not the page. */
-class SkipOnError extends Component<{ children: ReactNode }, { failed: boolean }> {
+/** Decoration that must not take down the page (no WebGL, missing/broken GLB). */
+class SkipOnError extends Component<
+  { children: ReactNode; fallback?: ReactNode },
+  { failed: boolean }
+> {
   state = { failed: false }
   static getDerivedStateFromError() {
     return { failed: true }
   }
   render() {
-    return this.state.failed ? null : this.props.children
+    return this.state.failed ? (this.props.fallback ?? null) : this.props.children
   }
+}
+
+/**
+ * Mount catalog WebGL only near the viewport so Explore does not open ~9
+ * canvases at once (browsers cap concurrent WebGL contexts).
+ */
+function NearViewport({ children, fallback }: { children: ReactNode; fallback: ReactNode }) {
+  const host = useRef<HTMLDivElement>(null)
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = host.current
+    if (!el) return
+    const io = new IntersectionObserver(([entry]) => setNear(entry.isIntersecting), {
+      rootMargin: '120px',
+    })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return <div ref={host} style={{ position: 'absolute', inset: 0 }}>{near ? children : fallback}</div>
+}
+
+function AccessionFallback({ accession }: { accession: string }) {
+  return <span className="mk-card-accession">{accession}</span>
+}
+
+/** Spinning static preview when a public/ asset exists; otherwise accession text. */
+function ExploreCardPreview({ specimenId, accession }: { specimenId: string; accession: string }) {
+  const url = catalogPreviewUrl(specimenId)
+  const accessionText = <AccessionFallback accession={accession} />
+  if (!url) return accessionText
+  return (
+    <SkipOnError fallback={accessionText}>
+      <NearViewport fallback={accessionText}>
+        <Suspense fallback={accessionText}>
+          <CatalogPreview url={url} />
+        </Suspense>
+      </NearViewport>
+    </SkipOnError>
+  )
 }
 
 // The hero's bundled mesh depicts this specimen; it is an example of the collection.
@@ -294,13 +337,7 @@ export function Explore() {
             <li key={entry.id}>
               <Link className="mk-card" to={`/workspace/${entry.id}`}>
                 <div className="mk-card-preview">
-                  {entry.id === featured.id ? <SkipOnError>
-                    <Suspense fallback={null}>
-                      <SkullPreview />
-                    </Suspense>
-                  </SkipOnError> : (
-                    <span className="mk-card-accession">{entry.accession}</span>
-                  )}
+                  <ExploreCardPreview specimenId={entry.id} accession={entry.accession} />
                 </div>
                 <span className="mk-tag">[ Research collection ]</span>
                 <h2>
