@@ -96,7 +96,7 @@ Keys are structure ids from `backend/src/marrow/structures.py`. Restart the API 
 ## 6. Deploying (Vultr)
 
 - Set `GEMINI_API_KEY` (and optionally `GEMINI_MODEL`) as server environment variables, not in the repo.
-- Watch the AI Studio usage page. The default "What is this bone?" answer is cached per bone in memory, so 21 bones cost about 21 calls per server restart. Custom questions, tours and follow-ups call Gemini every time, and there's no rate limit yet. Worth adding one before a public demo.
+- Watch the AI Studio usage page. The default "What is this bone?" answer is cached per bone in memory, so 21 bones cost about 21 calls per server restart. Custom questions, tours and follow-ups call Gemini every time; POSTs are capped at ~30/min/IP (override with `AI_RATE_LIMIT` / `AI_RATE_WINDOW_SECONDS`).
 
 ## Troubleshooting
 

@@ -136,7 +136,8 @@ def tour(llm: JsonLLM, specimen: SpecimenResponse, topic: str) -> TourResponse:
     ok = [s for s in specimen.structures if s.status == "ok"]
     if not ok:
         raise HTTPException(
-            status_code=409, detail="No bones are loaded for this specimen."
+            status_code=502,
+            detail="Couldn't build a tour. No bones are loaded for this specimen.",
         )
     facts = F.specimen_facts(specimen)
     per_bone: dict[str, list[Fact]] = {}

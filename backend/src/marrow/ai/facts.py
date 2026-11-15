@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -10,16 +11,28 @@ from typing import Any
 from marrow.models.ai import Fact
 from marrow.models.specimen import SpecimenResponse, StructureSummary
 
+log = logging.getLogger(__name__)
+
 _FACTS_DIR = Path(__file__).resolve().parents[1] / "facts"
 _SIDE = {"left": "left", "right": "right"}
+_EMPTY: dict[str, Any] = {"specimen": [], "structures": {}}
 
 
 @lru_cache
 def _curated(specimen_id: str) -> dict[str, Any]:
     path = _FACTS_DIR / f"{specimen_id}.json"
     if not path.is_file():
-        return {"specimen": [], "structures": {}}
-    return json.loads(path.read_text(encoding="utf-8"))
+        return _EMPTY
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        log.warning(
+            "Ignoring unreadable curated facts for %s (%s): %s",
+            specimen_id,
+            path.name,
+            exc,
+        )
+        return _EMPTY
 
 
 def structure_label(s: StructureSummary) -> str:

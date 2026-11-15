@@ -30,6 +30,24 @@ export interface FollowupResult {
   citation: Specimen['citation']
 }
 
+function formatDetail(detail: unknown, status: number): string {
+  if (typeof detail === 'string') return detail
+  if (Array.isArray(detail)) {
+    const parts = detail
+      .filter((item): item is { msg: string; loc?: unknown[] } =>
+        !!item && typeof item === 'object' && typeof (item as { msg?: unknown }).msg === 'string',
+      )
+      .map((item) => {
+        const loc = Array.isArray(item.loc)
+          ? item.loc.filter((p) => typeof p === 'string' || typeof p === 'number').join('.')
+          : ''
+        return loc ? `${loc}: ${item.msg}` : item.msg
+      })
+    if (parts.length) return parts.join('; ')
+  }
+  return `The server answered ${status}.`
+}
+
 async function post<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
   let res: Response
   try {
@@ -45,7 +63,7 @@ async function post<T>(path: string, body: unknown, signal?: AbortSignal): Promi
   }
   if (!res.ok) {
     const detail = await res.json().then((d: { detail?: unknown }) => d.detail, () => null)
-    throw new Error(typeof detail === 'string' ? detail : `The server answered ${res.status}.`)
+    throw new Error(formatDetail(detail, res.status))
   }
   return res.json() as Promise<T>
 }

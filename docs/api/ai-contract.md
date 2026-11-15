@@ -23,9 +23,9 @@ Responses return the facts the model says it used (ids it didn't receive are dro
 | `POST` | `/ai/followup` | `{ specimenId, structureId, note }` (1–500 chars) | `{ question, facts[], citation, aiGenerated }` |
 
 - `covered: false` means the facts didn't answer the question.
-- Tour steps only use structures with status `ok`; unknown or repeated ids are dropped; at most 6 stops. No valid stop → **502**.
+- Tour steps only use structures with status `ok`; unknown or repeated ids are dropped; at most 6 stops. No loaded (`ok`) bones or no valid stop → **502**.
 - The default "What is this bone?" answer (no `question`) is cached per bone and model.
-- Gemini failures → **502** with a plain message. Unknown structure → **404**. Too-long input → **422**.
+- Gemini failures → **502** with a plain message. Unknown structure → **404**. Too-long input → **422**. Too many POSTs from one IP (~30/min) → **429**.
 
 ## Config
 

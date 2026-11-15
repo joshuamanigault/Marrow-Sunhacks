@@ -256,6 +256,14 @@ function FollowupSection({ specimen }: { specimen: Specimen }) {
 
 /** The "Ask" panel: explain a bone, take a guided tour, get a follow-up question. */
 export default function AskPanel({ specimen }: { specimen: Specimen }) {
+  // Closing Ask unmounts this panel; exit any tour focus so the viewer is not left exploded.
+  useEffect(() => {
+    return () => {
+      const focused = useViewer.getState().focusedId
+      if (focused) useViewer.getState().focus(focused) // same as TourSection end() / second Focus press
+    }
+  }, [])
+
   return (
     <section aria-labelledby="ws-ask-title" className="ask">
       <h2 id="ws-ask-title">Ask about the fossil</h2>
