@@ -172,23 +172,26 @@ export function Bone({ specimenId, structure, color, explodeOrigin, onLoaded }: 
           depthWrite={!faded}
         />
       </mesh>
-      {/* Bone-local pins ride the explode group; coords ignore camera / separation. */}
-      {bonePins.map((pin) => (
-        <PinMarker
-          key={pin.id}
-          point={pin.boneSpacePoint}
-          size={pinSize}
-          label={pin.structureLabel}
-          note={pin.note}
-          active={activePinId === pin.id}
-          onSelect={() => {
-            select(id)
-            setActivePin(activePinId === pin.id ? null : pin.id)
-          }}
-          onRemove={() => removePin(specimenId, pin.id)}
-        />
-      ))}
-      {pinning && pick?.structureId === id && pick.point && (
+      {/* Bone-local pins ride the explode group; coords ignore camera / separation.
+          Unmount while hidden — group.visible does not stop Three.js raycasts, and a
+          clickable pin head would select/unhide this bone through an invisible marker. */}
+      {!hidden &&
+        bonePins.map((pin) => (
+          <PinMarker
+            key={pin.id}
+            point={pin.boneSpacePoint}
+            size={pinSize}
+            label={pin.structureLabel}
+            note={pin.note}
+            active={activePinId === pin.id}
+            onSelect={() => {
+              select(id)
+              setActivePin(activePinId === pin.id ? null : pin.id)
+            }}
+            onRemove={() => removePin(specimenId, pin.id)}
+          />
+        ))}
+      {!hidden && pinning && pick?.structureId === id && pick.point && (
         <PinMarker
           point={pick.point}
           size={pinSize}

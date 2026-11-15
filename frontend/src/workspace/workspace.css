@@ -652,7 +652,10 @@
 }
 
 .ws .pin-callout.is-active .pin-callout-note {
-  -webkit-line-clamp: 8;
+  display: block;
+  overflow: auto;
+  max-height: 12em;
+  -webkit-line-clamp: unset;
 }
 
 .ws .pin-callout-input {
