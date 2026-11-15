@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "id": "gavialis-b3s4v0g",
+    "scientificName": "Gavialis",
+    "commonLabel": "Cranium and lower jaw",
+    "accession": "Not stated (Dryad b3s4v0g, Gavialis)",
+    "institution": "Collection not specified in Dryad record",
+    "citation": {
+      "text": "Antonio Ballell et al. (2019). Data from: Convergence and functional evolution of longirostry in crocodylomorphs [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.b3s4v0g",
+      "datasetUrl": "https://doi.org/10.5061/dryad.b3s4v0g",
+      "articleDoi": "10.1111/pala.12432",
+      "articleUrl": "https://doi.org/10.1111/pala.12432"
+    },
+    "credits": [
+      "Antonio Ballell",
+      "Benjamin C. Moon",
+      "Laura B. Porro",
+      "Michael J. Benton",
+      "Emily J. Rayfield"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Units and anatomical axes have not been verified. This file is one surface mesh; it is not segmented into individual bones. These are researcher-processed cranial and mandibular surfaces; their alignment has not yet been visually verified. The authors explicitly state Gavialis meshes are scaled to skull length, not original size."
+    }
+  },
+  "rawDir": "data/raw/gavialis-b3s4v0g",
+  "sourceFiles": [
+    {
+      "filename": "gavialis_cranium.stl",
+      "fileId": 81355,
+      "size": 332354845,
+      "digest": "af33a37c3db48508c42657a62c3a41b1",
+      "digestType": "md5"
+    },
+    {
+      "filename": "gavialis_mand.stl",
+      "fileId": 81356,
+      "size": 191514613,
+      "digest": "d0492b44b3cb76cdf75e18a2c4a9be3f",
+      "digestType": "md5"
+    }
+  ],
+  "structures": [
+    {
+      "id": "cranium",
+      "name": "Cranium",
+      "side": "none",
+      "sourceFilename": "gavialis_cranium.stl"
+    },
+    {
+      "id": "mandible",
+      "name": "Mandible",
+      "side": "none",
+      "sourceFilename": "gavialis_mand.stl"
+    }
+  ]
+}

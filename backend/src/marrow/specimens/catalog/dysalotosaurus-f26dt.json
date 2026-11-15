@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "id": "dysalotosaurus-f26dt",
+    "scientificName": "Dysalotosaurus lettowvorbecki",
+    "commonLabel": "CT-derived dinosaur braincase",
+    "accession": "Not stated (Dryad f26dt, Dysalotosaurus)",
+    "institution": "Collection not specified in Dryad record",
+    "citation": {
+      "text": "Stephan Lautenschlager et al. (2016). Data from: Reconstructing the past: methods and techniques for the digital restoration of fossils [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.f26dt",
+      "datasetUrl": "https://doi.org/10.5061/dryad.f26dt",
+      "articleDoi": "10.1098/rsos.160342",
+      "articleUrl": "https://doi.org/10.1098/rsos.160342"
+    },
+    "credits": [
+      "Stephan Lautenschlager"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Units and anatomical axes have not been verified. This file is one surface mesh; it is not segmented into individual bones."
+    }
+  },
+  "rawDir": "data/raw/dysalotosaurus-f26dt",
+  "sourceFiles": [
+    {
+      "filename": "Dysalotosaurus_braincase_model.stl",
+      "fileId": 71197,
+      "size": 7407784,
+      "digest": "045289669ab2f68d2f9b52018ff6537d",
+      "digestType": "md5"
+    }
+  ],
+  "structures": [
+    {
+      "id": "braincase",
+      "name": "Braincase",
+      "side": "none",
+      "sourceFilename": "Dysalotosaurus_braincase_model.stl"
+    }
+  ]
+}

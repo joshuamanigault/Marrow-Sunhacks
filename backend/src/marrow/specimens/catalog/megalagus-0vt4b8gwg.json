@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "id": "megalagus-0vt4b8gwg",
+    "scientificName": "Megalagus turgidus",
+    "commonLabel": "CT-derived endocast of an extinct rabbit relative",
+    "accession": "Not stated (Dryad 0vt4b8gwg, Megalagus)",
+    "institution": "Collection not specified in Dryad record",
+    "citation": {
+      "text": "Lucja Fostowicz-Frelik et al. (2020). Cranial endocast of the stem lagomorph Megalagus and brain structure of basal Euarchontoglires [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.0vt4b8gwg",
+      "datasetUrl": "https://doi.org/10.5061/dryad.0vt4b8gwg",
+      "articleDoi": "10.1098/rspb.2020.0665",
+      "articleUrl": "https://doi.org/10.1098/rspb.2020.0665"
+    },
+    "credits": [
+      "Lucja Fostowicz-Frelik",
+      "Sergi Lopez-Torres",
+      "Ornella Bertrand",
+      "Madlen Lang",
+      "Mary Silcox"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Units and anatomical axes have not been verified. This file is one surface mesh; it is not segmented into individual bones. This is a cast of the cranial cavity, not the external skull."
+    }
+  },
+  "rawDir": "data/raw/megalagus-0vt4b8gwg",
+  "sourceFiles": [
+    {
+      "filename": "Megalagus_endocast_downsampled.stl",
+      "fileId": 341892,
+      "size": 81058398,
+      "digest": "42ad26d20fa3e4cca0bce379f1f1f13479eb2ed3a9deb34cdb03ba96047a4983",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "endocast",
+      "name": "Brain endocast",
+      "side": "none",
+      "sourceFilename": "Megalagus_endocast_downsampled.stl"
+    }
+  ]
+}

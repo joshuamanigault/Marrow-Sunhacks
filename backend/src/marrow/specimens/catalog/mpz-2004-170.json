@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "id": "mpz-2004-170",
+    "scientificName": "Protocinctus mansillaensis",
+    "commonLabel": "CT-derived whole cinctan echinoderm",
+    "accession": "MPZ 2004/170",
+    "institution": "Collection not specified in Dryad record",
+    "citation": {
+      "text": "Imran A. Rahman et al. (2017). Data from: Applications of three-dimensional box modeling to paleontological functional analysis [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.v9b30",
+      "datasetUrl": "https://doi.org/10.5061/dryad.v9b30",
+      "articleDoi": "10.1017/scs.2017.11",
+      "articleUrl": "https://doi.org/10.1017/scs.2017.11"
+    },
+    "credits": [
+      "Imran A. Rahman",
+      "Stephan Lautenschlager"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Units and anatomical axes have not been verified. This file is one surface mesh; it is not segmented into individual bones."
+    }
+  },
+  "rawDir": "data/raw/mpz-2004-170",
+  "sourceFiles": [
+    {
+      "filename": "Supplemental_Data_6.stl",
+      "fileId": 17808,
+      "size": 5540184,
+      "digest": "ac6de4a556e012e59e012c2db8ca3f4a",
+      "digestType": "md5"
+    }
+  ],
+  "structures": [
+    {
+      "id": "body",
+      "name": "Body surface",
+      "side": "none",
+      "sourceFilename": "Supplemental_Data_6.stl"
+    }
+  ]
+}
