@@ -196,7 +196,7 @@ export function Bone({ specimenId, structure, color, explodeOrigin, onLoaded }: 
           label={structureLabel(structure)}
           active
           onSave={saveDraft}
-          onCancel={() => setPinning(false)}
+          onCancel={() => setPick(null)}
         />
       )}
     </group>

@@ -3,13 +3,13 @@ import type { PinObservation } from '../types/pins'
 import { addPin as persistAdd, loadPins, removePin as persistRemove } from './storage'
 
 /**
- * Shared pin list for the Observations panel and the 3D markers.
+ * Shared pin list for in-scene 3D markers.
  * Persistence stays in storage.ts; this only keeps React in sync.
  */
 interface PinsState {
   specimenId: string | null
   pins: PinObservation[]
-  /** Which pin's callout is expanded in the scene / highlighted in the list. */
+  /** Which pin's callout is expanded in the scene. */
   activeId: string | null
   hydrate(specimenId: string): void
   add(pin: PinObservation): void

@@ -107,12 +107,13 @@ export const useViewer = create<ViewerState>()((set) => ({
   ...initial,
   camera: null,
   // The selected structure is always visible: selecting shows it, hiding deselects it.
-  // A pick only belongs to the bone it was made on.
+  // While pinning, keep an unsaved draft pick even if selection moves (anatomy list /
+  // focus) so typed note text is not discarded without Cancel.
   select: (id) =>
     set((s) => ({
       selectedId: id,
       hiddenIds: id ? without(s.hiddenIds, id) : s.hiddenIds,
-      pick: s.pick && s.pick.structureId === id ? s.pick : null,
+      pick: s.pinning || (s.pick && s.pick.structureId === id) ? s.pick : null,
       ...followFocus(s, id),
     })),
   setVisible: (id, visible) =>
@@ -120,10 +121,12 @@ export const useViewer = create<ViewerState>()((set) => ({
       const deselect = !visible && s.selectedId === id
       // Hiding the focused bone exits focus the same way a second Focus press does.
       const unfocus = !visible && s.focusedId === id
+      // Hiding the bone under a draft clears that pick; stay in pin mode so another click works.
+      const clearPick = !visible && s.pick?.structureId === id
       return {
         hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
         selectedId: deselect ? null : s.selectedId,
-        pick: deselect ? null : s.pick,
+        pick: clearPick ? null : s.pick,
         focusedId: unfocus ? null : s.focusedId,
         ...(unfocus
           ? { mode: 'solid' as const, separation: 0, camera: { seq: ++seq, kind: 'reset' as const } }
@@ -139,7 +142,7 @@ export const useViewer = create<ViewerState>()((set) => ({
             focusedId: id,
             selectedId: id,
             hiddenIds: without(s.hiddenIds, id),
-            pick: s.pick && s.pick.structureId === id ? s.pick : null,
+            pick: s.pinning || (s.pick && s.pick.structureId === id) ? s.pick : null,
             mode: 'exploded',
             separation: s.mode === 'exploded' && s.separation ? s.separation : FOCUS_SEPARATION,
             camera: { seq: ++seq, kind: 'focus', id },

@@ -37,11 +37,11 @@
 
 | # | Do this | Pass when… |
 | --- | --- | --- |
-| 4.1 | Bottom dock → **Pin observation** | Observations panel opens |
-| 4.2 | Click a **Demo pick** | Selected bone + bone-space point show |
-| 4.3 | Type a note → **Save pin** | Pin appears in Saved pins |
-| 4.4 | Refresh the page (F5) or reopen the same URL | Same pin restores (this browser only) |
-| 4.5 | Optional: **Reset view** after pin | Note still listed; point still bone-space |
+| 4.1 | Bottom dock → **Pin observation** | Caption says “Click a bone to place a pin”; dock shows **Cancel pin** |
+| 4.2 | Click a bone on the specimen | Amber draft pin + floating note form appear on that bone |
+| 4.3 | Type a note → **Save** | Draft becomes a teal saved pin with the note callout |
+| 4.4 | Refresh the page (F5) or reopen the same URL | Same pin restores on the bone (this browser only) |
+| 4.5 | Optional: **Reset view** / explode → reassemble after pin | Pin stays on the same anatomical point |
 
 ---
 
@@ -58,7 +58,7 @@
 
 | # | Do this | Pass when… |
 | --- | --- | --- |
-| 6.1 | Observations with no pins (clear pins or use a private window first) | “No pins yet” plain-language empty state |
+| 6.1 | No pins yet (clear `localStorage` or use a private window) | No pin markers on the specimen; Pin observation still arms placement |
 | 6.2 | Stop the API (Ctrl+C in backend terminal), refresh workspace | Plain “server unavailable / could not load” message + Try again |
 | 6.3 | Start API again, click Try again | Specimen loads again |
 | 6.4 | If any structures are missing/unreadable | Mesh warning banner in Anatomy (no crash) |

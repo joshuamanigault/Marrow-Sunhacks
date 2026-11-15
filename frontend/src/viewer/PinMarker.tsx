@@ -52,7 +52,8 @@ export function PinMarker({
   const head = size * 0.38
   const color = draft ? DRAFT : SAVED
   const calloutY = tip + stem + head * 2.4
-  const showCallout = draft || Boolean(note)
+  // Active pins without a note (corrupt storage) still get a callout so Remove works.
+  const showCallout = draft || Boolean(note) || active
   const interactive = Boolean(onSelect || draft)
 
   function handleMeshClick(e: ThreeEvent<MouseEvent>) {
@@ -105,7 +106,7 @@ export function PinMarker({
           ) : (
             <SavedCallout
               label={label}
-              note={note!}
+              note={note ?? ''}
               active={active}
               onSelect={onSelect}
               onRemove={onRemove}
