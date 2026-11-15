@@ -143,14 +143,19 @@ def test_source_labels_do_not_make_unprepared_specimens_public(tmp_path: Path) -
     assert SpecimenStore(tmp_path).list_specimens() == []
     # A malformed discovery config fails before a manifest can be generated.
     with pytest.raises(ValueError, match="No source meshes"):
-        load_config("uamz-r636").model_copy(update={"structures": []}).structure_catalog(tmp_path)
+        load_config("uamz-r636").model_copy(
+            update={"structures": []}
+        ).structure_catalog(tmp_path)
+
 
 def test_nested_ply_archive_filters_metadata_and_converts(tmp_path: Path) -> None:
     archive = tmp_path / "source.zip"
     with zipfile.ZipFile(archive, "w") as bundle:
         mesh = trimesh.creation.box()
         mesh.apply_translation([7, 8, 9])
-        bundle.writestr("parts/Maxilla.PLY", mesh.export(file_type="ply"))
+        data = mesh.export(file_type="ply")
+        assert isinstance(data, bytes)
+        bundle.writestr("parts/Maxilla.PLY", data)
         for name in ("__MACOSX/parts/Maxilla.ply", "parts/._Maxilla.ply", ".DS_Store"):
             bundle.writestr(name, "metadata")
     raw = tmp_path / "raw"
@@ -160,6 +165,34 @@ def test_nested_ply_archive_filters_metadata_and_converts(tmp_path: Path) -> Non
     catalog = config.structure_catalog(raw)
     prep = script("prepare_specimen")
     assert prep.inventory_meshes(raw, catalog)[0]["triangleCount"] == 12
-    result = prep.convert_one(catalog["parts/Maxilla.PLY"], raw, tmp_path / "out",
-                              max_faces=80000, force=False)
+    result = prep.convert_one(
+        catalog["parts/Maxilla.PLY"],
+        raw,
+        tmp_path / "out",
+        max_faces=80000,
+        force=False,
+    )
     assert result["bounds"]["min"] == [6.5, 7.5, 8.5]
+
+
+@pytest.mark.parametrize("bundle", [False, True])
+def test_manual_download_import(tmp_path: Path, bundle: bool) -> None:
+    fetch = script("fetch_specimens")
+    data = b"verified mesh"
+    source = SourceFile(
+        filename="Test file.ply",
+        size=len(data),
+        fileId=2,
+        digest=hashlib.sha256(data).hexdigest(),
+        digestType="sha-256",
+    )
+    directory = tmp_path / "downloads"
+    directory.mkdir()
+    if bundle:
+        with zipfile.ZipFile(directory / "doi_10_5061_dryad_abc__v2025.zip", "w") as z:
+            z.writestr("nested/Test file.ply", data)
+    else:
+        (directory / "Test+file(1).ply").write_bytes(data)
+    target = tmp_path / source.filename
+    assert fetch.import_download(source, target, directory, "10.5061/dryad.abc")
+    assert target.read_bytes() == data

@@ -184,7 +184,9 @@ def inventory_meshes(
     catalog = STRUCTURE_CATALOG if catalog is None else catalog
     rows: list[dict[str, Any]] = []
     mesh_files = sorted(
-        p for p in raw_dir.rglob("*") if p.is_file() and is_source_mesh(p.relative_to(raw_dir))
+        p
+        for p in raw_dir.rglob("*")
+        if p.is_file() and is_source_mesh(p.relative_to(raw_dir))
     )
     known = set(catalog)
     found = {p.relative_to(raw_dir).as_posix() for p in mesh_files}

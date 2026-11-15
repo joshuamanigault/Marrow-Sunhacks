@@ -11,10 +11,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -25,8 +27,8 @@ from marrow.specimens.preparation import (  # noqa: E402
     REPO_ROOT,
     SourceFile,
     catalog_ids,
-    load_config,
     is_source_mesh,
+    load_config,
 )
 
 
@@ -67,16 +69,57 @@ def extract_meshes(archive: Path, raw_dir: Path) -> None:
                 shutil.copyfileobj(src, dst)
 
 
-def fetch_source(source: SourceFile, target: Path, downloads_dir: Path | None) -> None:
+def import_download(
+    source: SourceFile, target: Path, directory: Path, dataset_doi: str
+) -> bool:
+    """Import a published file or its named member in a Dryad dataset bundle."""
+    prefix = dataset_doi.replace(".", "_").replace("/", "_")
+    for path in sorted(directory.iterdir()):
+        if not path.is_file():
+            continue
+        name = urllib.parse.unquote_plus(path.name)
+        name = re.sub(r"\s*\(\d+\)(?=\.[^.]+$)", "", name)
+        if name == source.filename:
+            if not verify_source(path, source):
+                raise ValueError(f"Published checksum/size mismatch: {path}")
+            shutil.copyfile(path, target)
+            return True
+        if not path.name.startswith(f"doi_{prefix}__") or path.suffix != ".zip":
+            continue
+        with zipfile.ZipFile(path) as bundle:
+            matches = [
+                member
+                for member in bundle.infolist()
+                if Path(member.filename).name == source.filename
+                and "__MACOSX" not in Path(member.filename).parts
+            ]
+            if not matches:
+                continue
+            if len(matches) != 1 or matches[0].file_size != source.size:
+                raise ValueError(f"Ambiguous or wrong size: {path}!{source.filename}")
+            partial = target.with_suffix(target.suffix + ".part")
+            try:
+                with bundle.open(matches[0]) as src, partial.open("wb") as dst:
+                    shutil.copyfileobj(src, dst)
+                if not verify_source(partial, source):
+                    raise ValueError(
+                        f"Published checksum mismatch: {path}!{source.filename}"
+                    )
+                partial.replace(target)
+            finally:
+                partial.unlink(missing_ok=True)
+            return True
+    return False
+
+
+def fetch_source(
+    source: SourceFile, target: Path, downloads_dir: Path | None, dataset_doi: str
+) -> None:
     if verify_source(target, source):
         print(f"Verified existing {source.filename}", flush=True)
         return
     target.parent.mkdir(parents=True, exist_ok=True)
-    local = downloads_dir / source.filename if downloads_dir else None
-    if local and local.is_file():
-        if not verify_source(local, source):
-            raise ValueError(f"Published checksum/size mismatch: {local}")
-        shutil.copyfile(local, target)
+    if downloads_dir and import_download(source, target, downloads_dir, dataset_doi):
         return
     token = os.environ.get("DRYAD_API_TOKEN")
     url = (
@@ -119,7 +162,12 @@ def main() -> None:
             for source in config.sourceFiles:
                 print(f"{specimen_id}: fetching {source.filename}", flush=True)
                 target = REPO_ROOT / "data" / "downloads" / source.filename
-                fetch_source(source, target, args.downloads_dir)
+                fetch_source(
+                    source,
+                    target,
+                    args.downloads_dir,
+                    config.metadata.citation.datasetDoi,
+                )
                 if target.suffix.lower() == ".zip":
                     extract_meshes(target, config.raw_dir)
                 else:
