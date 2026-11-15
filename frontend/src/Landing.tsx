@@ -5,6 +5,7 @@ import './landing.css'
 
 // three.js is large, so the hero skull loads after the page text.
 const Skull = lazy(() => import('./Skull'))
+const SkullPreview = lazy(() => import('./Skull').then((m) => ({ default: m.SkullPreview })))
 
 /** The skull is decoration: if it fails (no WebGL, missing file), drop it, not the page. */
 class SkipOnError extends Component<{ children: ReactNode }, { failed: boolean }> {
@@ -228,6 +229,15 @@ export function Explore() {
           {catalog.map((entry) => (
             <li key={entry.id}>
               <Link className="mk-card" to={`/workspace/${entry.id}`}>
+                {/* ponytail: every card spins the curated skull; give each
+                    specimen its own preview mesh when the catalog grows. */}
+                <div className="mk-card-preview">
+                  <SkipOnError>
+                    <Suspense fallback={null}>
+                      <SkullPreview />
+                    </Suspense>
+                  </SkipOnError>
+                </div>
                 <span className="mk-tag">[ CT study ]</span>
                 <h2>
                   <i>{entry.scientificName}</i>

@@ -1,6 +1,13 @@
 import { Html, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, type CSSProperties, type RefObject } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from 'react'
 import * as THREE from 'three'
 
 // The real skull of YPM VP 41198: the 21 bones from the study's Appendix 2
@@ -257,20 +264,54 @@ function Bones({ progress }: { progress: RefObject<number> }) {
   )
 }
 
-export default function Skull({ progress }: { progress: RefObject<number> }) {
+/** Shared canvas: transparent, with a warm key light and a cold CT-blue rim light. */
+function Stage({ className, children }: { className: string; children: ReactNode }) {
   return (
     <Canvas
-      className="mk-skull"
+      className={className}
       camera={{ position: [0, 0.2, 7], fov: 35 }}
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true }}
       aria-hidden="true"
     >
       <hemisphereLight args={['#fff6e8', '#1a2328', 0.9]} />
-      {/* Warm key light from the front, cold CT-blue rim light from behind. */}
       <directionalLight position={[-3, 4, 5]} intensity={2.4} color="#fff1dc" />
       <directionalLight position={[4, 1, -5]} intensity={3.2} color="#a9d0e6" />
-      <Bones progress={progress} />
+      {children}
     </Canvas>
+  )
+}
+
+export default function Skull({ progress }: { progress: RefObject<number> }) {
+  return (
+    <Stage className="mk-skull">
+      <Bones progress={progress} />
+    </Stage>
+  )
+}
+
+/** The whole skull, assembled, turning slowly in the same side-profile tilt. */
+function Turntable() {
+  const group = useRef<THREE.Group>(null)
+  const { bones, scale } = useBones()
+  const still = useMemo(() => matchMedia('(prefers-reduced-motion: reduce)').matches, [])
+  useFrame((state) => {
+    group.current?.rotation.set(0, still ? 0 : state.clock.elapsedTime * 0.4, -0.6)
+  })
+  return (
+    <group ref={group} scale={scale * 1.55}>
+      {bones.map((b, i) => (
+        <mesh key={i} position={b.home} geometry={b.geometry} material={b.material} />
+      ))}
+    </group>
+  )
+}
+
+/** Spinning preview for catalog cards. */
+export function SkullPreview() {
+  return (
+    <Stage className="mk-card-skull">
+      <Turntable />
+    </Stage>
   )
 }
