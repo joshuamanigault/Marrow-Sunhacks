@@ -132,7 +132,7 @@ def test_extraction_rejects_traversal_before_writing(tmp_path: Path) -> None:
         bundle.writestr("good.stl", "valid")
         bundle.writestr("../escape.stl", "bad")
     with pytest.raises(ValueError, match="Unsafe"):
-        fetch.extract_stls(archive, tmp_path / "raw")
+        fetch.extract_meshes(archive, tmp_path / "raw")
     assert not (tmp_path / "raw" / "good.stl").exists()
     assert not (tmp_path / "escape.stl").exists()
 
@@ -142,5 +142,24 @@ def test_source_labels_do_not_make_unprepared_specimens_public(tmp_path: Path) -
     (tmp_path / "ivpp-v20378.json").write_text(config.model_dump_json())
     assert SpecimenStore(tmp_path).list_specimens() == []
     # A malformed discovery config fails before a manifest can be generated.
-    with pytest.raises(ValueError, match="No source STLs"):
+    with pytest.raises(ValueError, match="No source meshes"):
         load_config("uamz-r636").structure_catalog(tmp_path)
+
+def test_nested_ply_archive_filters_metadata_and_converts(tmp_path: Path) -> None:
+    archive = tmp_path / "source.zip"
+    with zipfile.ZipFile(archive, "w") as bundle:
+        mesh = trimesh.creation.box()
+        mesh.apply_translation([7, 8, 9])
+        bundle.writestr("parts/Maxilla.PLY", mesh.export(file_type="ply"))
+        for name in ("__MACOSX/parts/Maxilla.ply", "parts/._Maxilla.ply", ".DS_Store"):
+            bundle.writestr(name, "metadata")
+    raw = tmp_path / "raw"
+    script("fetch_specimens").extract_meshes(archive, raw)
+    assert [p.name for p in raw.rglob("*") if p.is_file()] == ["Maxilla.PLY"]
+    config = load_config("uamz-r636").model_copy(update={"structures": []})
+    catalog = config.structure_catalog(raw)
+    prep = script("prepare_specimen")
+    assert prep.inventory_meshes(raw, catalog)[0]["triangleCount"] == 12
+    result = prep.convert_one(catalog["parts/Maxilla.PLY"], raw, tmp_path / "out",
+                              max_faces=80000, force=False)
+    assert result["bounds"]["min"] == [6.5, 7.5, 8.5]

@@ -26,6 +26,7 @@ from marrow.specimens.preparation import (  # noqa: E402
     SourceFile,
     catalog_ids,
     load_config,
+    is_source_mesh,
 )
 
 
@@ -40,13 +41,13 @@ def verify_source(path: Path, source: SourceFile) -> bool:
     return digest.hexdigest() == source.digest
 
 
-def extract_stls(archive: Path, raw_dir: Path) -> None:
+def extract_meshes(archive: Path, raw_dir: Path) -> None:
     """Only extract mesh members; reject paths that escape the specimen folder."""
     root = raw_dir.resolve()
     with zipfile.ZipFile(archive) as bundle:
-        members = [m for m in bundle.infolist() if m.filename.lower().endswith(".stl")]
+        members = [m for m in bundle.infolist() if is_source_mesh(Path(m.filename))]
         if not members:
-            raise ValueError(f"No STL meshes in {archive.name}")
+            raise ValueError(f"No source meshes in {archive.name}")
         destinations: set[Path] = set()
         for member in members:
             destination = (root / member.filename).resolve()
@@ -120,7 +121,7 @@ def main() -> None:
                 target = REPO_ROOT / "data" / "downloads" / source.filename
                 fetch_source(source, target, args.downloads_dir)
                 if target.suffix.lower() == ".zip":
-                    extract_stls(target, config.raw_dir)
+                    extract_meshes(target, config.raw_dir)
                 else:
                     config.raw_dir.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(target, config.raw_dir / source.filename)
@@ -129,7 +130,7 @@ def main() -> None:
                 name for name in catalog if not (config.raw_dir / name).is_file()
             ]
             if missing:
-                raise ValueError(f"Source STLs missing: {', '.join(missing)}")
+                raise ValueError(f"Source meshes missing: {', '.join(missing)}")
             if args.prepare:
                 subprocess.run(
                     [

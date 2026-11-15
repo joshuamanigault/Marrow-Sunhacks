@@ -16,6 +16,12 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 SAFE_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
 
 
+def is_source_mesh(path: Path) -> bool:
+    return path.suffix.lower() in {".stl", ".ply"} and all(
+        part != "__MACOSX" and not part.startswith("._") for part in path.parts
+    )
+
+
 class SourceFile(BaseModel):
     filename: str
     fileId: int = Field(gt=0)
@@ -83,7 +89,7 @@ class PreparationConfig(BaseModel):
         catalog: dict[str, StructureDef] = {}
         ids: set[str] = set()
         for path in sorted(raw_dir.rglob("*")):
-            if not path.is_file() or path.suffix.lower() != ".stl":
+            if not path.is_file() or not is_source_mesh(path.relative_to(raw_dir)):
                 continue
             if not path.resolve().is_relative_to(raw_dir.resolve()):
                 raise ValueError("Source mesh resolves outside raw directory")
@@ -97,7 +103,7 @@ class PreparationConfig(BaseModel):
             filename = path.relative_to(raw_dir).as_posix()
             catalog[filename] = StructureDef(structure_id, label, "none", filename)
         if not catalog:
-            raise ValueError(f"No source STLs found in {raw_dir}")
+            raise ValueError(f"No source meshes found in {raw_dir}")
         return catalog
 
 

@@ -1,4 +1,4 @@
-"""Prepare a configured specimen from source STLs as browser-ready GLBs.
+"""Prepare a configured specimen from source meshes as browser-ready GLBs.
 
 Usage (from backend/):
 
@@ -33,6 +33,7 @@ if str(BACKEND_SRC) not in sys.path:
 
 from marrow.specimens.preparation import (  # noqa: E402
     PreparationConfig,
+    is_source_mesh,
     load_config,
 )
 from marrow.structures import (  # noqa: E402
@@ -69,7 +70,7 @@ def parse_args() -> argparse.Namespace:
         "--raw-dir",
         type=Path,
         default=None,
-        help="Directory containing source STL files",
+        help="Directory containing source STL or PLY files",
     )
     parser.add_argument(
         "--out-dir",
@@ -85,10 +86,10 @@ def parse_args() -> argparse.Namespace:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    inv = sub.add_parser("inventory", help="Read every STL and write inventory.json")
+    inv = sub.add_parser("inventory", help="Read every mesh and write inventory.json")
     inv.add_argument("--verify-archive", action="store_true")
 
-    conv = sub.add_parser("convert", help="Convert STLs to per-structure GLBs")
+    conv = sub.add_parser("convert", help="Convert meshes to per-structure GLBs")
     conv.add_argument("--limit", type=int, default=None)
     conv.add_argument("--ids", nargs="*", default=None, help="Only these structure ids")
     conv.add_argument("--max-faces", type=int, default=DEFAULT_MAX_FACES)
@@ -182,13 +183,13 @@ def inventory_meshes(
 ) -> list[dict[str, Any]]:
     catalog = STRUCTURE_CATALOG if catalog is None else catalog
     rows: list[dict[str, Any]] = []
-    stl_files = sorted(
-        p for p in raw_dir.rglob("*") if p.is_file() and p.suffix.lower() == ".stl"
+    mesh_files = sorted(
+        p for p in raw_dir.rglob("*") if p.is_file() and is_source_mesh(p.relative_to(raw_dir))
     )
     known = set(catalog)
-    found = {p.relative_to(raw_dir).as_posix() for p in stl_files}
+    found = {p.relative_to(raw_dir).as_posix() for p in mesh_files}
 
-    for path in stl_files:
+    for path in mesh_files:
         filename = path.relative_to(raw_dir).as_posix()
         entry = catalog.get(filename)
         row: dict[str, Any] = {
@@ -298,7 +299,7 @@ def convert_one(
             "id": entry.id,
             "status": "missing",
             "meshFile": None,
-            "error": "source STL missing",
+            "error": "source mesh missing",
         }
 
     try:
