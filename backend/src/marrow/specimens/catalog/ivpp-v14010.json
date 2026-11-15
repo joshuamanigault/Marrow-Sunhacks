@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "id": "ivpp-v14010",
+    "scientificName": "Junggarsuchus sloani",
+    "commonLabel": "Crocodylomorph skull",
+    "accession": "IVPP V14010",
+    "institution": "Institute of Vertebrate Paleontology and Paleoanthropology",
+    "citation": {
+      "text": "James Clark et al. (2022). Anatomy and relationships of the basal Crocodylomorphs Junggarsuchus sloani and Dibothrosuchus elaphros [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.5hqbzkh5k",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.5hqbzkh5k",
+      "articleDoi": "10.1002/ar.24949",
+      "articleUrl": "https://doi.org/10.1002/ar.24949"
+    },
+    "credits": [
+      "James Clark",
+      "Alexander Ruebenstahl"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/ivpp-v14010",
+  "sourceFiles": [
+    {
+      "filename": "Junggarsuchus_stl_files.zip",
+      "fileId": 1708504,
+      "size": 831085014,
+      "digest": "03f2c35534cee1bafd7799dfaf41dfd322461d9f61531eb00244048737440a68",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [],
+  "discoverStructures": true
+}
