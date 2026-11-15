@@ -1,5 +1,5 @@
 import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Icon } from './workspace/Workspace'
 import { fetchSpecimens, type SpecimenListItem } from './workspace/specimen'
 import './landing.css'
@@ -45,6 +45,10 @@ function Arrow() {
 }
 
 function Page(props: { title: string; children: ReactNode }) {
+  const { pathname } = useLocation()
+  // Already on the catalog — the CTA would only send you here again.
+  const showBrowseCta = pathname !== '/explore'
+
   return (
     <div className="mk">
       <title>{props.title}</title>
@@ -63,10 +67,12 @@ function Page(props: { title: string; children: ReactNode }) {
           <NavLink to="/explore">Explore</NavLink>
           <NavLink to="/upload">Upload</NavLink>
         </nav>
-        <Link className="mk-btn mk-btn-light mk-nav-cta" to="/explore">
-          Browse specimens
-          <Arrow />
-        </Link>
+        {showBrowseCta && (
+          <Link className="mk-btn mk-btn-light mk-nav-cta" to="/explore">
+            Browse specimens
+            <Arrow />
+          </Link>
+        )}
       </header>
       {props.children}
     </div>
