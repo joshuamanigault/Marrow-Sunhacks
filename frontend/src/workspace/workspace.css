@@ -568,3 +568,15 @@
     min-height: 44px;
   }
 }
+
+.ws-mesh-error {
+  position: absolute;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 75%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.5rem;
+  background: #fff6e4;
+  color: #58360c;
+}
