@@ -80,11 +80,79 @@ const stats = [
   { value: '0', unit: 'installs', label: 'Runs in the browser' },
 ]
 
+/** One visit path: the demo outcomes a judge can verify in a few minutes. */
+const visitSteps = [
+  {
+    n: '01',
+    title: 'Open a real specimen',
+    body: 'Animal, museum accession and citation load with the mesh. Missing or unreadable parts are named, never replaced with illustrations.',
+  },
+  {
+    n: '02',
+    title: 'Inspect a named bone',
+    body: 'Rotate, select and hide structures. Solid, X-ray and exploded views let you look past overlap without leaving the browser.',
+  },
+  {
+    n: '03',
+    title: 'Pin what you notice',
+    body: 'Drop a note on a bone. It stays on the same anatomical point through reassembly, and comes back when you reopen the specimen here.',
+  },
+]
+
+const trustPoints = [
+  {
+    title: 'Published evidence',
+    body: 'Meshes come from open Dryad deposits tied to museum accessions, with researcher credits and reuse terms on every specimen.',
+  },
+  {
+    title: 'Honest inventory',
+    body: 'If a structure is missing or unreadable in the prepared set, Marrow says so. We do not invent anatomy to fill a gap.',
+  },
+  {
+    title: 'No install, no account',
+    body: 'Open a specimen in the browser, explore, pin observations locally. The workspace is usable without sign-in or specialist software.',
+  },
+]
+
 function Arrow() {
   return (
     <span className="mk-arrow">
       <Icon name="arrow" />
     </span>
+  )
+}
+
+/** Plays the section stagger once the block nears the viewport. */
+function Reveal({
+  children,
+  className,
+  id,
+  'aria-labelledby': labelledBy,
+}: {
+  children: ReactNode
+  className?: string
+  id?: string
+  'aria-labelledby'?: string
+}) {
+  const ref = useRef<HTMLSectionElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        el.setAttribute('data-in', '')
+        io.disconnect()
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <section ref={ref} className={className} id={id} aria-labelledby={labelledBy}>
+      {children}
+    </section>
   )
 }
 
@@ -218,31 +286,91 @@ export function Landing() {
           </ul>
         </section>
 
-        <section className="mk-about" id="about">
-          <p className="mk-kicker">More about Marrow</p>
-          <div className="mk-about-grid">
+        <Reveal className="mk-why" id="about">
+          <p className="mk-kicker">Why Marrow</p>
+          <div className="mk-why-grid">
             <h2 className="mk-statement">
-              A collection to explore. A new perspective on every specimen.
+              Published CT anatomy rarely leaves the archive.
+              <span className="mk-dim"> Marrow puts a curated specimen in your hands.</span>
             </h2>
-            <p className="mk-small">
-              Explore fossils and living animals through 3D anatomy from open research.
-              Choose a specimen, inspect its available structures, hide what is in the way,
-              then return to the collection and discover another. Each study keeps its
-              specimen identity, researcher credits and source citation.
+            <p className="mk-why-lead">
+              Micro-CT studies deposit named skull elements on Dryad, but students and
+              museum visitors still need specialist software to open them. Marrow is a
+              browser workspace for those prepared meshes: identity first, parts you can
+              inspect, and a clear path back to the study they came from.
             </p>
-            <dl className="mk-stats">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <dt>{s.label}</dt>
-                  <dd>
-                    {s.value}
-                    <sup>[{s.unit}]</sup>
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
-        </section>
+        </Reveal>
+
+        <Reveal className="mk-visit" aria-labelledby="mk-visit-title">
+          <div className="mk-visit-head">
+            <p className="mk-kicker">A visit in three moves</p>
+            <h2 id="mk-visit-title" className="mk-section-title">
+              What you can prove in a few minutes
+            </h2>
+            <p className="mk-section-lead">
+              Built for a short demo: open evidence, inspect a bone, leave a note you can
+              return to. No upload, no account, nothing to install.
+            </p>
+          </div>
+          <ol className="mk-steps">
+            {visitSteps.map((step) => (
+              <li key={step.n}>
+                <span className="mk-step-n" aria-hidden="true">{step.n}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+
+        <Reveal className="mk-trust" aria-labelledby="mk-trust-title">
+          <div className="mk-trust-head">
+            <p className="mk-kicker">Built on evidence</p>
+            <h2 id="mk-trust-title" className="mk-section-title">
+              Designed so the fossil stays the source of truth
+            </h2>
+          </div>
+          <ul className="mk-trust-list">
+            {trustPoints.map((point) => (
+              <li key={point.title}>
+                <h3>{point.title}</h3>
+                <p>{point.body}</p>
+              </li>
+            ))}
+          </ul>
+          <dl className="mk-stats">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <dt>{s.label}</dt>
+                <dd>
+                  {s.value}
+                  <sup>[{s.unit}]</sup>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+
+        <Reveal className="mk-close" aria-labelledby="mk-close-title">
+          <p className="mk-kicker">Start here</p>
+          <h2 id="mk-close-title" className="mk-statement">
+            Open the featured skull, or browse the collection.
+          </h2>
+          <p className="mk-section-lead">
+            Featured: <i>{featured.scientificName}</i> · {featured.accession} ·{' '}
+            {featured.institution}. Source {featured.source}.
+          </p>
+          <div className="mk-actions">
+            <Link className="mk-btn mk-btn-light" to={`/workspace/${featured.id}`}>
+              Open featured specimen
+              <Arrow />
+            </Link>
+            <Link className="mk-btn mk-btn-dark" to="/explore">
+              Browse specimens
+            </Link>
+          </div>
+        </Reveal>
       </main>
 
       <footer className="mk-footer">
