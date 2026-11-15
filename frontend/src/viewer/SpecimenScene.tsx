@@ -6,6 +6,8 @@ import { Bone } from './Bone'
 import { CameraRig } from './CameraRig'
 import { boneColor, explodeOrigin, specimenBox } from './layout'
 import { useViewer } from '../workspace/viewer'
+import { HandControl } from '../hands/HandControl'
+import { HandPointer } from '../hands/HandPointer'
 
 const UP = new Vector3()
 const RIGHT = new Vector3()
@@ -56,27 +58,31 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
   const origin = useMemo(() => explodeOrigin(specimen, focusedId, center), [specimen, focusedId, center])
 
   return (
-    <Canvas
-      dpr={[1, 2]}
-      camera={{ fov: 35 }}
-      aria-label="3D specimen. Drag to rotate, scroll to zoom, click a bone to select it."
-    >
-      <hemisphereLight args={['#ffffff', '#8a7a62', 0.9]} />
-      <KeyLight center={center} radius={radius} />
-      {specimen.structures.map((s) =>
-        s.status === 'ok' && s.meshUrl ? (
-          <MeshBoundary key={s.id} structure={s}>
-            <Suspense fallback={null}>
-              <Bone
-                structure={s}
-                color={boneColor(s) ?? new Color(NATURAL_BONE)}
-                explodeOrigin={origin}
-              />
-            </Suspense>
-          </MeshBoundary>
-        ) : null,
-      )}
-      <CameraRig specimen={specimen} box={box} center={center} />
-    </Canvas>
+    <>
+      <Canvas
+        dpr={[1, 2]}
+        camera={{ fov: 35 }}
+        aria-label="3D specimen. Drag to rotate, scroll to zoom, click a bone to select it."
+      >
+        <hemisphereLight args={['#ffffff', '#8a7a62', 0.9]} />
+        <KeyLight center={center} radius={radius} />
+        {specimen.structures.map((s) =>
+          s.status === 'ok' && s.meshUrl ? (
+            <MeshBoundary key={s.id} structure={s}>
+              <Suspense fallback={null}>
+                <Bone
+                  structure={s}
+                  color={boneColor(s) ?? new Color(NATURAL_BONE)}
+                  explodeOrigin={origin}
+                />
+              </Suspense>
+            </MeshBoundary>
+          ) : null,
+        )}
+        <CameraRig specimen={specimen} box={box} center={center} />
+        <HandPointer />
+      </Canvas>
+      <HandControl specimen={specimen} />
+    </>
   )
 }

@@ -1,9 +1,11 @@
 import { CameraControls } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { PerspectiveCamera, Sphere, Vector3, type Box3 } from 'three'
 import type { Specimen } from '../workspace/specimen'
 import { useViewer } from '../workspace/viewer'
 import { explodeOffset, explodeOrigin, structureBox } from './layout'
+import { takeRotation } from '../hands/store'
 
 // fitToSphere keeps the current viewing angle (fitToBox snaps to the nearest axis).
 const fitTarget = (box: Box3) => box.getBoundingSphere(new Sphere())
@@ -70,6 +72,12 @@ export function CameraRig({ specimen, box, center }: CameraRigProps) {
       }),
     [specimen, center, box],
   )
+
+  // Pinch-and-move from hand control turns the camera a little every frame.
+  useFrame(() => {
+    const turn = takeRotation()
+    if (turn) void controls.current?.rotate(turn.azimuth, turn.polar, false)
+  })
 
   return <CameraControls ref={controls} makeDefault />
 }

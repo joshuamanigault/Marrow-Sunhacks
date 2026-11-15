@@ -1,0 +1,118 @@
+/* Hand control overlay. Sits inside .ws-scene, over the canvas. */
+
+.hc {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hc-toggle,
+.hc-panel {
+  pointer-events: auto;
+}
+
+.ws .hc-toggle {
+  position: absolute;
+  top: 70px;
+  right: 16px;
+  gap: 6px;
+  padding: 7px 11px;
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 5px 16px -8px var(--shadow);
+}
+
+.ws .hc-toggle[aria-pressed='true'],
+.ws .hc-toggle[aria-pressed='true']:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.hc-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hc-panel {
+  position: absolute;
+  top: 112px;
+  right: 16px;
+  width: 200px;
+  padding: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 5px 16px -8px var(--shadow);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.hc-panel[hidden] {
+  display: none;
+}
+
+.hc-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #0d1418;
+  /* Mirrored, like a selfie, so moving right moves the cursor right. */
+  transform: scaleX(-1);
+}
+
+.hc-hint {
+  margin: 6px 2px 0;
+  color: var(--ink);
+}
+
+.hc-error {
+  margin: 6px 2px 0;
+  color: #c0392b;
+}
+
+.hc-help {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
+.hc-cursor {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: conic-gradient(var(--accent) calc(var(--dwell, 0) * 360deg), transparent 0);
+  opacity: 0.85;
+  transition: left 40ms linear, top 40ms linear;
+}
+
+.hc-cursor[data-hover] {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+@media (max-width: 720px) {
+  .ws .hc-toggle {
+    top: auto;
+    bottom: 8px;
+    right: 8px;
+  }
+  .hc-panel {
+    top: auto;
+    bottom: 48px;
+    right: 8px;
+    width: 150px;
+  }
+}
