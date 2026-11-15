@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { StatusBanner } from '../components/StatusBanner'
 import { STATUS_COPY } from '../statusCopy'
+import { usePins } from '../pins/store'
+import type { PinObservation } from '../types/pins'
 import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
 import AskPanel from '../ai/AskPanel'
@@ -69,11 +71,12 @@ export function Icon({ name }: { name: keyof typeof icons }) {
   )
 }
 
-type PanelId = 'info' | 'anatomy' | 'ask'
+type PanelId = 'info' | 'anatomy' | 'pins' | 'ask'
 
 const tools: { id: PanelId; label: string; icon: keyof typeof icons }[] = [
   { id: 'info', label: 'Specimen information', icon: 'info' },
   { id: 'anatomy', label: 'Anatomy and display', icon: 'sliders' },
+  { id: 'pins', label: 'Observations', icon: 'pin' },
 ]
 
 // Shown only when the server has a Gemini key (spec §4: viewer works without AI).
@@ -243,6 +246,90 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
   )
 }
 
+/** Truncate note text for the list preview without inventing content. */
+function notePreview(note: string, max = 72): string {
+  const trimmed = note.trim()
+  if (trimmed.length <= max) return trimmed
+  return `${trimmed.slice(0, max - 1)}…`
+}
+
+/**
+ * List of local pin observations for this specimen (spec §3.1 rail panel).
+ * Focus opens the in-scene callout and frames the bone; Remove matches markers.
+ */
+function PinsPanel({ specimenId }: { specimenId: string }) {
+  const v = useViewer()
+  const pins = usePins((s) => s.pins)
+  const activeId = usePins((s) => s.activeId)
+  const setActive = usePins((s) => s.setActive)
+  const remove = usePins((s) => s.remove)
+  const specimenPins = pins.filter((p) => p.specimenId === specimenId)
+  const count = specimenPins.length
+
+  function openPin(pin: PinObservation) {
+    setActive(pin.id)
+    v.focus(pin.structureId)
+  }
+
+  return (
+    <section aria-labelledby="ws-pins-title">
+      <h2 id="ws-pins-title">
+        Observations{count > 0 ? ` (${count})` : ''}
+      </h2>
+      {v.pinning && (
+        <p className="ws-subtle ws-pins-hint">
+          Placement is armed — click a bone on the specimen, then save your note.
+        </p>
+      )}
+      {count === 0 ? (
+        <p className="ws-subtle">
+          No observations yet. Use Pin observation in the dock, then click a bone.
+        </p>
+      ) : (
+        <ul className="ws-pins" aria-label="Saved observations">
+          {specimenPins.map((pin) => {
+            const selected = activeId === pin.id
+            const preview = notePreview(pin.note)
+            return (
+              <li key={pin.id} data-selected={selected || undefined}>
+                <button
+                  type="button"
+                  className="ws-pin-open"
+                  aria-pressed={selected}
+                  aria-label={`Open observation on ${pin.structureLabel}: ${preview}`}
+                  onClick={() => openPin(pin)}
+                >
+                  <span className="ws-name">{pin.structureLabel}</span>
+                  <span className="ws-pin-note">{preview}</span>
+                </button>
+                <button
+                  type="button"
+                  className="ws-focus"
+                  aria-label={`Focus ${pin.structureLabel}`}
+                  aria-pressed={v.focusedId === pin.structureId && selected}
+                  title="Focus: frame the bone and open this observation"
+                  onClick={() => openPin(pin)}
+                >
+                  <Icon name="focus" />
+                </button>
+                <button
+                  type="button"
+                  className="ws-pin-remove"
+                  aria-label={`Remove observation on ${pin.structureLabel}`}
+                  title="Remove observation"
+                  onClick={() => remove(specimenId, pin.id)}
+                >
+                  Remove
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </section>
+  )
+}
+
 interface WorkspaceProps {
   specimen: Specimen
   /** The 3D canvas (Ananya). Fills the whole workspace behind the chrome. */
@@ -253,6 +340,9 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
   const v = useViewer()
   const aiEnabled = useAiEnabled()
+  const pinCount = usePins((s) =>
+    s.pins.filter((p) => p.specimenId === specimen.id).length,
+  )
   const railTools = aiEnabled ? [...tools, askTool] : tools
   const selected = specimen.structures.find((s) => s.id === v.selectedId)
   const hiddenCount = Object.keys(v.hiddenIds).length
@@ -306,19 +396,28 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
       </header>
 
       <nav className="ws-rail ws-float" aria-label="Workspace tools">
-        {railTools.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            aria-label={t.label}
-            title={t.label}
-            aria-expanded={panel === t.id}
-            aria-controls="ws-panel"
-            onClick={() => setActivePanel(panel === t.id ? null : t.id)}
-          >
-            <Icon name={t.icon} />
-          </button>
-        ))}
+        {railTools.map((t) => {
+          const label =
+            t.id === 'pins' && pinCount > 0 ? `${t.label} (${pinCount})` : t.label
+          return (
+            <button
+              key={t.id}
+              type="button"
+              aria-label={label}
+              title={label}
+              aria-expanded={panel === t.id}
+              aria-controls="ws-panel"
+              onClick={() => setActivePanel(panel === t.id ? null : t.id)}
+            >
+              <Icon name={t.icon} />
+              {t.id === 'pins' && pinCount > 0 && (
+                <span className="ws-rail-count" aria-hidden="true">
+                  {pinCount > 9 ? '9+' : pinCount}
+                </span>
+              )}
+            </button>
+          )
+        })}
       </nav>
 
       <main className="ws-stage" aria-label="Specimen view">
@@ -385,6 +484,7 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
             </>
           )}
           {panel === 'info' && <InfoPanel specimen={specimen} />}
+          {panel === 'pins' && <PinsPanel specimenId={specimen.id} />}
           {panel === 'ask' && aiEnabled && <AskPanel specimen={specimen} />}
         </aside>
       )}
