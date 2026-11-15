@@ -697,7 +697,8 @@
     inset: 0;
   }
 
-  .ws-caption {
+  .ws-caption,
+  .ws:has(.ws-tip) .ws-caption {
     bottom: 5px;
     left: 5px;
     transform: none;
