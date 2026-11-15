@@ -62,8 +62,6 @@ docs/              Spec, roadmap, demo script, API contracts, setup guides
 
 ## Architecture
 
-Browser SPA, FastAPI specimen API, offline evidence prep, and AWS edge hosting (CloudFront, S3, Lambda):
-
 <p align="center">
   <img src="docs/marrow-architecture.png" alt="Marrow architecture diagram" width="900" />
 </p>
