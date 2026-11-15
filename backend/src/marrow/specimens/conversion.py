@@ -1,8 +1,9 @@
 """Shared mesh conversion for prepared specimens and user uploads."""
+
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import trimesh
@@ -16,6 +17,8 @@ def load_mesh(path: Path) -> trimesh.Trimesh:
         raise ValueError(f"Expected Trimesh, got {type(loaded)}")
     if len(loaded.faces) == 0 or len(loaded.vertices) == 0:
         raise ValueError("Empty mesh")
+    if not np.isfinite(loaded.vertices).all():
+        raise ValueError("Mesh contains non-finite coordinates")
     return loaded
 
 
@@ -84,9 +87,14 @@ def preserve_small_fragments(
     mask = np.isin(face_labels, keep)
     if not mask.any():
         return simplified
-    fragments, main = source.submesh([mask, ~mask], repair=False)
+    fragments, main = cast(
+        list[trimesh.Trimesh], source.submesh([mask, ~mask], repair=False)
+    )
     reduced = simplify_to_budget(main, max_faces - len(fragments.faces))
-    return trimesh.util.concatenate([reduced, fragments])
+    combined = trimesh.util.concatenate([reduced, fragments])
+    if not isinstance(combined, trimesh.Trimesh):
+        raise ValueError("Expected triangle mesh after combining fragments")
+    return combined
 
 
 def convert_one(
@@ -199,5 +207,3 @@ def convert_one(
             "sourceFilename": entry.source_filename,
             "error": str(exc),
         }
-
-
