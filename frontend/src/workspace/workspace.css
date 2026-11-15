@@ -173,6 +173,11 @@
   pointer-events: none;
 }
 
+/* Leave room for the tip strip above the dock when it is visible. */
+.ws:has(.ws-tip) .ws-caption {
+  bottom: 128px;
+}
+
 .ws-caption span:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -551,14 +556,27 @@
   text-decoration: none;
 }
 
-/* Bottom dock */
+/* Bottom dock + first-open tip stack (tip sits above dock, not over fossil) */
 
-.ws-dock {
+.ws-dock-stack {
   position: absolute;
   bottom: 20px;
   left: calc(50% + var(--inset) / 2);
   transform: translateX(-50%);
   z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: min(420px, calc(100% - var(--inset) - 24px));
+  pointer-events: none;
+}
+
+.ws-dock-stack > * {
+  pointer-events: auto;
+}
+
+.ws-dock {
   display: flex;
   gap: 3px;
   padding: 5px;
@@ -573,6 +591,64 @@
 .ws-dock svg {
   width: 15px;
   height: 15px;
+}
+
+/* Slim coaching strip — quiet chrome, not a status/error card */
+.ws-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 8px 7px 12px;
+  animation: ws-tip-in 220ms ease-out;
+}
+
+.ws-tip-text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.ws-tip-primary {
+  display: block;
+  font-weight: 600;
+}
+
+.ws-tip-secondary {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.ws .ws-tip-dismiss {
+  flex-shrink: 0;
+  align-self: center;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  border-radius: 6px;
+}
+
+@keyframes ws-tip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-tip {
+    animation: none;
+  }
 }
 
 /* Narrow: everything stacks in DOM order — header, rail, specimen, dock,
@@ -591,9 +667,14 @@
   .ws-case,
   .ws-rail,
   .ws-panel,
-  .ws-dock {
+  .ws-dock-stack {
     position: static;
     transform: none;
+  }
+
+  .ws-dock-stack {
+    max-width: none;
+    align-self: stretch;
   }
 
   .ws-case {
@@ -616,7 +697,8 @@
     inset: 0;
   }
 
-  .ws-caption {
+  .ws-caption,
+  .ws:has(.ws-tip) .ws-caption {
     bottom: 5px;
     left: 5px;
     transform: none;
