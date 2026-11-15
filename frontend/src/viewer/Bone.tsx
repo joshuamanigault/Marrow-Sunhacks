@@ -4,11 +4,14 @@ import { useEffect, useMemo, useRef } from 'react'
 import { Mesh, type BufferGeometry, type Color, type Group, type Vector3 } from 'three'
 import { apiUrl, NATURAL_BONE, type Structure } from '../workspace/specimen'
 import { useViewer } from '../workspace/viewer'
+import { useHands } from '../hands/store'
 import { explodeOffset } from './layout'
 
 /** Natural bone tone when "Color by structure" is off or structure.color is null. */
 const BONE = NATURAL_BONE
 const HIGHLIGHT = '#1f5673'
+/** Glow for the bone under the hand-control cursor. */
+const HAND_HOVER = '#f2a623'
 /** Pointer travel (px) above which a press counts as a drag, not a click. */
 const CLICK_SLOP = 4
 /** How fast bones glide to their explode position (higher = snappier). */
@@ -55,6 +58,7 @@ export function Bone({ structure, color, explodeOrigin }: BoneProps) {
   const separation = useViewer((s) => s.separation)
   const colorByStructure = useViewer((s) => s.colorByStructure)
   const setPick = useViewer((s) => s.setPick)
+  const handHover = useHands((s) => s.hoverId === id)
 
   const target = useMemo(
     () => explodeOffset(structure, explodeOrigin, separation),
@@ -112,8 +116,8 @@ export function Bone({ structure, color, explodeOrigin }: BoneProps) {
           color={colorByStructure ? color : BONE}
           roughness={0.8}
           metalness={0}
-          emissive={selected ? HIGHLIGHT : '#000000'}
-          emissiveIntensity={selected ? 0.35 : 0}
+          emissive={handHover ? HAND_HOVER : selected ? HIGHLIGHT : '#000000'}
+          emissiveIntensity={handHover ? 0.45 : selected ? 0.35 : 0}
           // X-ray is a rendering style, not a radiograph (spec §2).
           transparent
           opacity={faded ? FADED : xray && !focusing ? 0.9 : 1}
