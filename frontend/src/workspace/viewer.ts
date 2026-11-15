@@ -49,6 +49,8 @@ export interface ViewerState {
   setMode(mode: DisplayMode): void
   setSeparation(value: number): void
   setColorByStructure(on: boolean): void
+  /** Scene (Ananya) or demo UI sets the bone-space pick for pins. */
+  setPick(pick: { structureId: string; point: [number, number, number] } | null): void
   rotateBy(radians: number): void
   reset(): void
   /** Scene only: a click landed on a bone. Selects it and records the point. */

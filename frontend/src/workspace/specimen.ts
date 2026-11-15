@@ -17,6 +17,11 @@ export interface Structure {
   color: string | null
   /** Path on the API host; pass through apiUrl(). Only set when status is 'ok'. */
   meshUrl?: string | null
+  /**
+   * Stable #rrggbb from Joshua’s API (derived from structure id).
+   * Prefer this over client-invented hues for swatches / color-by-structure.
+   */
+  color?: string | null
   triangleCount?: number | null
   /** In source STL space, like the mesh vertices. */
   bounds?: { min: number[]; max: number[] } | null

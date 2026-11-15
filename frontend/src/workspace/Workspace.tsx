@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { ObservationsPanel } from '../components/ObservationsPanel'
+import { StatusBanner } from '../components/StatusBanner'
+import { STATUS_COPY } from '../statusCopy'
 import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
 import './workspace.css'
@@ -182,6 +185,15 @@ function AnatomyPanel({ specimen }: { specimen: Specimen }) {
   )
 }
 
+/** Grounded blurb from published study language (Alexandra task 2) — no invented bones. */
+function lookingAtBlurb(specimen: Specimen): string {
+  const ready = specimen.structures.filter((s) => s.status === 'ok').length
+  const blocked = specimen.structures.filter(
+    (s) => s.status === 'missing' || s.status === 'unreadable',
+  ).length
+  return `You are looking at prepared 3D surfaces of skull elements from the published micro-CT study of ${specimen.accession}. ${ready} part(s) are ready to display; ${blocked} are missing or unreadable in the prepared inventory. Marrow shows researcher-prepared meshes — not an artist reconstruction.`
+}
+
 function InfoPanel({ specimen }: { specimen: Specimen }) {
   return (
     <section aria-labelledby="ws-info-title">
@@ -189,6 +201,7 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
       <h3>
         <i>{specimen.scientificName}</i>
       </h3>
+      {specimen.commonLabel && <p className="ws-subtle">{specimen.commonLabel}</p>}
       <dl className="ws-meta">
         <dt>Specimen</dt>
         <dd>{specimen.accession}</dd>
@@ -202,8 +215,15 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dd>{specimen.credits.join(', ')}</dd>
         <dt>Citation</dt>
         <dd>{specimen.citation.text}</dd>
+        {specimen.reuseTerms.notes && (
+          <>
+            <dt>Reuse</dt>
+            <dd>{specimen.reuseTerms.notes}</dd>
+          </>
+        )}
       </dl>
-      {/* SLOT (Alexandra): "what you're looking at" blurb grounded in the study. */}
+      {/* Alexandra task 2: grounded “what you’re looking at” blurb */}
+      <p className="ws-subtle">{lookingAtBlurb(specimen)}</p>
       <a className="ws-source" href={specimen.citation.datasetUrl} target="_blank" rel="noreferrer">
         View source dataset <Icon name="external" />
       </a>
@@ -215,18 +235,17 @@ interface WorkspaceProps {
   specimen: Specimen
   /** The 3D canvas (Ananya). Fills the whole workspace behind the chrome. */
   scene: ReactNode
-  /**
-   * Starts the pin flow (Alexandra). The dock button is disabled without it.
-   * The picked bone and bone-space point are in `useViewer.getState().pick`.
-   */
-  onPin?: () => void
 }
 
-export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
+export default function Workspace({ specimen, scene }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
   const v = useViewer()
   const selected = specimen.structures.find((s) => s.id === v.selectedId)
   const hiddenCount = Object.keys(v.hiddenIds).length
+  const problemCount = specimen.structures.filter(
+    (s) => s.status === 'missing' || s.status === 'unreadable',
+  ).length
+  const readyCount = specimen.structures.filter((s) => s.status === 'ok').length
   const caption = selected
     ? structureLabel(selected)
     : hiddenCount
@@ -240,6 +259,12 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
   useEffect(() => {
     if (openedByUser.current && panel) panelRef.current?.focus()
   }, [panel])
+
+  /** Dock “Pin observation” opens the notes panel (Alexandra task 4). */
+  function openPinPanel() {
+    openedByUser.current = true
+    setPanel('notes')
+  }
 
   return (
     <div className="ws" data-panel={panel ?? undefined}>
@@ -306,12 +331,7 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
           <Icon name="home" />
           Reset view
         </button>
-        <button
-          type="button"
-          disabled={!onPin}
-          title={onPin ? undefined : 'Pinning arrives with observations'}
-          onClick={onPin}
-        >
+        <button type="button" onClick={openPinPanel}>
           <Icon name="pin" />
           Pin observation
         </button>
@@ -320,15 +340,24 @@ export default function Workspace({ specimen, scene, onPin }: WorkspaceProps) {
       {/* Last in the DOM so tab order matches the narrow layout. */}
       {panel && (
         <aside className="ws-panel ws-float" id="ws-panel" tabIndex={-1} ref={panelRef}>
-          {panel === 'anatomy' && <AnatomyPanel specimen={specimen} />}
-          {panel === 'info' && <InfoPanel specimen={specimen} />}
-          {panel === 'notes' && (
-            <section aria-labelledby="ws-notes-title">
-              <h2 id="ws-notes-title">Observations</h2>
-              {/* SLOT (Alexandra): pinned-observation list. */}
-              <p className="ws-subtle">Pinned observations will appear here.</p>
-            </section>
+          {panel === 'anatomy' && (
+            <>
+              {/* Alexandra task 3/6: honest mesh status summary (list already badges rows) */}
+              {problemCount > 0 && (
+                <StatusBanner kind="warning" title={STATUS_COPY.meshFailTitle}>
+                  {STATUS_COPY.meshFailBody}
+                </StatusBanner>
+              )}
+              {readyCount === 0 && specimen.structures.length > 0 && (
+                <StatusBanner kind="warning" title={STATUS_COPY.meshNoneTitle}>
+                  {STATUS_COPY.meshNoneBody}
+                </StatusBanner>
+              )}
+              <AnatomyPanel specimen={specimen} />
+            </>
           )}
+          {panel === 'info' && <InfoPanel specimen={specimen} />}
+          {panel === 'notes' && <ObservationsPanel specimen={specimen} />}
         </aside>
       )}
     </div>
