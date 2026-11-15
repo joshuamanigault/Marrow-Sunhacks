@@ -57,11 +57,11 @@ Use this click order for a live demo. Each block is one §2 row.
 | Step | Click / look | Pass when… |
 | --- | --- | --- |
 | 14 | Optional: Exploded mode | Pin while separated |
-| 15 | **Pin observation** (dock) or Observations panel | Notes panel opens |
-| 16 | Demo pick (or 3D pick) + note → **Save pin** | Pin listed with bone-space `(x,y,z)` |
+| 15 | **Pin observation** (dock) | Caption arms place-a-pin; next bone click opens draft callout |
+| 16 | Click bone + type note → **Save** | Teal pin + note callout on the fossil |
 | 17 | Reset / reassemble | Pin stays on same anatomical point (bone-space) |
 | 18 | Refresh or reopen `/workspace/ypm-vp-41198` | Same note restores (`localStorage` `marrow:pins:ypm-vp-41198`) |
-| 19 | Privacy | Copy says anonymous / this browser only |
+| 19 | Privacy | Pins stay in this browser only (no sign-in) |
 
 ---
 

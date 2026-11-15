@@ -31,10 +31,15 @@ export interface ViewerState {
   colorByStructure: boolean
   /**
    * Last point the visitor picked on a bone, in that bone's own space, so it is
-   * independent of camera and explode offset. The scene sets it; the pin flow
-   * reads it.
+   * independent of camera and explode offset. Only set while `pinning` is on
+   * (Pin observation dock → click a bone). The pin flow reads it.
    */
   pick: Pick | null
+  /**
+   * Explicit place-a-pin mode. Off by default so ordinary bone clicks only
+   * select; the dock “Pin observation” button turns this on.
+   */
+  pinning: boolean
   /**
    * Bone the visitor is studying in isolation: it stays solid and in place while
    * every other bone explodes away from it and turns translucent. Null = off.
@@ -52,8 +57,13 @@ export interface ViewerState {
   rotateBy(radians: number): void
   reset(): void
   /**
-   * A click landed on a bone (scene) or the pin flow sets a point: selects that
-   * bone and records the bone-space point. null clears the pick only.
+   * Enter or leave pin-placement mode. Leaving clears an unsaved pick so a
+   * draft marker does not linger after the visitor cancels.
+   */
+  setPinning(on: boolean): void
+  /**
+   * A click landed on a bone while pinning (or the pin flow sets a point):
+   * selects that bone and records the bone-space point. null clears the pick only.
    */
   setPick(pick: Pick | null): void
 }
@@ -65,6 +75,7 @@ const initial = {
   separation: 0,
   colorByStructure: true,
   pick: null,
+  pinning: false,
   focusedId: null,
 } satisfies Partial<ViewerState>
 
@@ -96,12 +107,13 @@ export const useViewer = create<ViewerState>()((set) => ({
   ...initial,
   camera: null,
   // The selected structure is always visible: selecting shows it, hiding deselects it.
-  // A pick only belongs to the bone it was made on.
+  // While pinning, keep an unsaved draft pick even if selection moves (anatomy list /
+  // focus) so typed note text is not discarded without Cancel.
   select: (id) =>
     set((s) => ({
       selectedId: id,
       hiddenIds: id ? without(s.hiddenIds, id) : s.hiddenIds,
-      pick: s.pick && s.pick.structureId === id ? s.pick : null,
+      pick: s.pinning || (s.pick && s.pick.structureId === id) ? s.pick : null,
       ...followFocus(s, id),
     })),
   setVisible: (id, visible) =>
@@ -109,10 +121,12 @@ export const useViewer = create<ViewerState>()((set) => ({
       const deselect = !visible && s.selectedId === id
       // Hiding the focused bone exits focus the same way a second Focus press does.
       const unfocus = !visible && s.focusedId === id
+      // Hiding the bone under a draft clears that pick; stay in pin mode so another click works.
+      const clearPick = !visible && s.pick?.structureId === id
       return {
         hiddenIds: visible ? without(s.hiddenIds, id) : { ...s.hiddenIds, [id]: true },
         selectedId: deselect ? null : s.selectedId,
-        pick: deselect ? null : s.pick,
+        pick: clearPick ? null : s.pick,
         focusedId: unfocus ? null : s.focusedId,
         ...(unfocus
           ? { mode: 'solid' as const, separation: 0, camera: { seq: ++seq, kind: 'reset' as const } }
@@ -128,7 +142,7 @@ export const useViewer = create<ViewerState>()((set) => ({
             focusedId: id,
             selectedId: id,
             hiddenIds: without(s.hiddenIds, id),
-            pick: s.pick && s.pick.structureId === id ? s.pick : null,
+            pick: s.pinning || (s.pick && s.pick.structureId === id) ? s.pick : null,
             mode: 'exploded',
             separation: s.mode === 'exploded' && s.separation ? s.separation : FOCUS_SEPARATION,
             camera: { seq: ++seq, kind: 'focus', id },
@@ -153,11 +167,14 @@ export const useViewer = create<ViewerState>()((set) => ({
   rotateBy: (radians) => set({ camera: { seq: ++seq, kind: 'rotate', radians } }),
   // Restores the initial display and camera. Pins live elsewhere and are kept.
   reset: () => set({ ...initial, camera: { seq: ++seq, kind: 'reset' } }),
+  setPinning: (on) =>
+    set(on ? { pinning: true } : { pinning: false, pick: null }),
   setPick: (pick) =>
     set((s) =>
       pick
         ? {
             pick,
+            pinning: true,
             selectedId: pick.structureId,
             hiddenIds: without(s.hiddenIds, pick.structureId),
             ...followFocus(s, pick.structureId),

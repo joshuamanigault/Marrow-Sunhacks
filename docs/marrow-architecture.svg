@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-label="Marrow architecture">
+  <defs>
+    <style>
+      .title { font: 700 28px 'Segoe UI', system-ui, sans-serif; fill: #1a1a1a; }
+      .box-title { font: 700 15px 'Segoe UI', system-ui, sans-serif; fill: #1a1a1a; }
+      .box-sub { font: 400 11px 'Segoe UI', system-ui, sans-serif; fill: #444; }
+      .item { font: 400 12px 'Segoe UI', system-ui, sans-serif; fill: #222; }
+      .item-sm { font: 400 11px 'Segoe UI', system-ui, sans-serif; fill: #333; }
+      .arrow-label { font: 500 11px 'Segoe UI', system-ui, sans-serif; fill: #333; }
+      .muted { fill: #555; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="900" fill="#ffffff"/>
+  <text x="700" y="42" text-anchor="middle" class="title">Marrow architecture</text>
+
+  <!-- USERS -->
+  <g>
+    <rect x="40" y="70" width="200" height="200" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="140" y="98" text-anchor="middle" class="box-title">Users</text>
+    <rect x="58" y="118" width="164" height="48" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
+    <text x="140" y="138" text-anchor="middle" class="item">Visitor / student</text>
+    <text x="140" y="154" text-anchor="middle" class="item-sm muted">browser</text>
+    <rect x="58" y="180" width="164" height="48" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
+    <text x="140" y="200" text-anchor="middle" class="item">Optional webcam</text>
+    <text x="140" y="216" text-anchor="middle" class="item-sm muted">hand control (local)</text>
+  </g>
+
+  <!-- REACT SPA -->
+  <g>
+    <rect x="320" y="70" width="420" height="400" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+    <text x="530" y="98" text-anchor="middle" class="box-title">React SPA</text>
+    <text x="530" y="116" text-anchor="middle" class="box-sub">Vite / React 19 / React Router / Zustand</text>
+
+    <rect x="340" y="132" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="152" text-anchor="middle" class="item">Pages: Landing, Explore, Upload, Workspace</text>
+    <text x="530" y="170" text-anchor="middle" class="item-sm muted">/workspace/:specimenId + SPA fallback host</text>
+
+    <rect x="340" y="196" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="216" text-anchor="middle" class="item">Scanner workspace shell</text>
+    <text x="530" y="234" text-anchor="middle" class="item-sm muted">header / tool rail / anatomy+info / bottom dock</text>
+
+    <rect x="340" y="260" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="280" text-anchor="middle" class="item">React Three Fiber / three.js fossil scene</text>
+    <text x="530" y="298" text-anchor="middle" class="item-sm muted">Solid / X-ray / explode / focus / bone-space picks</text>
+
+    <rect x="340" y="324" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="430" y="348" text-anchor="middle" class="item">Zustand viewer</text>
+    <text x="430" y="366" text-anchor="middle" class="item-sm muted">select / mode / pick</text>
+
+    <rect x="540" y="324" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="630" y="348" text-anchor="middle" class="item">Observations</text>
+    <text x="630" y="366" text-anchor="middle" class="item-sm muted">pins -&gt; localStorage</text>
+
+    <rect x="340" y="394" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="430" y="418" text-anchor="middle" class="item">Ask panel</text>
+    <text x="430" y="436" text-anchor="middle" class="item-sm muted">explain / tour / follow-up</text>
+
+    <rect x="540" y="394" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="630" y="418" text-anchor="middle" class="item">Hand control</text>
+    <text x="630" y="436" text-anchor="middle" class="item-sm muted">MediaPipe on-device</text>
+  </g>
+
+  <!-- SPECIMEN API -->
+  <g>
+    <rect x="860" y="70" width="500" height="400" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="1110" y="98" text-anchor="middle" class="box-title">Specimen API</text>
+    <text x="1110" y="116" text-anchor="middle" class="box-sub">FastAPI / Uvicorn / uv / Pydantic settings</text>
+
+    <rect x="880" y="132" width="460" height="70" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="155" text-anchor="middle" class="item">GET /health / GET /specimens / GET /specimens/{id}</text>
+    <text x="1110" y="175" text-anchor="middle" class="item-sm muted">GET /specimens/{id}/meshes/{structureId}.glb</text>
+    <text x="1110" y="191" text-anchor="middle" class="item-sm muted">manifest metadata / structure status / public mesh URLs</text>
+
+    <rect x="880" y="216" width="460" height="88" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="240" text-anchor="middle" class="item">AI routes (optional; 503 without key)</text>
+    <text x="1110" y="260" text-anchor="middle" class="item-sm muted">POST /ai/explain / /ai/tour / /ai/followup / GET /ai/status</text>
+    <text x="1110" y="280" text-anchor="middle" class="item-sm muted">grounded on curated facts + manifest only; rate limited</text>
+
+    <rect x="880" y="318" width="460" height="64" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="344" text-anchor="middle" class="item">ASSETS_DIR (served, not in git)</text>
+    <text x="1110" y="364" text-anchor="middle" class="item-sm muted">manifest.json / *.glb / facts/{specimenId}.json</text>
+
+    <rect x="880" y="396" width="460" height="54" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="418" text-anchor="middle" class="item">Secrets stay server-side</text>
+    <text x="1110" y="436" text-anchor="middle" class="item-sm muted">GEMINI_API_KEY / CORS / no browser AI keys</text>
+  </g>
+
+  <!-- EXTERNAL -->
+  <g>
+    <rect x="40" y="520" width="280" height="340" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="180" y="548" text-anchor="middle" class="box-title">External services</text>
+
+    <rect x="58" y="570" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="592" text-anchor="middle" class="item">Dryad dataset</text>
+    <text x="180" y="610" text-anchor="middle" class="item-sm muted">YPM VP 41198 / CC0-1.0</text>
+
+    <rect x="58" y="636" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="658" text-anchor="middle" class="item">Google Gemini</text>
+    <text x="180" y="676" text-anchor="middle" class="item-sm muted">grounded explain / tour</text>
+
+    <rect x="58" y="702" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="724" text-anchor="middle" class="item">MediaPipe Tasks</text>
+    <text x="180" y="742" text-anchor="middle" class="item-sm muted">HandLandmarker (browser)</text>
+
+    <rect x="58" y="768" width="244" height="68" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="792" text-anchor="middle" class="item">Published study</text>
+    <text x="180" y="810" text-anchor="middle" class="item-sm muted">Margulis-Ohnuma et al.</text>
+    <text x="180" y="824" text-anchor="middle" class="item-sm muted">citation + DOI in UI</text>
+  </g>
+
+  <!-- EVIDENCE PREP -->
+  <g>
+    <rect x="360" y="520" width="500" height="340" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+    <text x="610" y="548" text-anchor="middle" class="box-title">Evidence prep (offline)</text>
+    <text x="610" y="566" text-anchor="middle" class="box-sub">scripts / inventory / no invented anatomy</text>
+
+    <rect x="380" y="586" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="610" y="610" text-anchor="middle" class="item">fetch / inspect Dryad Appendix 2 STLs</text>
+    <text x="610" y="628" text-anchor="middle" class="item-sm muted">accession / credits / reuse terms / side-aware ids</text>
+
+    <rect x="380" y="658" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="610" y="682" text-anchor="middle" class="item">prepare_specimen: STL to GLB</text>
+    <text x="610" y="700" text-anchor="middle" class="item-sm muted">stable structure ids / status ok / missing / unreadable</text>
+
+    <rect x="380" y="730" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="610" y="754" text-anchor="middle" class="item">Write ASSETS_DIR + curated facts</text>
+    <text x="610" y="772" text-anchor="middle" class="item-sm muted">manifest.json / meshes / facts/{id}.json</text>
+
+    <rect x="380" y="802" width="460" height="40" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="610" y="828" text-anchor="middle" class="item">Binaries stay out of git; served by FastAPI</text>
+  </g>
+
+  <!-- BROWSER LOCAL -->
+  <g>
+    <rect x="900" y="520" width="460" height="340" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <text x="1130" y="548" text-anchor="middle" class="box-title">Browser-local state</text>
+    <text x="1130" y="566" text-anchor="middle" class="box-sub">no accounts / no shared room (MVP)</text>
+
+    <rect x="920" y="586" width="420" height="70" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
+    <text x="1130" y="612" text-anchor="middle" class="item">localStorage pins</text>
+    <text x="1130" y="632" text-anchor="middle" class="item-sm muted">marrow:pins:{specimenId}</text>
+    <text x="1130" y="648" text-anchor="middle" class="item-sm muted">bone id + bone-space (x,y,z) + note</text>
+
+    <rect x="920" y="670" width="420" height="70" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
+    <text x="1130" y="696" text-anchor="middle" class="item">Coordinate rule</text>
+    <text x="1130" y="716" text-anchor="middle" class="item-sm muted">picks independent of camera and explode</text>
+    <text x="1130" y="732" text-anchor="middle" class="item-sm muted">survive reassemble / reset / refresh</text>
+
+    <rect x="920" y="754" width="420" height="84" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
+    <text x="1130" y="782" text-anchor="middle" class="item">What we deliberately deferred</text>
+    <text x="1130" y="802" text-anchor="middle" class="item-sm muted">auth / shared notes / LiveKit / Tiger Data</text>
+    <text x="1130" y="818" text-anchor="middle" class="item-sm muted">uploads / processing / linked CT slices</text>
+  </g>
+
+  <!-- ARROWS (short gutters between adjacent boxes) -->
+  <line x1="240" y1="142" x2="318" y2="142" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="279" y="132" text-anchor="middle" class="arrow-label">open</text>
+
+  <path d="M 240 204 H 280 V 423 H 338" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="248" y="300" class="arrow-label">gestures</text>
+  <text x="248" y="314" class="arrow-label muted">(local only)</text>
+
+  <line x1="740" y1="155" x2="858" y2="155" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <line x1="858" y1="175" x2="740" y2="175" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="799" y="145" text-anchor="middle" class="arrow-label">fetch specimen</text>
+  <text x="799" y="196" text-anchor="middle" class="arrow-label">+ GLB meshes</text>
+
+  <line x1="740" y1="250" x2="858" y2="250" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="799" y="242" text-anchor="middle" class="arrow-label">Ask -&gt; /ai/*</text>
+
+  <line x1="320" y1="596" x2="358" y2="596" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="339" y="586" text-anchor="middle" class="arrow-label">STLs</text>
+
+  <path d="M 780 520 V 505 H 1110 V 468" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="960" y="498" class="arrow-label">write assets</text>
+
+  <path d="M 302 662 H 340 V 495 H 820 V 300 H 858" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="480" y="488" class="arrow-label">Gemini API (server-side)</text>
+
+  <path d="M 302 728 H 340 V 423 H 538" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="348" y="690" class="arrow-label">HandLandmarker</text>
+
+  <path d="M 720 353 H 850 V 480 H 1130 V 518" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="1040" y="472" class="arrow-label">persist pins</text>
+</svg>

@@ -48,9 +48,14 @@ export function HandPointer() {
       dwell = Math.min(1, (now - track.at) / DWELL_MS)
       if (dwell >= 1) {
         track.done = true
-        // Same as clicking the bone: select it (and move focus there if focused).
         const viewer = useViewer.getState()
-        if (viewer.selectedId !== id) viewer.select(id)
+        // Match mouse: while Pin observation is armed, dwell places a draft pin.
+        if (viewer.pinning && hit && id) {
+          const p = hit.object.worldToLocal(hit.point.clone())
+          viewer.setPick({ structureId: id, point: [p.x, p.y, p.z] })
+        } else if (viewer.selectedId !== id) {
+          viewer.select(id)
+        }
       }
     } else if (id && track.done) {
       dwell = 1
