@@ -31,134 +31,142 @@
       "notes": "Vertices are the Appendix 2 STL positions with an identity node transform. Relative placement across bones is preserved by not centering or scaling individuals. Units and anatomical axis convention are not stated in the Appendix 2 README; CT scan metadata (Appendix 1) was not inspected for this mesh pipeline."
     }
   },
-  "rawDir": "data/raw/appendix2/Appendix2",
+  "rawDir": "data/raw/appendix2",
   "structures": [
     {
       "id": "angular_l",
       "name": "Angular",
       "side": "left",
-      "sourceFilename": "angularL.stl"
+      "sourceFilename": "Appendix2/angularL.stl"
     },
     {
       "id": "ectopterygoid_l",
       "name": "Ectopterygoid",
       "side": "left",
-      "sourceFilename": "ectopterygoidL.stl"
+      "sourceFilename": "Appendix2/ectopterygoidL.stl"
     },
     {
       "id": "ectopterygoid_r",
       "name": "Ectopterygoid",
       "side": "right",
-      "sourceFilename": "ectopterygoidR.stl"
+      "sourceFilename": "Appendix2/ectopterygoidR.stl"
     },
     {
       "id": "frontal_l",
       "name": "Frontal",
       "side": "left",
-      "sourceFilename": "frontalL.stl"
+      "sourceFilename": "Appendix2/frontalL.stl"
     },
     {
       "id": "frontal_r",
       "name": "Frontal",
       "side": "right",
-      "sourceFilename": "frontalR.stl"
+      "sourceFilename": "Appendix2/frontalR.stl"
     },
     {
       "id": "jugal_r",
       "name": "Jugal",
       "side": "right",
-      "sourceFilename": "jugalR.stl"
+      "sourceFilename": "Appendix2/jugalR.stl"
     },
     {
       "id": "lacrimal_r",
       "name": "Lacrimal",
       "side": "right",
-      "sourceFilename": "lacrimalR.stl"
+      "sourceFilename": "Appendix2/lacrimalR.stl"
     },
     {
       "id": "maxilla_l",
       "name": "Maxilla",
       "side": "left",
-      "sourceFilename": "maxillaL.stl"
+      "sourceFilename": "Appendix2/maxillaL.stl"
     },
     {
       "id": "maxilla_r",
       "name": "Maxilla",
       "side": "right",
-      "sourceFilename": "maxillaR.stl"
+      "sourceFilename": "Appendix2/maxillaR.stl"
     },
     {
       "id": "nasal_r",
       "name": "Nasal",
       "side": "right",
-      "sourceFilename": "nasalR.stl"
+      "sourceFilename": "Appendix2/nasalR.stl"
     },
     {
       "id": "palatine_r",
       "name": "Palatine",
       "side": "right",
-      "sourceFilename": "palatineR.stl"
+      "sourceFilename": "Appendix2/palatineR.stl"
     },
     {
       "id": "palpebral_r",
       "name": "Palpebral",
       "side": "right",
-      "sourceFilename": "palpebralR.stl"
+      "sourceFilename": "Appendix2/palpebralR.stl"
     },
     {
       "id": "postorbital_r",
       "name": "Postorbital",
       "side": "right",
-      "sourceFilename": "postorbitalR.stl"
+      "sourceFilename": "Appendix2/postorbitalR.stl"
     },
     {
       "id": "prefrontal_r",
       "name": "Prefrontal",
       "side": "right",
-      "sourceFilename": "prefrontalR.stl"
+      "sourceFilename": "Appendix2/prefrontalR.stl"
     },
     {
       "id": "premaxilla_r",
       "name": "Premaxilla",
       "side": "right",
-      "sourceFilename": "premaxillaR.stl"
+      "sourceFilename": "Appendix2/premaxillaR.stl"
     },
     {
       "id": "pterygoid_l",
       "name": "Pterygoid",
       "side": "left",
-      "sourceFilename": "pterygoidL.stl"
+      "sourceFilename": "Appendix2/pterygoidL.stl"
     },
     {
       "id": "pterygoid_r",
       "name": "Pterygoid",
       "side": "right",
-      "sourceFilename": "pterygoidR.stl"
+      "sourceFilename": "Appendix2/pterygoidR.stl"
     },
     {
       "id": "quadrate_l",
       "name": "Quadrate",
       "side": "left",
-      "sourceFilename": "quadrateL.stl"
+      "sourceFilename": "Appendix2/quadrateL.stl"
     },
     {
       "id": "quadrate_r",
       "name": "Quadrate",
       "side": "right",
-      "sourceFilename": "quadrateR.stl"
+      "sourceFilename": "Appendix2/quadrateR.stl"
     },
     {
       "id": "surangular_l",
       "name": "Surangular",
       "side": "left",
-      "sourceFilename": "surangularL.stl"
+      "sourceFilename": "Appendix2/surangularL.stl"
     },
     {
       "id": "vomers",
       "name": "Vomers",
       "side": "none",
-      "sourceFilename": "vomers.stl"
+      "sourceFilename": "Appendix2/vomers.stl"
     }
   ],
-  "sourceFiles": []
+  "sourceFiles": [
+    {
+      "filename": "Appendix2.zip",
+      "fileId": 4600416,
+      "size": 210027832,
+      "digest": "bf221aa2e981eb32f090926bee9f9e20b317608600add737f7917baed8d2cb7b",
+      "digestType": "sha-256"
+    }
+  ]
 }

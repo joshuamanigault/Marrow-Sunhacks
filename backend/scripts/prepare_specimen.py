@@ -42,7 +42,7 @@ from marrow.structures import (  # noqa: E402
     StructureDef,
 )
 
-DEFAULT_RAW = ROOT / "data" / "raw" / "appendix2" / "Appendix2"
+DEFAULT_RAW = ROOT / "data" / "raw" / "appendix2"
 DEFAULT_OUT = ROOT / "data" / "prepared" / SPECIMEN_ID
 DEFAULT_ARCHIVE = Path.home() / "Downloads" / "Appendix2.zip"
 EXPECTED_SHA256 = "bf221aa2e981eb32f090926bee9f9e20b317608600add737f7917baed8d2cb7b"

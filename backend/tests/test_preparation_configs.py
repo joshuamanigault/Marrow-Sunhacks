@@ -38,8 +38,7 @@ def test_nine_distinct_specimens_with_individual_sources() -> None:
         assert config.metadata.id in catalog_ids()
         assert config.metadata.credits
         assert config.metadata.reuseTerms.license == "CC0-1.0"
-        if config.metadata.id != "ypm-vp-41198":
-            assert config.sourceFiles
+        assert config.sourceFiles
 
 
 def test_second_specimen_prepares_and_serves_its_own_mesh(tmp_path: Path) -> None:
