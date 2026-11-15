@@ -2,11 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { StatusBanner } from '../components/StatusBanner'
 import { STATUS_COPY } from '../statusCopy'
+import SpecimenScene from '../viewer/SpecimenScene'
 import Workspace from '../workspace/Workspace'
 import { fetchSpecimen, type Specimen } from '../workspace/specimen'
+import { useViewer } from '../workspace/viewer'
 
 /**
- * Loads Joshua’s specimen from the API, then mounts Alex’s Workspace.
+ * Loads Joshua’s specimen from the API, then mounts Alex’s Workspace
+ * with Ananya’s SpecimenScene.
  * Plain-language errors for API down / missing specimen (task 6).
  */
 export function WorkspaceRoute() {
@@ -20,6 +23,12 @@ export function WorkspaceRoute() {
     setSpecimen(undefined)
     setRetryCount((n) => n + 1)
   }, [])
+
+  // Zustand store is module-global; clear it when this workspace mounts so a
+  // prior specimen's hide/focus/mode/pick state does not leak across routes.
+  useEffect(() => {
+    useViewer.getState().reset()
+  }, [specimenId])
 
   useEffect(() => {
     if (!specimenId) {
@@ -59,9 +68,7 @@ export function WorkspaceRoute() {
             {error}
           </StatusBanner>
           <p>
-            <Link to={`/workspace/${specimenId ?? 'ypm-vp-41198'}`}>
-              ← Back to specimen
-            </Link>
+            <Link to="/">← Back to start</Link>
           </p>
         </div>
       </main>
@@ -76,19 +83,13 @@ export function WorkspaceRoute() {
     )
   }
 
-  // Ananya’s Three.js canvas replaces this placeholder.
-  const scene = (
-    <div
-      style={{
-        display: 'grid',
-        placeItems: 'center',
-        height: '100%',
-        opacity: 0.5,
-      }}
-    >
-      3D scene mounts here
-    </div>
+  return (
+    <>
+      <title>{`${specimen.scientificName} · Marrow`}</title>
+      <Workspace
+        specimen={specimen}
+        scene={<SpecimenScene specimen={specimen} />}
+      />
+    </>
   )
-
-  return <Workspace specimen={specimen} scene={scene} />
 }

@@ -1,28 +1,18 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Explore, Landing, Upload } from './Landing'
 import { WorkspaceRoute } from './pages/WorkspaceRoute'
 
-/** Curated specimen id — opens workspace directly (no start-page entry). */
-const CURATED_SPECIMEN_ID = 'ypm-vp-41198'
-
-/**
- * App routing: Alexandra tasks 2–6 on Alex’s workspace + Joshua’s API.
- *
- * /                      → /workspace/ypm-vp-41198
- * /workspace/:specimenId → fetch specimen → Workspace
- */
+// Deployment note: the host must serve index.html for every path (SPA
+// fallback), or refreshing /explore or a /workspace link returns its 404.
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Navigate to={`/workspace/${CURATED_SPECIMEN_ID}`} replace />}
-        />
+        <Route path="/" element={<Landing />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/upload" element={<Upload />} />
         <Route path="/workspace/:specimenId" element={<WorkspaceRoute />} />
-        <Route
-          path="*"
-          element={<Navigate to={`/workspace/${CURATED_SPECIMEN_ID}`} replace />}
-        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )
