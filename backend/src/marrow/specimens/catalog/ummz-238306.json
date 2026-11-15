@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "id": "ummz-238306",
+    "scientificName": "Chirocentrus dorab",
+    "commonLabel": "Dorab wolf-herring skull",
+    "accession": "UMMZ 238306",
+    "institution": "University of Michigan Museum of Zoology",
+    "citation": {
+      "text": "Alessio Capobianco et al. (2020). Data from: Large-bodied sabre-toothed anchovies reveal unanticipated ecological diversity in early Palaeogene teleosts [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.f4qrfj6ss",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.f4qrfj6ss",
+      "articleDoi": "10.1098/rsos.192260",
+      "articleUrl": "https://doi.org/10.1098/rsos.192260"
+    },
+    "credits": [
+      "Alessio Capobianco",
+      "Hermione Beckett",
+      "Etienne Steurbaut",
+      "Philip Gingerich",
+      "Giorgio Carnevale",
+      "Matthew Friedman"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_ply",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/ummz-238306",
+  "sourceFiles": [
+    {
+      "filename": "Chirocentrus_dorab_plyVolumes.zip",
+      "fileId": 294177,
+      "size": 47181171,
+      "digest": "d2c3c0173b1f46ae4aee5066cbce8a0a10d4b8964eb8b54aa7a74eeb44775dbe",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "basibranchials",
+      "name": "Basibranchials",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Basibranchials.ply"
+    },
+    {
+      "id": "braincase",
+      "name": "Braincase",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Braincase.ply"
+    },
+    {
+      "id": "ectopterygoid",
+      "name": "Ectopterygoid",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Ectopterygoid.ply"
+    },
+    {
+      "id": "endopterygoid",
+      "name": "Endopterygoid",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Endopterygoid.ply"
+    },
+    {
+      "id": "hyomandibula",
+      "name": "Hyomandibula",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Hyomandibula.ply"
+    },
+    {
+      "id": "hypohyals",
+      "name": "Hypohyals",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Hypohyals.ply"
+    },
+    {
+      "id": "interhyal",
+      "name": "Interhyal",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Interhyal.ply"
+    },
+    {
+      "id": "maxilla",
+      "name": "Maxilla",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Maxilla.ply"
+    },
+    {
+      "id": "metapterygoid",
+      "name": "Metapterygoid",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Metapterygoid.ply"
+    },
+    {
+      "id": "palatine",
+      "name": "Palatine",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Palatine.ply"
+    },
+    {
+      "id": "quadrate",
+      "name": "Quadrate",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Quadrate.ply"
+    },
+    {
+      "id": "symplectic",
+      "name": "Symplectic",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Symplectic.ply"
+    },
+    {
+      "id": "vomer",
+      "name": "Vomer",
+      "side": "none",
+      "sourceFilename": "Chirocentrus_Vomer.ply"
+    }
+  ],
+  "discoverStructures": false
+}

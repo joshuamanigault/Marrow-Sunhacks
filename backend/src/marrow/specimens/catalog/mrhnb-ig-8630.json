@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "id": "mrhnb-ig-8630",
+    "scientificName": "Clupeopsis straeleni",
+    "commonLabel": "Fossil anchovy skull",
+    "accession": "MRHNB IG 8630",
+    "institution": "Royal Belgian Institute of Natural Sciences",
+    "citation": {
+      "text": "Alessio Capobianco et al. (2020). Data from: Large-bodied sabre-toothed anchovies reveal unanticipated ecological diversity in early Palaeogene teleosts [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.f4qrfj6ss",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.f4qrfj6ss",
+      "articleDoi": "10.1098/rsos.192260",
+      "articleUrl": "https://doi.org/10.1098/rsos.192260"
+    },
+    "credits": [
+      "Alessio Capobianco",
+      "Hermione Beckett",
+      "Etienne Steurbaut",
+      "Philip Gingerich",
+      "Giorgio Carnevale",
+      "Matthew Friedman"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_ply",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/mrhnb-ig-8630",
+  "sourceFiles": [
+    {
+      "filename": "Clupeopsis_straeleni_plyVolumes.zip",
+      "fileId": 294176,
+      "size": 134136539,
+      "digest": "4b5396646695b8b946aec7858a09e9e58b19b8bfb98a09a8d2dece637af4519e",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "anterior_infraorbital",
+      "name": "Anterior infraorbital",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_AnteriorInfraorbital.ply"
+    },
+    {
+      "id": "braincase",
+      "name": "Braincase",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Braincase.ply"
+    },
+    {
+      "id": "ceratohyals",
+      "name": "Ceratohyals",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Ceratohyals.ply"
+    },
+    {
+      "id": "expanded_infraorbital",
+      "name": "Expanded infraorbital",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_ExpandedInfraorbital.ply"
+    },
+    {
+      "id": "expanded_infraorbital_fragment",
+      "name": "Expanded infraorbital fragment",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_ExpandedInfraorbitalFragment.ply"
+    },
+    {
+      "id": "front_of_upper_jaw",
+      "name": "Front of upper jaw",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_FrontOfUpperJaw.ply"
+    },
+    {
+      "id": "gill_skeleton",
+      "name": "Gill skeleton",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Gill Skeleton.ply"
+    },
+    {
+      "id": "hyomandibula_l",
+      "name": "Hyomandibula",
+      "side": "left",
+      "sourceFilename": "Clupeopsis_LHyomandibula.ply"
+    },
+    {
+      "id": "interhyal_l",
+      "name": "Interhyal",
+      "side": "left",
+      "sourceFilename": "Clupeopsis_LInterhyal.ply"
+    },
+    {
+      "id": "preopercle_l",
+      "name": "Preopercle",
+      "side": "left",
+      "sourceFilename": "Clupeopsis_LPreopercle.ply"
+    },
+    {
+      "id": "symplectic_l",
+      "name": "Symplectic",
+      "side": "left",
+      "sourceFilename": "Clupeopsis_LSymplectic.ply"
+    },
+    {
+      "id": "lower_jaw",
+      "name": "Lower jaw",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_LowerJaw.ply"
+    },
+    {
+      "id": "metapterygoid",
+      "name": "Metapterygoid",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Metapterygoid.ply"
+    },
+    {
+      "id": "opercle_partial",
+      "name": "Opercle partial",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_OperclePartial.ply"
+    },
+    {
+      "id": "otic_bullae",
+      "name": "Otic bullae",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_OticBullae.ply"
+    },
+    {
+      "id": "palate",
+      "name": "Palate",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Palate.ply"
+    },
+    {
+      "id": "premaxillary_fragment",
+      "name": "Premaxillary fragment",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_PremaxillaryFragment.ply"
+    },
+    {
+      "id": "quadrate",
+      "name": "Quadrate",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_Quadrate.ply"
+    },
+    {
+      "id": "hyomandibula_r",
+      "name": "Hyomandibula",
+      "side": "right",
+      "sourceFilename": "Clupeopsis_RHyomandibula.ply"
+    },
+    {
+      "id": "preopercle_r",
+      "name": "Preopercle",
+      "side": "right",
+      "sourceFilename": "Clupeopsis_RPreopercle.ply"
+    },
+    {
+      "id": "recessus_lateralis",
+      "name": "Recessus lateralis",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_RecessusLateralis.ply"
+    },
+    {
+      "id": "scleral_ring",
+      "name": "Scleral ring",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_ScleralRing.ply"
+    },
+    {
+      "id": "upper_jaw",
+      "name": "Upper jaw",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_UpperJaw.ply"
+    },
+    {
+      "id": "upper_jaw_fragment",
+      "name": "Upper jaw fragment",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_UpperJawFragment.ply"
+    },
+    {
+      "id": "vomerine_fang",
+      "name": "Vomerine fang",
+      "side": "none",
+      "sourceFilename": "Clupeopsis_VomerineFang.ply"
+    }
+  ],
+  "discoverStructures": false
+}

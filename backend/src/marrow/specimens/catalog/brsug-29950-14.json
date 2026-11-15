@@ -1,0 +1,337 @@
+{
+  "metadata": {
+    "id": "brsug-29950-14",
+    "scientificName": "Agriodontosaurus helsbypetrae",
+    "commonLabel": "Rhynchocephalian skull",
+    "accession": "BRSUG 29950-14",
+    "institution": "University of Bristol",
+    "citation": {
+      "text": "Michael Benton et al. (2025). Supporting information for phylogenetic analysis and imaging of Agriodontosaurus [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.cvdncjth4",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.cvdncjth4",
+      "articleDoi": "10.1038/s41586-025-09496-9",
+      "articleUrl": "https://doi.org/10.1038/s41586-025-09496-9"
+    },
+    "credits": [
+      "Michael Benton",
+      "Dan Marke"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/brsug-29950-14",
+  "sourceFiles": [
+    {
+      "filename": "L_Frontal(ESRF_scan).stl",
+      "fileId": 4414267,
+      "size": 7574284,
+      "digest": "6788b6b1a582a60e5521ca5eb92336e583807969e6d676ca4b2a02a98abbbc4c",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Jugal(ESRF_scan).stl",
+      "fileId": 4414270,
+      "size": 8786884,
+      "digest": "1b0cf92d6575343801c7b798f299340ff6ccfa5d69679b1c530fabdca4b58582",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Mandible(ESRF_scan).stl",
+      "fileId": 4414272,
+      "size": 53592084,
+      "digest": "edc020e6dc8b9ab383ad30d257ce426d600f692ed0f472e3397888ea3776ab74",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Maxilla(ESRF_scan).stl",
+      "fileId": 4414274,
+      "size": 29782484,
+      "digest": "fcc9ed4147b51678015cb5c709cc764187fe4aa5e926bd13e2dd10bd02788827",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Parietal(ESRF_scan).stl",
+      "fileId": 4414273,
+      "size": 16960084,
+      "digest": "7672c886550f31dce6b8bccb8f44853e67a6f8f2aabb9eee57112c3c463b2056",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Postfrontal(ESRF_scan).stl",
+      "fileId": 4414278,
+      "size": 4552684,
+      "digest": "be305b009bac3c43a7bc2b7a223e4d52b92d940df4d2ba70df8ea0cd8f4f6822",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Postorbital(ESRF_scan).stl",
+      "fileId": 4414280,
+      "size": 4903684,
+      "digest": "23cb916caec7cd14b2d6e3a40aef0c6012b8e8020374d1534086130621a4f938",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Prefrontal(ESRF_scan).stl",
+      "fileId": 4414277,
+      "size": 3365884,
+      "digest": "58880a5f2b04dedb84c3fc2829146edd87310546d04852c3e88d76e75cc02ccb",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Quadrate(ESRF_scan).stl",
+      "fileId": 4414281,
+      "size": 5565884,
+      "digest": "782e1b7a167e3e1586303a67bf637d971d0a06db398f4ad30361ebd9876832af",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "L_Squamosal(ESRF_scan).stl",
+      "fileId": 4414279,
+      "size": 9026484,
+      "digest": "1ead151493c59096b1dcb7b60f38ca988f8c0b9990fce34759a8fecd3423d644",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "LDe_Teeth(ESRF_scan).stl",
+      "fileId": 4414268,
+      "size": 56732484,
+      "digest": "99b5f83ab5ce4a7586685f28a51a32ad3c80c7458a07909429941997664c65c1",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "LMx_Teeth(ESRF_scan).stl",
+      "fileId": 4414271,
+      "size": 63455284,
+      "digest": "21248c1fef866a375417bad954cfee5eadf09d539109a09b7928f36366b53a4f",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Frontal(ESRF_scan).stl",
+      "fileId": 4414282,
+      "size": 11873484,
+      "digest": "c2f354c39912c953f14914e209e6db977ab8b1a62aa995530080b6bc01c11b94",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Mandible(ESRF_scan).stl",
+      "fileId": 4414285,
+      "size": 46342684,
+      "digest": "d839d705e3e14ff13f6ef573e88f076bd506e238ef16a6fd60bd57ad555fce9b",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Maxilla(ESRF_scan).stl",
+      "fileId": 4414284,
+      "size": 26804884,
+      "digest": "edee71c70ea5afd9c59a126f83fc94f0ee669cc84a0d07d1f8ea2a951faf73d7",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Parietal(ESRF_scan).stl",
+      "fileId": 4414283,
+      "size": 13031284,
+      "digest": "acf0f7d3b66a5bc4c1cf9ee9f285fe70f40d86b961b67f62d8326fbe2b96fffd",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Postfrontal(ESRF_scan).stl",
+      "fileId": 4414289,
+      "size": 6255484,
+      "digest": "7a5b41997fb04209ce8908b4a9200b0ea8984eb4d2a418ad2b256d3677438dd3",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Postorbital(ESRF_scan).stl",
+      "fileId": 4414287,
+      "size": 6682884,
+      "digest": "ac0d25e792aee2879d214b1e25eda8002fb3e504886691063f316facd616b93e",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Prefrontal(ESRF_scan).stl",
+      "fileId": 4414286,
+      "size": 4522284,
+      "digest": "28bf15676f3f0b9ec183b9f00a0af486c33da5949bd357254820c1d08adac861",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "R_Quadrate(ESRF_scan).stl",
+      "fileId": 4414290,
+      "size": 26186684,
+      "digest": "c10c59d94cd7d5b238b2f8eb9da550e656bc1c23b496decf7f0f02627de7fd4d",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "RDe_Teeth(ESRF_scan).stl",
+      "fileId": 4414275,
+      "size": 71558684,
+      "digest": "20e0feddcf1b7b73aa0a2b183c1d5102075b05c05821ca13b9f0aa20d924b05e",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "RMx_Teeth(ESRF_scan).stl",
+      "fileId": 4414276,
+      "size": 56492284,
+      "digest": "1190224808cd4be77e40fb2e1cde9c699da25d1f97397066500d21f73daa8915",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "VomerPalatinePterygoid(ESRF_scan).stl",
+      "fileId": 4414291,
+      "size": 601782084,
+      "digest": "4e9a1faacb775785ecc646949973c929701436e3751eef622f409ad09b4b03b7",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "dentary_teeth_l",
+      "name": "Dentary teeth",
+      "side": "left",
+      "sourceFilename": "LDe_Teeth(ESRF_scan).stl"
+    },
+    {
+      "id": "maxillary_teeth_l",
+      "name": "Maxillary teeth",
+      "side": "left",
+      "sourceFilename": "LMx_Teeth(ESRF_scan).stl"
+    },
+    {
+      "id": "frontal_l",
+      "name": "Frontal",
+      "side": "left",
+      "sourceFilename": "L_Frontal(ESRF_scan).stl"
+    },
+    {
+      "id": "jugal_l",
+      "name": "Jugal",
+      "side": "left",
+      "sourceFilename": "L_Jugal(ESRF_scan).stl"
+    },
+    {
+      "id": "mandible_l",
+      "name": "Mandible",
+      "side": "left",
+      "sourceFilename": "L_Mandible(ESRF_scan).stl"
+    },
+    {
+      "id": "maxilla_l",
+      "name": "Maxilla",
+      "side": "left",
+      "sourceFilename": "L_Maxilla(ESRF_scan).stl"
+    },
+    {
+      "id": "parietal_l",
+      "name": "Parietal",
+      "side": "left",
+      "sourceFilename": "L_Parietal(ESRF_scan).stl"
+    },
+    {
+      "id": "postfrontal_l",
+      "name": "Postfrontal",
+      "side": "left",
+      "sourceFilename": "L_Postfrontal(ESRF_scan).stl"
+    },
+    {
+      "id": "postorbital_l",
+      "name": "Postorbital",
+      "side": "left",
+      "sourceFilename": "L_Postorbital(ESRF_scan).stl"
+    },
+    {
+      "id": "prefrontal_l",
+      "name": "Prefrontal",
+      "side": "left",
+      "sourceFilename": "L_Prefrontal(ESRF_scan).stl"
+    },
+    {
+      "id": "quadrate_l",
+      "name": "Quadrate",
+      "side": "left",
+      "sourceFilename": "L_Quadrate(ESRF_scan).stl"
+    },
+    {
+      "id": "squamosal_l",
+      "name": "Squamosal",
+      "side": "left",
+      "sourceFilename": "L_Squamosal(ESRF_scan).stl"
+    },
+    {
+      "id": "dentary_teeth_r",
+      "name": "Dentary teeth",
+      "side": "right",
+      "sourceFilename": "RDe_Teeth(ESRF_scan).stl"
+    },
+    {
+      "id": "maxillary_teeth_r",
+      "name": "Maxillary teeth",
+      "side": "right",
+      "sourceFilename": "RMx_Teeth(ESRF_scan).stl"
+    },
+    {
+      "id": "frontal_r",
+      "name": "Frontal",
+      "side": "right",
+      "sourceFilename": "R_Frontal(ESRF_scan).stl"
+    },
+    {
+      "id": "mandible_r",
+      "name": "Mandible",
+      "side": "right",
+      "sourceFilename": "R_Mandible(ESRF_scan).stl"
+    },
+    {
+      "id": "maxilla_r",
+      "name": "Maxilla",
+      "side": "right",
+      "sourceFilename": "R_Maxilla(ESRF_scan).stl"
+    },
+    {
+      "id": "parietal_r",
+      "name": "Parietal",
+      "side": "right",
+      "sourceFilename": "R_Parietal(ESRF_scan).stl"
+    },
+    {
+      "id": "postfrontal_r",
+      "name": "Postfrontal",
+      "side": "right",
+      "sourceFilename": "R_Postfrontal(ESRF_scan).stl"
+    },
+    {
+      "id": "postorbital_r",
+      "name": "Postorbital",
+      "side": "right",
+      "sourceFilename": "R_Postorbital(ESRF_scan).stl"
+    },
+    {
+      "id": "prefrontal_r",
+      "name": "Prefrontal",
+      "side": "right",
+      "sourceFilename": "R_Prefrontal(ESRF_scan).stl"
+    },
+    {
+      "id": "quadrate_r",
+      "name": "Quadrate",
+      "side": "right",
+      "sourceFilename": "R_Quadrate(ESRF_scan).stl"
+    },
+    {
+      "id": "vomer_palatine_pterygoid_complex",
+      "name": "Vomer-palatine-pterygoid complex",
+      "side": "none",
+      "sourceFilename": "VomerPalatinePterygoid(ESRF_scan).stl"
+    }
+  ],
+  "discoverStructures": false
+}

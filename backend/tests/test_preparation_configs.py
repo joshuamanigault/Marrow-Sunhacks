@@ -44,10 +44,10 @@ def test_ten_distinct_specimens_with_individual_sources() -> None:
 
 def test_second_specimen_prepares_and_serves_its_own_mesh(tmp_path: Path) -> None:
     prep = script("prepare_specimen")
-    config = load_config("ivpp-v20378")
+    config = load_config("dino-15914")
     raw = tmp_path / "raw"
     raw.mkdir()
-    source = raw / "Sinovenator_Skull_001.stl"
+    source = raw / "Braincase.stl"
     trimesh.creation.box().export(source)
     catalog = config.structure_catalog(raw)
     out = tmp_path / "prepared" / config.metadata.id
@@ -70,20 +70,20 @@ def test_second_specimen_prepares_and_serves_its_own_mesh(tmp_path: Path) -> Non
     )
     store = SpecimenStore(out.parent)
     item = store.get_specimen(config.metadata.id)
-    assert item.accession == "IVPP V20378"
-    assert item.citation.datasetDoi.endswith("41ns1rnk6")
-    assert {s.id for s in item.structures} == {"skull", "endocast", "inner_ear"}
-    skull = next(s for s in item.structures if s.id == "skull")
-    assert skull.meshUrl == "/specimens/ivpp-v20378/meshes/skull.glb"
+    assert item.accession == "DINO 15914"
+    assert item.citation.datasetDoi.endswith("rbnzs7hjc")
+    assert {s.id for s in item.structures} == {s.id for s in config.structures}
+    skull = next(s for s in item.structures if s.id == "braincase")
+    assert skull.meshUrl == "/specimens/dino-15914/meshes/braincase.glb"
     assert skull.triangleCount == 12
-    assert store.resolve_mesh(item.id, "skull").read_bytes()[:4] == b"glTF"
-    assert all(s.status == "missing" for s in item.structures if s.id != "skull")
+    assert store.resolve_mesh(item.id, "braincase").read_bytes()[:4] == b"glTF"
+    assert all(s.status == "missing" for s in item.structures if s.id != "braincase")
 
 
 def test_discovery_preserves_nested_source_labels_and_rejects_collisions(
     tmp_path: Path,
 ) -> None:
-    config = load_config("uamz-r636")
+    config = load_config("uamz-r636").model_copy(update={"structures": []})
     nested = tmp_path / "Mesh Files (Adult)"
     nested.mkdir()
     (nested / "Left Maxilla.STL").touch()
@@ -99,7 +99,7 @@ def test_discovery_preserves_nested_source_labels_and_rejects_collisions(
 
 @pytest.mark.parametrize("field,value", [("rawDir", "../escape"), ("id", "../escape")])
 def test_config_rejects_unsafe_paths(field: str, value: str) -> None:
-    data = copy.deepcopy(load_config("ivpp-v20378").model_dump(mode="json"))
+    data = copy.deepcopy(load_config("dino-15914").model_dump(mode="json"))
     if field == "id":
         data["metadata"][field] = value
     else:
@@ -138,12 +138,12 @@ def test_extraction_rejects_traversal_before_writing(tmp_path: Path) -> None:
 
 
 def test_source_labels_do_not_make_unprepared_specimens_public(tmp_path: Path) -> None:
-    config = load_config("ivpp-v20378")
-    (tmp_path / "ivpp-v20378.json").write_text(config.model_dump_json())
+    config = load_config("dino-15914")
+    (tmp_path / "dino-15914.json").write_text(config.model_dump_json())
     assert SpecimenStore(tmp_path).list_specimens() == []
     # A malformed discovery config fails before a manifest can be generated.
     with pytest.raises(ValueError, match="No source meshes"):
-        load_config("uamz-r636").structure_catalog(tmp_path)
+        load_config("uamz-r636").model_copy(update={"structures": []}).structure_catalog(tmp_path)
 
 def test_nested_ply_archive_filters_metadata_and_converts(tmp_path: Path) -> None:
     archive = tmp_path / "source.zip"

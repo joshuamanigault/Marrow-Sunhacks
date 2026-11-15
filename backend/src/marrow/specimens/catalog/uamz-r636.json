@@ -8,7 +8,7 @@
     "citation": {
       "text": "Catherine Strong et al. (2019). Data from: Cranial ontogeny of Thamnophis radix (Serpentes: Colubroidea) with a re-evaluation of current paradigms of snake skull evolution [Dataset]. Dryad.",
       "datasetDoi": "10.5061/dryad.n50st0n",
-      "datasetUrl": "https://doi.org/10.5061/dryad.n50st0n",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.n50st0n",
       "articleDoi": "10.1098/rsos.182228",
       "articleUrl": "https://doi.org/10.1098/rsos.182228"
     },
@@ -28,7 +28,7 @@
       "units": "unknown",
       "axisConvention": "unknown",
       "sourceToDisplay": "identity",
-      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Source units and anatomical axes have not been verified. Structure names retain the source STL labels; sidedness is unspecified until curated."
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
     }
   },
   "rawDir": "data/raw/uamz-r636",
@@ -41,6 +41,151 @@
       "digestType": "md5"
     }
   ],
-  "structures": [],
-  "discoverStructures": true
+  "structures": [
+    {
+      "id": "angular",
+      "name": "Angular",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Angular.stl"
+    },
+    {
+      "id": "basioccipital",
+      "name": "Basioccipital",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Basioccipital.stl"
+    },
+    {
+      "id": "basisphenoid",
+      "name": "Basisphenoid",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Basisphenoid.stl"
+    },
+    {
+      "id": "compound",
+      "name": "Compound",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Compound.stl"
+    },
+    {
+      "id": "dentary",
+      "name": "Dentary",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Dentary.stl"
+    },
+    {
+      "id": "ectopterygoid",
+      "name": "Ectopterygoid",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Ectopterygoid.stl"
+    },
+    {
+      "id": "frontal",
+      "name": "Frontal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Frontal.stl"
+    },
+    {
+      "id": "jugal",
+      "name": "Jugal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Jugal.stl"
+    },
+    {
+      "id": "maxilla",
+      "name": "Maxilla",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Maxilla.stl"
+    },
+    {
+      "id": "nasal",
+      "name": "Nasal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Nasal.stl"
+    },
+    {
+      "id": "otoccipital",
+      "name": "Otoccipital",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Otoccipital.stl"
+    },
+    {
+      "id": "palatine",
+      "name": "Palatine",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Palatine.stl"
+    },
+    {
+      "id": "parietal",
+      "name": "Parietal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Parietal.stl"
+    },
+    {
+      "id": "prefrontal",
+      "name": "Prefrontal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Prefrontal.stl"
+    },
+    {
+      "id": "premaxilla",
+      "name": "Premaxilla",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Premaxilla.stl"
+    },
+    {
+      "id": "prootic",
+      "name": "Prootic",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Prootic.stl"
+    },
+    {
+      "id": "pterygoid",
+      "name": "Pterygoid",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Pterygoid.stl"
+    },
+    {
+      "id": "quadrate",
+      "name": "Quadrate",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Quadrate.stl"
+    },
+    {
+      "id": "septomaxilla",
+      "name": "Septomaxilla",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Septomaxilla.stl"
+    },
+    {
+      "id": "splenial",
+      "name": "Splenial",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Splenial.stl"
+    },
+    {
+      "id": "stapes",
+      "name": "Stapes",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Stapes.stl"
+    },
+    {
+      "id": "supraoccipital",
+      "name": "Supraoccipital",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Supraoccipital.stl"
+    },
+    {
+      "id": "supratemporal",
+      "name": "Supratemporal",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Supratemporal.stl"
+    },
+    {
+      "id": "vomer",
+      "name": "Vomer",
+      "side": "none",
+      "sourceFilename": "Mesh Files (Adult)/Vomer.stl"
+    }
+  ],
+  "discoverStructures": false
 }

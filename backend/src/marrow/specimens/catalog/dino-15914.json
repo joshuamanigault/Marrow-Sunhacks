@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "id": "dino-15914",
+    "scientificName": "Helioscopos dickersonae",
+    "commonLabel": "Stem gekkotan skull",
+    "accession": "DINO 15914",
+    "institution": "Dinosaur National Monument",
+    "citation": {
+      "text": "Dalton Meyer et al. (2023). A Morrison stem gekkotan reveals gecko evolution and Jurassic biogeography [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.rbnzs7hjc",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.rbnzs7hjc",
+      "articleDoi": "10.1098/rspb.2023.2284",
+      "articleUrl": "https://doi.org/10.1098/rspb.2023.2284"
+    },
+    "credits": [
+      "Dalton Meyer",
+      "Chase Brownstein",
+      "Kelsey Jenkins",
+      "Jacques Gauthier"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/dino-15914",
+  "sourceFiles": [
+    {
+      "filename": "Braincase.stl",
+      "fileId": 2751852,
+      "size": 19702884,
+      "digest": "0117d48e18a5df15313edc1e47f5e7521f4bf4ff887a7f78d21a4c18ff9faebe",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Compound_bone_(L).stl",
+      "fileId": 2751851,
+      "size": 11901084,
+      "digest": "d371a958b929c1f7cfbcf3b46b6878d93257b725e5d95c449213d8a1f32ce9a4",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Dentary_(L).stl",
+      "fileId": 2751850,
+      "size": 4154284,
+      "digest": "f45b7a53c6f1810172cf1719b33ed337bfbd875de38cef91ad1ca59a789fccec",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Dentary_(R).stl",
+      "fileId": 2751855,
+      "size": 6101684,
+      "digest": "a602c66c6d895bbd52673eeee842b4f6175baf53540d4391068f9b6e3ae8ce70",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Frontals.stl",
+      "fileId": 2751853,
+      "size": 12198484,
+      "digest": "3d1ce6b0770ad83ec92e541b7aa66fceab7d1dc3d0de19405a5d8c4af97775d6",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Jugal_(L).stl",
+      "fileId": 2751854,
+      "size": 2554084,
+      "digest": "17fb92f2e27fbae375f74153cc040c1ca5466cde6e5ac04062c032141f1805ff",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Maxilla_(L).stl",
+      "fileId": 2751856,
+      "size": 6287284,
+      "digest": "01393926f644369cd687fda271cb962d28cc19b7938f13cf0a0e23ac63da121a",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Maxilla_(R).stl",
+      "fileId": 2751857,
+      "size": 2381284,
+      "digest": "ba3abda569e05c6cf253b979f492c94bb81d5213217464def57737043d12cd03",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Palatine_(L).stl",
+      "fileId": 2751858,
+      "size": 1725484,
+      "digest": "99659ad14d2407b27eaa665b36e01c146ef75ffff7ab395223762f4ba62d9870",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Palatine_(R).stl",
+      "fileId": 2751859,
+      "size": 2084484,
+      "digest": "86d53944ccf94a44ce184d8897b2880909ab4c9eab433dba8db3f9ddbd552dc4",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Parietal.stl",
+      "fileId": 2751868,
+      "size": 12334084,
+      "digest": "c26fcd214d932ea52db5623d2f9ff16347eeb5cd16e8f55a3cab935b0fab8276",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Postorbitofrontal_(R).stl",
+      "fileId": 2751862,
+      "size": 2622884,
+      "digest": "8f437a50cf59a5c76cf1b763a2a9f043b1961f98071cfeb91a623916b4c34eb6",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Prefrontal_(L).stl",
+      "fileId": 2751860,
+      "size": 2583484,
+      "digest": "d2f463bae3112905ef802b212121a7d6e60fcd36991d97f8848522a5c4234f4f",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Prefrontal_(R).stl",
+      "fileId": 2751861,
+      "size": 3213484,
+      "digest": "e77ac65917cb6029cb540a05c462714bef0e5ece85a29bd7d4be4dc9368bda60",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Pterygoid_(R).stl",
+      "fileId": 2751863,
+      "size": 1260884,
+      "digest": "083de23d6a4d468a8df05365a9367219df7ee6805c4321b14414e8013a295a70",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Squamosal_(R).stl",
+      "fileId": 2751865,
+      "size": 1719084,
+      "digest": "ba2200dbb325ddf489a28d5738b8fd6f508469fdac7eb0cb52b5382f5b122381",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "braincase",
+      "name": "Braincase",
+      "side": "none",
+      "sourceFilename": "Braincase.stl"
+    },
+    {
+      "id": "compound_bone_l",
+      "name": "Compound bone",
+      "side": "left",
+      "sourceFilename": "Compound_bone_(L).stl"
+    },
+    {
+      "id": "dentary_l",
+      "name": "Dentary",
+      "side": "left",
+      "sourceFilename": "Dentary_(L).stl"
+    },
+    {
+      "id": "dentary_r",
+      "name": "Dentary",
+      "side": "right",
+      "sourceFilename": "Dentary_(R).stl"
+    },
+    {
+      "id": "frontals",
+      "name": "Frontals",
+      "side": "none",
+      "sourceFilename": "Frontals.stl"
+    },
+    {
+      "id": "jugal_l",
+      "name": "Jugal",
+      "side": "left",
+      "sourceFilename": "Jugal_(L).stl"
+    },
+    {
+      "id": "maxilla_l",
+      "name": "Maxilla",
+      "side": "left",
+      "sourceFilename": "Maxilla_(L).stl"
+    },
+    {
+      "id": "maxilla_r",
+      "name": "Maxilla",
+      "side": "right",
+      "sourceFilename": "Maxilla_(R).stl"
+    },
+    {
+      "id": "palatine_l",
+      "name": "Palatine",
+      "side": "left",
+      "sourceFilename": "Palatine_(L).stl"
+    },
+    {
+      "id": "palatine_r",
+      "name": "Palatine",
+      "side": "right",
+      "sourceFilename": "Palatine_(R).stl"
+    },
+    {
+      "id": "parietal",
+      "name": "Parietal",
+      "side": "none",
+      "sourceFilename": "Parietal.stl"
+    },
+    {
+      "id": "postorbitofrontal_r",
+      "name": "Postorbitofrontal",
+      "side": "right",
+      "sourceFilename": "Postorbitofrontal_(R).stl"
+    },
+    {
+      "id": "prefrontal_l",
+      "name": "Prefrontal",
+      "side": "left",
+      "sourceFilename": "Prefrontal_(L).stl"
+    },
+    {
+      "id": "prefrontal_r",
+      "name": "Prefrontal",
+      "side": "right",
+      "sourceFilename": "Prefrontal_(R).stl"
+    },
+    {
+      "id": "pterygoid_r",
+      "name": "Pterygoid",
+      "side": "right",
+      "sourceFilename": "Pterygoid_(R).stl"
+    },
+    {
+      "id": "squamosal_r",
+      "name": "Squamosal",
+      "side": "right",
+      "sourceFilename": "Squamosal_(R).stl"
+    }
+  ],
+  "discoverStructures": false
+}
