@@ -2,7 +2,7 @@
   "metadata": {
     "id": "brsug-29950-14",
     "scientificName": "Agriodontosaurus helsbypetrae",
-    "commonLabel": "Rhynchocephalian skull",
+    "commonLabel": "Rhynchocephalian skull with displaced palate complex",
     "accession": "BRSUG 29950-14",
     "institution": "University of Bristol",
     "citation": {
@@ -26,7 +26,7 @@
       "units": "unknown",
       "axisConvention": "unknown",
       "sourceToDisplay": "identity",
-      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels. The vomer-palatine-pterygoid complex lies apart from the skull cluster in the deposited coordinates. Its articulated placement is unverified."
     }
   },
   "rawDir": "data/raw/brsug-29950-14",
