@@ -7,6 +7,7 @@ import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './s
 import { useViewer, type DisplayMode } from './viewer'
 import AskPanel from '../ai/AskPanel'
 import { useAiEnabled } from '../ai/api'
+import { FirstOpenTip } from './FirstOpenTip'
 import './workspace.css'
 
 const icons = {
@@ -455,20 +456,23 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
         </div>
       </main>
 
-      <div className="ws-dock ws-float">
-        <button type="button" onClick={v.reset}>
-          <Icon name="home" />
-          Reset view
-        </button>
-        <button
-          type="button"
-          aria-pressed={v.pinning}
-          title={v.pinning ? 'Cancel pin placement' : 'Pin observation'}
-          onClick={togglePinning}
-        >
-          <Icon name="pin" />
-          {v.pinning ? 'Cancel pin' : 'Pin observation'}
-        </button>
+      <div className="ws-dock-stack">
+        <FirstOpenTip />
+        <div className="ws-dock ws-float">
+          <button type="button" onClick={v.reset}>
+            <Icon name="home" />
+            Reset view
+          </button>
+          <button
+            type="button"
+            aria-pressed={v.pinning}
+            title={v.pinning ? 'Cancel pin placement' : 'Pin observation'}
+            onClick={togglePinning}
+          >
+            <Icon name="pin" />
+            {v.pinning ? 'Cancel pin' : 'Pin observation'}
+          </button>
+        </div>
       </div>
 
       {/* Last in the DOM so tab order matches the narrow layout. */}
