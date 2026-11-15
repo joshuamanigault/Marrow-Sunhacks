@@ -274,7 +274,7 @@ function PinsPanel({ specimenId }: { specimenId: string }) {
 
   function openPin(pin: PinObservation) {
     setActive(pin.id)
-    v.focus(pin.structureId)
+    if (v.focusedId !== pin.structureId) v.focus(pin.structureId)
   }
 
   return (
