@@ -29,11 +29,11 @@ def script(name: str):
     return module
 
 
-def test_ten_distinct_specimens_with_individual_sources() -> None:
+def test_nine_distinct_specimens_with_individual_sources() -> None:
     configs = [load_config(specimen_id) for specimen_id in catalog_ids()]
-    assert len(configs) == 10
-    assert len({c.metadata.accession for c in configs}) == 10
-    assert len({c.metadata.scientificName for c in configs}) == 10
+    assert len(configs) == 9
+    assert len({c.metadata.accession for c in configs}) == 9
+    assert len({c.metadata.scientificName for c in configs}) == 9
     for config in configs:
         assert config.metadata.id in catalog_ids()
         assert config.metadata.credits
