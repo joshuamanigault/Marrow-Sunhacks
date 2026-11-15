@@ -1,0 +1,12 @@
+# The API image only needs backend/ and data/prepared/.
+**/node_modules
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+.git
+frontend
+docs
+data/raw
+.env
+**/.env
