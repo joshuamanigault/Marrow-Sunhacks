@@ -112,3 +112,15 @@ def test_write_manifest_does_not_use_stl_counts_for_existing_glb(
     maxilla_l = next(s for s in manifest["structures"] if s["id"] == "maxilla_l")
     maxilla_r = next(s for s in manifest["structures"] if s["id"] == "maxilla_r")
     assert maxilla_l["color"] != maxilla_r["color"]
+
+
+def test_decimation_keeps_a_detached_fragment_in_the_same_structure() -> None:
+    main = trimesh.creation.icosphere(subdivisions=3)
+    fragment = trimesh.creation.box(extents=[0.1, 0.1, 0.1])
+    fragment.apply_translation([9, 0, 0])
+    source = trimesh.util.concatenate([main, fragment])
+    simplified = main.simplify_quadric_decimation(face_count=100)
+    result = prep.preserve_small_fragments(source, simplified, 100)
+    assert len(result.faces) <= 100
+    assert np.isclose(result.bounds[1, 0], source.bounds[1, 0])
+    assert len(result.vertices[result.vertices[:, 0] > 8]) == len(fragment.vertices)

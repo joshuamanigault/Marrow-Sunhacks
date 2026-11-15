@@ -249,6 +249,53 @@ def inventory_meshes(
     return rows
 
 
+def simplify_to_budget(mesh: trimesh.Trimesh, max_faces: int) -> trimesh.Trimesh:
+    mesh = mesh.simplify_quadric_decimation(face_count=max_faces)
+    if len(mesh.faces) > max_faces:
+        # Dense, nearly coincident triangles can stall quadric decimation.
+        # Weld points within small grid cells using an actual source position.
+        cell_size = float(mesh.extents.max()) / 1024
+        cells = np.rint((mesh.vertices - mesh.bounds[0]) / cell_size)
+        _, first, inverse = np.unique(
+            cells, axis=0, return_index=True, return_inverse=True
+        )
+        mesh = trimesh.Trimesh(
+            vertices=mesh.vertices[first],
+            faces=inverse[mesh.faces],
+            process=False,
+        )
+        mesh.update_faces(mesh.unique_faces() & mesh.nondegenerate_faces())
+        if len(mesh.faces) > max_faces:
+            mesh = mesh.simplify_quadric_decimation(face_count=max_faces)
+        if len(mesh.faces) > max_faces:
+            raise ValueError(f"Unable to simplify mesh to {max_faces} faces")
+    return mesh
+
+
+def preserve_small_fragments(
+    source: trimesh.Trimesh, simplified: trimesh.Trimesh, max_faces: int
+) -> trimesh.Trimesh:
+    """Retain detached source fragments when decimation shrinks the overall bounds."""
+    if np.max(np.abs(source.bounds - simplified.bounds)) <= 0.05 * source.scale:
+        return simplified
+    labels = trimesh.graph.connected_component_labels(
+        source.edges, len(source.vertices)
+    )
+    face_labels = labels[source.faces[:, 0]]
+    sizes = np.bincount(face_labels)
+    smallest = np.argsort(sizes)
+    # Reserve at most half of the budget for unchanged fragments. Keep the
+    # largest component in the decimator even for very small input meshes.
+    ordered = smallest[:-1]
+    keep = ordered[np.cumsum(sizes[ordered]) <= max_faces // 2]
+    mask = np.isin(face_labels, keep)
+    if not mask.any():
+        return simplified
+    fragments, main = source.submesh([mask, ~mask], repair=False)
+    reduced = simplify_to_budget(main, max_faces - len(fragments.faces))
+    return trimesh.util.concatenate([reduced, fragments])
+
+
 def convert_one(
     entry: StructureDef,
     raw_dir: Path,
@@ -319,25 +366,9 @@ def convert_one(
         mesh.merge_vertices()
         decimated = False
         if len(mesh.faces) > max_faces:
-            mesh = mesh.simplify_quadric_decimation(face_count=max_faces)
-            if len(mesh.faces) > max_faces:
-                # Dense, nearly coincident triangles can stall quadric decimation.
-                # Weld points within small grid cells using an actual source position.
-                cell_size = float(mesh.extents.max()) / 1024
-                cells = np.rint((mesh.vertices - mesh.bounds[0]) / cell_size)
-                _, first, inverse = np.unique(
-                    cells, axis=0, return_index=True, return_inverse=True
-                )
-                mesh = trimesh.Trimesh(
-                    vertices=mesh.vertices[first],
-                    faces=inverse[mesh.faces],
-                    process=False,
-                )
-                mesh.update_faces(mesh.unique_faces() & mesh.nondegenerate_faces())
-                if len(mesh.faces) > max_faces:
-                    mesh = mesh.simplify_quadric_decimation(face_count=max_faces)
-                if len(mesh.faces) > max_faces:
-                    raise ValueError(f"Unable to simplify mesh to {max_faces} faces")
+            source_mesh = mesh
+            mesh = simplify_to_budget(mesh, max_faces)
+            mesh = preserve_small_fragments(source_mesh, mesh, max_faces)
             decimated = True
         export_bounds = {
             "min": [float(x) for x in mesh.bounds[0]],
