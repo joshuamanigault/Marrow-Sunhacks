@@ -32,7 +32,7 @@ class Coordinates(BaseModel):
     until CT metadata is inspected.
     """
 
-    frame: Literal["source_stl"] = "source_stl"
+    frame: Literal["source_stl", "source_ply"] = "source_stl"
     units: Literal["unknown", "mm"] = "unknown"
     axisConvention: Literal["unknown"] = "unknown"
     sourceToDisplay: Literal["identity"] = "identity"

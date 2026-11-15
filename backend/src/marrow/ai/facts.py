@@ -45,22 +45,17 @@ def _manifest_facts(
 ) -> list[dict[str, Any]]:
     """What the dataset itself says about one bone: identity, never anatomy."""
     side = _SIDE.get(s.side)
-    where = (
-        f"the {side} side"
-        if side
-        else "the midline (no left/right pair in this dataset)"
-    )
+    qualifier = f" ({side})" if side else ""
     return [
         {
-            "text": f"This structure is the {s.name.lower()} from {where} of "
+            "text": f"The manifest identifies {s.name}{qualifier} in "
             f"{specimen.scientificName} specimen {specimen.accession}.",
             "source": "Specimen manifest",
             "url": str(specimen.citation.datasetUrl),
         },
         {
-            "text": f"Its 3D model is the published mesh '{s.sourceFilename}' from "
-            "Appendix 2 of the authors' Dryad dataset, segmented from the micro-CT "
-            "scan.",
+            "text": f"Its source mesh is '{s.sourceFilename}' in the dataset "
+            f"for {specimen.accession}.",
             "source": "Specimen manifest",
             "url": str(specimen.citation.datasetUrl),
         },
@@ -77,7 +72,15 @@ def _number(raw: list[dict[str, Any]], prefix: str) -> list[Fact]:
 
 
 def specimen_facts(specimen: SpecimenResponse) -> list[Fact]:
-    return _number(_curated(specimen.id).get("specimen", []), "S")
+    raw = _curated(specimen.id).get("specimen", [])
+    if not raw:
+        raw = [{
+            "text": f"The dataset identifies {specimen.accession} as "
+            f"{specimen.scientificName}, held at {specimen.institution}.",
+            "source": "Specimen manifest",
+            "url": str(specimen.citation.datasetUrl),
+        }]
+    return _number(raw, "S")
 
 
 def structure_facts(specimen: SpecimenResponse, s: StructureSummary) -> list[Fact]:

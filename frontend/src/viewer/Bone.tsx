@@ -40,15 +40,18 @@ function useBoneGeometry(url: string): BufferGeometry {
 }
 
 interface BoneProps {
+  onLoaded: (id: string) => void
   structure: Structure
   color: Color
   /** Where Exploded pushes from (specimen center, or the focused bone's center). */
   explodeOrigin: Vector3
 }
 
-export function Bone({ structure, color, explodeOrigin }: BoneProps) {
+export function Bone({ structure, color, explodeOrigin, onLoaded }: BoneProps) {
   const id = structure.id
   const geometry = useBoneGeometry(apiUrl(structure.meshUrl!))
+
+  useEffect(() => { onLoaded(id) }, [id, onLoaded])
 
   const hidden = useViewer((s) => !!s.hiddenIds[id])
   const selected = useViewer((s) => s.selectedId === id)

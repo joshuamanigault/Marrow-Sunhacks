@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Component, Suspense, useMemo, useRef, type ReactNode } from 'react'
+import { Component, Suspense, useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Color, Vector3, type DirectionalLight } from 'three'
 import { NATURAL_BONE, structureLabel, type Specimen, type Structure } from '../workspace/specimen'
 import { Bone } from './Bone'
@@ -36,12 +36,13 @@ function KeyLight({ center, radius }: { center: Vector3; radius: number }) {
  * One bad mesh must not take down the scene. The structure list still names it;
  * this only keeps the other bones on screen.
  */
-class MeshBoundary extends Component<{ structure: Structure; children: ReactNode }, { failed: boolean }> {
+class MeshBoundary extends Component<{ structure: Structure; onFailure: (id: string) => void; children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() {
     return { failed: true }
   }
   componentDidCatch(error: unknown) {
+    this.props.onFailure(this.props.structure.id)
     console.warn(`Could not load mesh for ${structureLabel(this.props.structure)}`, error)
   }
   render() {
@@ -57,6 +58,17 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
   const focusedId = useViewer((s) => s.focusedId)
   const origin = useMemo(() => explodeOrigin(specimen, focusedId, center), [specimen, focusedId, center])
 
+  const meshes = useMemo(() => specimen.structures.filter(s => s.status === 'ok' && s.meshUrl), [specimen])
+  const [settled, setSettled] = useState<Set<string>>(() => new Set())
+  const [failures, setFailures] = useState<Set<string>>(() => new Set())
+  const onLoaded = useCallback((id: string) => {
+    setSettled(previous => previous.has(id) ? previous : new Set(previous).add(id))
+  }, [])
+  const onFailure = useCallback((id: string) => {
+    setFailures(previous => new Set(previous).add(id))
+    onLoaded(id)
+  }, [onLoaded])
+
   return (
     <>
       <Canvas
@@ -66,22 +78,26 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
       >
         <hemisphereLight args={['#ffffff', '#8a7a62', 0.9]} />
         <KeyLight center={center} radius={radius} />
-        {specimen.structures.map((s) =>
-          s.status === 'ok' && s.meshUrl ? (
-            <MeshBoundary key={s.id} structure={s}>
-              <Suspense fallback={null}>
-                <Bone
-                  structure={s}
-                  color={boneColor(s) ?? new Color(NATURAL_BONE)}
-                  explodeOrigin={origin}
-                />
-              </Suspense>
-            </MeshBoundary>
-          ) : null,
-        )}
+        {meshes.slice(0, settled.size + 4).map((s) => (
+          <MeshBoundary key={s.id} structure={s} onFailure={onFailure}>
+            <Suspense fallback={null}>
+              <Bone
+                onLoaded={onLoaded}
+                structure={s}
+                color={boneColor(s) ?? new Color(NATURAL_BONE)}
+                explodeOrigin={origin}
+              />
+            </Suspense>
+          </MeshBoundary>
+        ))}
         <CameraRig specimen={specimen} box={box} center={center} />
         <HandPointer />
       </Canvas>
+      {failures.size > 0 && (
+        <div className="ws-mesh-error" role="alert">
+          Could not load {meshes.filter(s => failures.has(s.id)).map(structureLabel).join(', ')}.
+        </div>
+      )}
       <HandControl specimen={specimen} />
     </>
   )

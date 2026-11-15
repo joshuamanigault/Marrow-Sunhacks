@@ -197,7 +197,7 @@ function lookingAtBlurb(specimen: Specimen): string {
   const blocked = specimen.structures.filter(
     (s) => s.status === 'missing' || s.status === 'unreadable',
   ).length
-  return `You are looking at prepared 3D surfaces of skull elements from the published micro-CT study of ${specimen.accession}. ${ready} part(s) are ready to display; ${blocked} are missing or unreadable in the prepared inventory. Marrow shows researcher-prepared meshes — not an artist reconstruction.`
+  return `You are looking at researcher-prepared 3D surfaces from the published dataset for ${specimen.accession}. ${ready} part(s) are ready to display; ${blocked} are missing or unreadable in the prepared inventory. See the citation and source for how these structures were scanned and reconstructed.`
 }
 
 function InfoPanel({ specimen }: { specimen: Specimen }) {
@@ -213,6 +213,8 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dd>{specimen.accession}</dd>
         <dt>Collection</dt>
         <dd>{specimen.institution}</dd>
+        <dt>Source coordinates</dt>
+        <dd>{specimen.coordinates.notes}</dd>
         <dt>Data source</dt>
         <dd>
           doi:{specimen.citation.datasetDoi} · {specimen.reuseTerms.license}
@@ -278,15 +280,16 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
     <div className="ws" data-panel={panel ?? undefined}>
       <header className="ws-case ws-float">
         {/* Plain link, so the workspace does not need a router around it. */}
-        <a href="/" aria-label="Marrow start page">
-          <Icon name="bone" />
+        <a href="/explore" aria-label="Back to specimen catalog" title="Back to catalog">
+          <Icon name="arrow" />
+          <span>Catalog</span>
         </a>
         <div>
           <strong>
             <i>{specimen.scientificName}</i>
           </strong>
           <span>
-            {specimen.accession} · {specimen.institution}
+            {specimen.accession} · {specimen.commonLabel}
           </span>
         </div>
       </header>

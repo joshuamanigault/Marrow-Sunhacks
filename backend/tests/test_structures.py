@@ -1,4 +1,5 @@
 import re
+from pathlib import Path
 
 from marrow.structures import (
     STRUCTURE_CATALOG,
@@ -32,7 +33,7 @@ def test_structure_colors_are_stable_hex_and_distinct_for_sides() -> None:
 
 
 def test_catalog_covers_published_appendix2_list() -> None:
-    names = {entry.source_filename for entry in STRUCTURE_CATALOG.values()}
+    names = {Path(entry.source_filename).name for entry in STRUCTURE_CATALOG.values()}
     expected = {
         "angularL.stl",
         "ectopterygoidL.stl",
@@ -57,3 +58,7 @@ def test_catalog_covers_published_appendix2_list() -> None:
         "vomers.stl",
     }
     assert names == expected
+    assert all(
+        entry.source_filename.startswith("Appendix2/")
+        for entry in STRUCTURE_CATALOG.values()
+    )

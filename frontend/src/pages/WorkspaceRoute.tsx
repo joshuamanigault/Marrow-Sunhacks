@@ -14,6 +14,11 @@ import { useViewer } from '../workspace/viewer'
  */
 export function WorkspaceRoute() {
   const { specimenId } = useParams<{ specimenId: string }>()
+  // Remount request, panels and scene state on direct specimen-to-specimen navigation.
+  return <LoadedWorkspace key={specimenId} specimenId={specimenId ?? ''} />
+}
+
+function LoadedWorkspace({ specimenId }: { specimenId: string }) {
   const [specimen, setSpecimen] = useState<Specimen>()
   const [error, setError] = useState<string>()
   const [retryCount, setRetryCount] = useState(0)
@@ -31,14 +36,11 @@ export function WorkspaceRoute() {
   }, [specimenId])
 
   useEffect(() => {
-    if (!specimenId) {
-      setError(STATUS_COPY.loadErrorBody)
-      return
-    }
-
     const request = new AbortController()
     fetchSpecimen(specimenId, request.signal).then(
-      (data) => setSpecimen(data),
+      (data) => {
+        if (!request.signal.aborted) setSpecimen(data)
+      },
       (e: unknown) => {
         if (request.signal.aborted) return
         // fetch() rejects with TypeError when the server cannot be reached.
@@ -68,7 +70,7 @@ export function WorkspaceRoute() {
             {error}
           </StatusBanner>
           <p>
-            <Link to="/">← Back to start</Link>
+            <Link to="/explore">← Back to catalog</Link>
           </p>
         </div>
       </main>

@@ -58,3 +58,20 @@ def test_unreadable_facts_file_returns_empty_and_warns(
     with caplog.at_level(logging.WARNING, logger="marrow.ai.facts"):
         assert facts._curated("locked") == {"specimen": [], "structures": {}}
     assert any("locked" in r.getMessage() for r in caplog.records)
+
+
+def test_new_specimen_with_shared_structure_id_uses_only_its_own_sources() -> None:
+    from marrow.models.specimen import StructureSummary
+    from marrow.specimens.preparation import load_config
+
+    config = load_config("uamz-r636")
+    source = next(s for s in config.structures if s.id == "nasal")
+    structure = StructureSummary(**source.model_dump(), status="ok")
+    result = facts.specimen_facts(config.metadata) + facts.structure_facts(
+        config.metadata, structure
+    )
+    assert all(str(f.url) == str(config.metadata.citation.datasetUrl) for f in result)
+    rendered = facts.render(result)
+    assert "UAMZ R636" in rendered and source.sourceFilename in rendered
+    for unsupported in ("Appendix 2", "midline", "YPM", "Eosphorosuchus"):
+        assert unsupported not in rendered

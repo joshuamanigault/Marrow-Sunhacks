@@ -1,0 +1,286 @@
+{
+  "metadata": {
+    "id": "gik-991",
+    "scientificName": "Durialepis edentatus",
+    "commonLabel": "Porolepiform skeletal elements",
+    "accession": "GIK 991",
+    "institution": "Geologisches Institut K\u00f6ln",
+    "citation": {
+      "text": "Sam Giles et al. (2020). Redescription of the cranial skeleton of the Early Devonian (Emsian) sarcopterygian Durialepis edentatus Otto, 2007 (Dipnomorpha; Porolepiformes) [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.rfj6q576v",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.rfj6q576v",
+      "articleDoi": "10.1002/spp2.1315",
+      "articleUrl": "https://doi.org/10.1002/spp2.1315"
+    },
+    "credits": [
+      "Sam Giles",
+      "Jorge Mond\u00e9jar-Fern\u00e1ndez",
+      "Matt Friedman"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_ply",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/gik-991",
+  "sourceFiles": [
+    {
+      "filename": "skull_PLY.zip",
+      "fileId": 286327,
+      "size": 33139385,
+      "digest": "396d22e3d2d17dba249165e1b0daeafb8e94377e86607d89664b0f02fb723364",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "branchiostegals",
+      "name": "Branchiostegals",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis branchiostegals.ply"
+    },
+    {
+      "id": "cleithrum",
+      "name": "Cleithrum",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis cleithrum.ply"
+    },
+    {
+      "id": "coronoids",
+      "name": "Coronoids",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis coronoids.ply"
+    },
+    {
+      "id": "dentary_infradentaries",
+      "name": "Dentary infradentaries",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis dentary infradentaries.ply"
+    },
+    {
+      "id": "dermopalatine",
+      "name": "Dermopalatine",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis dermopalatine.ply"
+    },
+    {
+      "id": "ectopterygoid",
+      "name": "Ectopterygoid",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis ectopterygoid.ply"
+    },
+    {
+      "id": "ethmoid",
+      "name": "Ethmoid",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis ethmoid.ply"
+    },
+    {
+      "id": "fin_spine",
+      "name": "Fin spine",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis fin spine.ply"
+    },
+    {
+      "id": "hyomandibula",
+      "name": "Hyomandibula",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis hyomandibula.ply"
+    },
+    {
+      "id": "jugal",
+      "name": "Jugal",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis jugal.ply"
+    },
+    {
+      "id": "lachrymal",
+      "name": "Lachrymal",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis lachrymal.ply"
+    },
+    {
+      "id": "lateral_gular",
+      "name": "Lateral gular",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis lateral gular.ply"
+    },
+    {
+      "id": "maxilla",
+      "name": "Maxilla",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis maxilla.ply"
+    },
+    {
+      "id": "median_gular",
+      "name": "Median gular",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis median gular.ply"
+    },
+    {
+      "id": "operculum",
+      "name": "Operculum",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis operculum.ply"
+    },
+    {
+      "id": "palatoquadrate_anterior",
+      "name": "Palatoquadrate anterior",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis palatoquadrate anterior.ply"
+    },
+    {
+      "id": "palatoquadrate_posterior",
+      "name": "Palatoquadrate posterior",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis palatoquadrate posterior.ply"
+    },
+    {
+      "id": "palatoquadrate_ventral",
+      "name": "Palatoquadrate ventral",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis palatoquadrate ventral.ply"
+    },
+    {
+      "id": "parasymphysial_tooth_whorl",
+      "name": "Parasymphysial tooth whorl",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis parasymphysial tooth whorl.ply"
+    },
+    {
+      "id": "pectoral_fin_scale",
+      "name": "Pectoral fin scale",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis pectoral fin scale.ply"
+    },
+    {
+      "id": "postorbital",
+      "name": "Postorbital",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis postorbital.ply"
+    },
+    {
+      "id": "prearticular_meckels",
+      "name": "Prearticular meckels",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis prearticular meckels.ply"
+    },
+    {
+      "id": "preoperculosubmandibular",
+      "name": "Preoperculosubmandibular",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis preoperculosubmandibular.ply"
+    },
+    {
+      "id": "preoperculum",
+      "name": "Preoperculum",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis preoperculum.ply"
+    },
+    {
+      "id": "prespiracular",
+      "name": "Prespiracular",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis prespiracular.ply"
+    },
+    {
+      "id": "quadratojugal",
+      "name": "Quadratojugal",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis quadratojugal.ply"
+    },
+    {
+      "id": "scales",
+      "name": "Scales",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis scales.ply"
+    },
+    {
+      "id": "squamosal",
+      "name": "Squamosal",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis squamosal.ply"
+    },
+    {
+      "id": "submandibular_2",
+      "name": "Submandibular 2",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis submandibular 2.ply"
+    },
+    {
+      "id": "submandibular",
+      "name": "Submandibular",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis submandibular.ply"
+    },
+    {
+      "id": "suboperculum",
+      "name": "Suboperculum",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis suboperculum.ply"
+    },
+    {
+      "id": "subsquamosal_anterior",
+      "name": "Subsquamosal anterior",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis subsquamosal anterior.ply"
+    },
+    {
+      "id": "subsquamosal_posterior",
+      "name": "Subsquamosal posterior",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis subsquamosal posterior.ply"
+    },
+    {
+      "id": "vomer",
+      "name": "Vomer",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis vomer.ply"
+    },
+    {
+      "id": "bone_1",
+      "name": "Bone 1",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_1.ply"
+    },
+    {
+      "id": "bone_2",
+      "name": "Bone 2",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_2.ply"
+    },
+    {
+      "id": "bone_3",
+      "name": "Bone 3",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_3.ply"
+    },
+    {
+      "id": "bone_4",
+      "name": "Bone 4",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_4.ply"
+    },
+    {
+      "id": "bone_5",
+      "name": "Bone 5",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_5.ply"
+    },
+    {
+      "id": "bone_6",
+      "name": "Bone 6",
+      "side": "none",
+      "sourceFilename": "skull/Durialepis_bone_6.ply"
+    }
+  ],
+  "discoverStructures": false
+}

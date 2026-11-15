@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "id": "ivpp-v14010",
+    "scientificName": "Junggarsuchus sloani",
+    "commonLabel": "Crocodylomorph skull",
+    "accession": "IVPP V14010",
+    "institution": "Institute of Vertebrate Paleontology and Paleoanthropology",
+    "citation": {
+      "text": "James Clark et al. (2022). Anatomy and relationships of the basal Crocodylomorphs Junggarsuchus sloani and Dibothrosuchus elaphros [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.5hqbzkh5k",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.5hqbzkh5k",
+      "articleDoi": "10.1002/ar.24949",
+      "articleUrl": "https://doi.org/10.1002/ar.24949"
+    },
+    "credits": [
+      "James Clark",
+      "Alexander Ruebenstahl"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels. This assembly uses the numbered variant 2 postorbital and squamosal. The study describes alternative interpretations of their contact. The palate is displayed as separately segmented elements."
+    }
+  },
+  "rawDir": "data/raw/ivpp-v14010",
+  "sourceFiles": [
+    {
+      "filename": "Junggarsuchus_stl_files.zip",
+      "fileId": 1708504,
+      "size": 831085014,
+      "digest": "03f2c35534cee1bafd7799dfaf41dfd322461d9f61531eb00244048737440a68",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "angular",
+      "name": "Angular",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_angular.stl"
+    },
+    {
+      "id": "articular",
+      "name": "Articular",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_articular.stl"
+    },
+    {
+      "id": "basioccipital",
+      "name": "Basioccipital",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_basioccipital.stl"
+    },
+    {
+      "id": "basisphenoid",
+      "name": "Basisphenoid",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_basisphenoid.stl"
+    },
+    {
+      "id": "coronoid",
+      "name": "Coronoid",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_coronoid.stl"
+    },
+    {
+      "id": "dentary",
+      "name": "Dentary",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_dentary.stl"
+    },
+    {
+      "id": "ectopterygoid",
+      "name": "Ectopterygoid",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_ectopterygoid.stl"
+    },
+    {
+      "id": "frontals",
+      "name": "Frontals",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_frontals.stl"
+    },
+    {
+      "id": "jugal",
+      "name": "Jugal",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_jugal.stl"
+    },
+    {
+      "id": "lacrimal",
+      "name": "Lacrimal",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_lacrimal.stl"
+    },
+    {
+      "id": "laterosphenoid",
+      "name": "Laterosphenoid",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_laterosphenoid.stl"
+    },
+    {
+      "id": "maxilla",
+      "name": "Maxilla",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_maxilla.stl"
+    },
+    {
+      "id": "nasals",
+      "name": "Nasals",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_nasals.stl"
+    },
+    {
+      "id": "otoccipital",
+      "name": "Otoccipital",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_otoccipital.stl"
+    },
+    {
+      "id": "palatine",
+      "name": "Palatine",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_palatine.stl"
+    },
+    {
+      "id": "palpebral",
+      "name": "Palpebral",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_palpebral.stl"
+    },
+    {
+      "id": "parietal",
+      "name": "Parietal",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_parietal.stl"
+    },
+    {
+      "id": "postorbital_2",
+      "name": "Postorbital (variant 2)",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_postorbital2.stl"
+    },
+    {
+      "id": "prearticular",
+      "name": "Prearticular",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_preartiucular.stl"
+    },
+    {
+      "id": "prefrontal",
+      "name": "Prefrontal",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_prefrontal.stl"
+    },
+    {
+      "id": "premaxilla",
+      "name": "Premaxilla",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_premaxilla.stl"
+    },
+    {
+      "id": "prootic",
+      "name": "Prootic",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_prootic.stl"
+    },
+    {
+      "id": "pterygoid_process",
+      "name": "Pterygoid process",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_pterygoid_process.stl"
+    },
+    {
+      "id": "quadrate",
+      "name": "Quadrate",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_quadrate.stl"
+    },
+    {
+      "id": "quadratojugal",
+      "name": "Quadratojugal",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_quadratojugal.stl"
+    },
+    {
+      "id": "splenial",
+      "name": "Splenial",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_splenial.stl"
+    },
+    {
+      "id": "squamosal_2",
+      "name": "Squamosal (variant 2)",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_squamosal2.stl"
+    },
+    {
+      "id": "supraoccipital",
+      "name": "Supraoccipital",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_supraoccipital.stl"
+    },
+    {
+      "id": "surangular",
+      "name": "Surangular",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_surangular.stl"
+    },
+    {
+      "id": "vomer",
+      "name": "Vomer",
+      "side": "none",
+      "sourceFilename": "Junggarsuchus_vomer.stl"
+    }
+  ],
+  "discoverStructures": false
+}

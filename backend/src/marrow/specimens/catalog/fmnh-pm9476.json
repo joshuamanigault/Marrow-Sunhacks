@@ -1,0 +1,286 @@
+{
+  "metadata": {
+    "id": "fmnh-pm9476",
+    "scientificName": "Palaeolagus haydeni",
+    "commonLabel": "Fossil lagomorph skull",
+    "accession": "FMNH PM9476",
+    "institution": "Field Museum of Natural History",
+    "citation": {
+      "text": "Lucja Fostowicz-Frelik et al. (2021). CT-informed skull osteology of Palaeolagus haydeni (Mammalia: Lagomorpha) [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.crjdfn338",
+      "datasetUrl": "https://datadryad.org/dataset/doi:10.5061/dryad.crjdfn338",
+      "articleDoi": "10.3389/fevo.2021.634757",
+      "articleUrl": "https://doi.org/10.3389/fevo.2021.634757"
+    },
+    "credits": [
+      "Lucja Fostowicz-Frelik",
+      "Andrzej Wolniewicz"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_ply",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+    }
+  },
+  "rawDir": "data/raw/fmnh-pm9476",
+  "sourceFiles": [
+    {
+      "filename": "FMNH_PM9476_fr_orb_pre_bas_squ.ply",
+      "fileId": 586241,
+      "size": 42163494,
+      "digest": "c9a77ddc402009a570e5bd297eb4af5363a2060d7e767506036321da6a946d3d",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_frontal_fp.ply",
+      "fileId": 586242,
+      "size": 8080394,
+      "digest": "e7839397a7b666cc0b6fa049219372647d201ec6b4691b073f88ec060d39d45a",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_mandible_inc_pms.ply",
+      "fileId": 586246,
+      "size": 56370321,
+      "digest": "e8dada85e571ce7e916a09a70ded6035f3b7c431bbc51888882f55da4d3e80fb",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_mastoid.ply",
+      "fileId": 586249,
+      "size": 18874243,
+      "digest": "9b22f7482b3aa31aece2697166b56e34bf24e8ff8f46989a2c7a669807fb3b89",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_maxilla_pms_jug.ply",
+      "fileId": 586245,
+      "size": 41116235,
+      "digest": "42ceee8a86ae963d4abef71f5c48ac23546515d1f16203f1bc7c20ee4db9face",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_nasal.ply",
+      "fileId": 586243,
+      "size": 4459962,
+      "digest": "6227bef88c04e66960f95d9ff4a8f0e5d2655cf7278581706bcfbe372086e9ff",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_premaxilla_inc.ply",
+      "fileId": 586244,
+      "size": 10878771,
+      "digest": "4f0ecf269c846e803374297f465298c88d57256946e15796ae94408388efaeb6",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_left_tympanic.ply",
+      "fileId": 586252,
+      "size": 20706036,
+      "digest": "a76d4d8ee0376650d5dc03638912f817f75be5133ad522cb8a15b18585f5527c",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_mandible.ply",
+      "fileId": 586248,
+      "size": 83547701,
+      "digest": "e960c4b7d2e56bd356561fcb7b306218fa7ec708e91374a63500e08d94c5720d",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_palatine.ply",
+      "fileId": 586254,
+      "size": 10962100,
+      "digest": "99ca3238986ddd7a97679b551eb6a6536ebdf943cddafd47cb0782f445268f40",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_frontal_fp.ply",
+      "fileId": 586253,
+      "size": 9850506,
+      "digest": "9a3abf62bc773709b187eaddc263fac7c244ad1430035128d69b83dd2bff234f",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_lacrimal.ply",
+      "fileId": 586255,
+      "size": 778083,
+      "digest": "b0e5f713c6d9b9562a6fd847458ce20763e569a2db78bf79bf83420af3b7b578",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_mandible_inc_pms.ply",
+      "fileId": 586247,
+      "size": 43516488,
+      "digest": "6329b75893a68f97cb87982c21a9949f054c897ff4bba309f0380c19502490c3",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_mastoid.ply",
+      "fileId": 586250,
+      "size": 19093756,
+      "digest": "90077735f0bc04e84dcf034b1bd2339813c839c4bdb3236af6f6ab8ae2ab4e42",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_maxilla_pms_jug.ply",
+      "fileId": 586256,
+      "size": 44074112,
+      "digest": "a7bfb1436378516208dd2aba95d8146ac926ad3732ec2f708ff9e36fc93643b3",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_nasal.ply",
+      "fileId": 586257,
+      "size": 4726575,
+      "digest": "547889534fa35f256f49d0c5dd54da2b764a20d3936f4d4a670ac44506bbf6ed",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_premaxilla.ply",
+      "fileId": 586258,
+      "size": 14368917,
+      "digest": "38b41193fdd7ba06aa2ab9abb685c55e0bf91e8c04c7f92f87de1cb058dd499f",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "FMNH_PM9476_right_tympanic.ply",
+      "fileId": 586251,
+      "size": 19613876,
+      "digest": "7cbe285e7a45ea7557228b30b35e96c52927780cd8078112f15822bfdb2ed976",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Palaeolagus_haydeni_basioccipital_int.ply",
+      "fileId": 586239,
+      "size": 24926008,
+      "digest": "cf1e962d37740d2cf63947bec42dcd6ff7c7c5d1c9e1299dd47eff3e1cffc99e",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Palaeolagus_haydeni_cranium.ply",
+      "fileId": 586240,
+      "size": 291251302,
+      "digest": "4d28604c2f41bd8ee650fa940460a0db155545a24734d64d36c64776a0324b03",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "frontal_presphenoid_basisphenoid_squamosal_complex",
+      "name": "Frontal-presphenoid-basisphenoid-squamosal complex",
+      "side": "none",
+      "sourceFilename": "FMNH_PM9476_fr_orb_pre_bas_squ.ply"
+    },
+    {
+      "id": "frontal_fp_l",
+      "name": "Frontal (fp)",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_frontal_fp.ply"
+    },
+    {
+      "id": "mandible_and_dentition_l",
+      "name": "Mandible and dentition",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_mandible_inc_pms.ply"
+    },
+    {
+      "id": "mastoid_l",
+      "name": "Mastoid",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_mastoid.ply"
+    },
+    {
+      "id": "maxilla_teeth_and_jugal_complex_l",
+      "name": "Maxilla, teeth and jugal complex",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_maxilla_pms_jug.ply"
+    },
+    {
+      "id": "nasal_l",
+      "name": "Nasal",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_nasal.ply"
+    },
+    {
+      "id": "premaxilla_and_incisor_l",
+      "name": "Premaxilla and incisor",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_premaxilla_inc.ply"
+    },
+    {
+      "id": "tympanic_l",
+      "name": "Tympanic",
+      "side": "left",
+      "sourceFilename": "FMNH_PM9476_left_tympanic.ply"
+    },
+    {
+      "id": "palatine",
+      "name": "Palatine",
+      "side": "none",
+      "sourceFilename": "FMNH_PM9476_palatine.ply"
+    },
+    {
+      "id": "frontal_fp_r",
+      "name": "Frontal (fp)",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_frontal_fp.ply"
+    },
+    {
+      "id": "lacrimal_r",
+      "name": "Lacrimal",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_lacrimal.ply"
+    },
+    {
+      "id": "mandible_and_dentition_r",
+      "name": "Mandible and dentition",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_mandible_inc_pms.ply"
+    },
+    {
+      "id": "mastoid_r",
+      "name": "Mastoid",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_mastoid.ply"
+    },
+    {
+      "id": "maxilla_teeth_and_jugal_complex_r",
+      "name": "Maxilla, teeth and jugal complex",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_maxilla_pms_jug.ply"
+    },
+    {
+      "id": "nasal_r",
+      "name": "Nasal",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_nasal.ply"
+    },
+    {
+      "id": "premaxilla_r",
+      "name": "Premaxilla",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_premaxilla.ply"
+    },
+    {
+      "id": "tympanic_r",
+      "name": "Tympanic",
+      "side": "right",
+      "sourceFilename": "FMNH_PM9476_right_tympanic.ply"
+    },
+    {
+      "id": "basioccipital_interparietal_complex",
+      "name": "Basioccipital-interparietal complex",
+      "side": "none",
+      "sourceFilename": "Palaeolagus_haydeni_basioccipital_int.ply"
+    }
+  ],
+  "discoverStructures": false
+}
