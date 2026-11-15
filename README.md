@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/marrow-logo.svg" alt="Marrow" width="280" />
+  <img src="docs/marrow-logo.png" alt="Marrow" width="280" />
 </p>
 
 <p align="center">
