@@ -99,6 +99,10 @@ def _convert(directory: Path, assets: Path, filename: str) -> None:
         shutil.rmtree(staging, ignore_errors=True)
     finally:
         try:
+            try:
+                shutil.rmtree(directory / "raw")
+            except OSError:
+                logger.exception("Unable to remove raw upload: %s", job.id)
             _save_status(directory, job)
         finally:
             _active.discard(job.id)

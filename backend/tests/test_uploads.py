@@ -32,6 +32,9 @@ def test_upload_converts_and_serves_mesh(client: TestClient, extension: str):
     assert response.status_code == 202
     job = client.get(f"/uploads/{response.json()['id']}").json()
     assert job["status"] == "ready"
+    assert not (
+        get_specimen_store().assets_dir / ".uploads" / job["id"] / "raw"
+    ).exists()
     specimen = client.get(f"/specimens/{job['specimenId']}").json()
     assert specimen["citation"]["datasetUrl"] is None
     assert specimen["scientificName"] == "my bone"
@@ -48,6 +51,9 @@ def test_unreadable_upload_never_publishes_specimen(client: TestClient):
     response = client.post("/uploads?filename=broken.stl", content=b"not a mesh")
     job = client.get(f"/uploads/{response.json()['id']}").json()
     assert job["status"] == "failed"
+    assert not (
+        get_specimen_store().assets_dir / ".uploads" / job["id"] / "raw"
+    ).exists()
     assert job["error"]
     assert client.get("/specimens").json() == []
 
