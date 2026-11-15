@@ -98,7 +98,7 @@ class SpecimenStore:
             scientificName=data["scientificName"],
             commonLabel=data.get("commonLabel", data["scientificName"]),
             accession=data["accession"],
-            institution=data.get("institution", "Yale Peabody Museum"),
+            institution=data.get("institution", "Institution unspecified"),
             citation=Citation.model_validate(data["citation"]),
             credits=list(data.get("credits", [])),
             reuseTerms=ReuseTerms.model_validate(data["reuseTerms"]),
