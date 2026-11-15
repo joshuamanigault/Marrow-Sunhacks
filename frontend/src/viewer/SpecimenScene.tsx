@@ -1,13 +1,14 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Component, Suspense, useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
+import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Color, Vector3, type DirectionalLight } from 'three'
+import { HandControl } from '../hands/HandControl'
+import { HandPointer } from '../hands/HandPointer'
+import { usePins } from '../pins/store'
 import { NATURAL_BONE, structureLabel, type Specimen, type Structure } from '../workspace/specimen'
+import { useViewer } from '../workspace/viewer'
 import { Bone } from './Bone'
 import { CameraRig } from './CameraRig'
 import { boneColor, explodeOrigin, specimenBox } from './layout'
-import { useViewer } from '../workspace/viewer'
-import { HandControl } from '../hands/HandControl'
-import { HandPointer } from '../hands/HandPointer'
 
 const UP = new Vector3()
 const RIGHT = new Vector3()
@@ -57,6 +58,12 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
   const radius = useMemo(() => box.getSize(new Vector3()).length() / 2 || 1, [box])
   const focusedId = useViewer((s) => s.focusedId)
   const origin = useMemo(() => explodeOrigin(specimen, focusedId, center), [specimen, focusedId, center])
+  const hydratePins = usePins((s) => s.hydrate)
+
+  // Load this specimen's pins before bones mount so markers appear with the mesh.
+  useEffect(() => {
+    hydratePins(specimen.id)
+  }, [specimen.id, hydratePins])
 
   const meshes = useMemo(() => specimen.structures.filter(s => s.status === 'ok' && s.meshUrl), [specimen])
   const [settled, setSettled] = useState<Set<string>>(() => new Set())
@@ -82,6 +89,7 @@ export default function SpecimenScene({ specimen }: { specimen: Specimen }) {
           <MeshBoundary key={s.id} structure={s} onFailure={onFailure}>
             <Suspense fallback={null}>
               <Bone
+                specimenId={specimen.id}
                 onLoaded={onLoaded}
                 structure={s}
                 color={boneColor(s) ?? new Color(NATURAL_BONE)}

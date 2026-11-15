@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { ObservationsPanel } from '../components/ObservationsPanel'
 import { StatusBanner } from '../components/StatusBanner'
 import { STATUS_COPY } from '../statusCopy'
 import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './specimen'
@@ -32,7 +31,6 @@ const icons = {
       <circle cx="17" cy="18" r="2" />
     </>
   ),
-  note: <path d="M4 4h16v12H9l-5 4z" />,
   focus: (
     <>
       <path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4" />
@@ -71,12 +69,11 @@ export function Icon({ name }: { name: keyof typeof icons }) {
   )
 }
 
-type PanelId = 'info' | 'anatomy' | 'notes' | 'ask'
+type PanelId = 'info' | 'anatomy' | 'ask'
 
 const tools: { id: PanelId; label: string; icon: keyof typeof icons }[] = [
   { id: 'info', label: 'Specimen information', icon: 'info' },
   { id: 'anatomy', label: 'Anatomy and display', icon: 'sliders' },
-  { id: 'notes', label: 'Observations', icon: 'note' },
 ]
 
 // Shown only when the server has a Gemini key (spec §4: viewer works without AI).
@@ -191,6 +188,13 @@ function AnatomyPanel({ specimen }: { specimen: Specimen }) {
   )
 }
 
+/** Status line while the dock has armed pin placement. */
+function pickCaption(pick: { structureId: string } | null): string {
+  return pick
+    ? 'Type your note on the pin, then Save'
+    : 'Click a bone to place a pin'
+}
+
 /** Grounded blurb from published study language (Alexandra task 2) — no invented bones. */
 function lookingAtBlurb(specimen: Specimen): string {
   const ready = specimen.structures.filter((s) => s.status === 'ok').length
@@ -270,10 +274,17 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
     if (openedByUser.current && panel) panelRef.current?.focus()
   }, [panel])
 
-  /** Dock “Pin observation” opens the notes panel (Alexandra task 4). */
-  function openPinPanel() {
+  /**
+   * Dock “Pin observation” arms place-a-pin mode: the next bone click opens a
+   * floating note editor on the fossil. Press again to cancel.
+   */
+  function togglePinning() {
+    v.setPinning(!v.pinning)
+  }
+
+  function setActivePanel(next: PanelId | null) {
     openedByUser.current = true
-    setPanel('notes')
+    setPanel(next)
   }
 
   return (
@@ -303,10 +314,7 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
             title={t.label}
             aria-expanded={panel === t.id}
             aria-controls="ws-panel"
-            onClick={() => {
-              openedByUser.current = true
-              setPanel(panel === t.id ? null : t.id)
-            }}
+            onClick={() => setActivePanel(panel === t.id ? null : t.id)}
           >
             <Icon name={t.icon} />
           </button>
@@ -317,7 +325,11 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
         <div className="ws-scene">{scene}</div>
         <div className="ws-caption" role="status">
           <span className="ws-dot" />
-          <span>{caption}</span>
+          <span>
+            {v.pinning
+              ? pickCaption(v.pick)
+              : caption}
+          </span>
         </div>
         <div className="ws-rotation">
           <button
@@ -342,9 +354,14 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
           <Icon name="home" />
           Reset view
         </button>
-        <button type="button" onClick={openPinPanel}>
+        <button
+          type="button"
+          aria-pressed={v.pinning}
+          title={v.pinning ? 'Cancel pin placement' : 'Pin observation'}
+          onClick={togglePinning}
+        >
           <Icon name="pin" />
-          Pin observation
+          {v.pinning ? 'Cancel pin' : 'Pin observation'}
         </button>
       </div>
 
@@ -368,7 +385,6 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
             </>
           )}
           {panel === 'info' && <InfoPanel specimen={specimen} />}
-          {panel === 'notes' && <ObservationsPanel specimen={specimen} />}
           {panel === 'ask' && aiEnabled && <AskPanel specimen={specimen} />}
         </aside>
       )}
