@@ -38,6 +38,7 @@ export interface Specimen {
   /** Researchers who published the study. */
   credits: string[]
   reuseTerms: { license: string; licenseUrl: string; notes: string }
+  coordinates: { notes: string }
   structures: Structure[]
 }
 

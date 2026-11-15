@@ -2,7 +2,7 @@
   "metadata": {
     "id": "dino-15914",
     "scientificName": "Helioscopos dickersonae",
-    "commonLabel": "Stem gekkotan skull",
+    "commonLabel": "Stem gekkotan skull with displaced elements",
     "accession": "DINO 15914",
     "institution": "Dinosaur National Monument",
     "citation": {
@@ -28,7 +28,7 @@
       "units": "unknown",
       "axisConvention": "unknown",
       "sourceToDisplay": "identity",
-      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels."
+      "notes": "Published positions are preserved. Units and anatomical axes are unverified. Sidedness is recorded only where specified in the source labels. The right dentary and left prefrontal lie apart from the main cluster in the deposited files. The view preserves these positions and is not an articulated reconstruction."
     }
   },
   "rawDir": "data/raw/dino-15914",

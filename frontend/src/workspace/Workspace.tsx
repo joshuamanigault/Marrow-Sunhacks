@@ -213,6 +213,8 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dd>{specimen.accession}</dd>
         <dt>Collection</dt>
         <dd>{specimen.institution}</dd>
+        <dt>Source coordinates</dt>
+        <dd>{specimen.coordinates.notes}</dd>
         <dt>Data source</dt>
         <dd>
           doi:{specimen.citation.datasetDoi} · {specimen.reuseTerms.license}
@@ -287,7 +289,7 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
             <i>{specimen.scientificName}</i>
           </strong>
           <span>
-            {specimen.accession} · {specimen.institution}
+            {specimen.accession} · {specimen.commonLabel}
           </span>
         </div>
       </header>
