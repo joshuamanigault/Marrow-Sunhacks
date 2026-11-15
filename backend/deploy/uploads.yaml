@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Direct mesh upload storage and asynchronous conversion
+Parameters:
+  BucketName:
+    Type: String
+  AllowedOrigins:
+    Type: CommaDelimitedList
+  ApiRoleName:
+    Type: String
+  ImageUri:
+    Type: String
+Resources:
+  WorkerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: ConvertUploads
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub arn:${AWS::Partition}:s3:::${BucketName}
+              - Effect: Allow
+                Action: [s3:GetObject, s3:DeleteObject]
+                Resource: !Sub arn:${AWS::Partition}:s3:::${BucketName}/incoming/*
+              - Effect: Allow
+                Action: s3:DeleteObject
+                Resource: !Sub arn:${AWS::Partition}:s3:::${BucketName}/meshes/*
+              - Effect: Allow
+                Action: [s3:GetObject, s3:PutObject]
+                Resource:
+                  - !Sub arn:${AWS::Partition}:s3:::${BucketName}/jobs/*
+                  - !Sub arn:${AWS::Partition}:s3:::${BucketName}/meshes/*
+                  - !Sub arn:${AWS::Partition}:s3:::${BucketName}/manifests/*
+  Worker:
+    Type: AWS::Lambda::Function
+    Properties:
+      PackageType: Image
+      Code: { ImageUri: !Ref ImageUri }
+      Role: !GetAtt WorkerRole.Arn
+      MemorySize: 4096
+      EphemeralStorage: { Size: 1024 }
+      Timeout: 900
+      Environment:
+        Variables:
+          UPLOAD_BUCKET: !Ref BucketName
+          UPLOAD_WORKER: '1'
+          AWS_LWA_PASS_THROUGH_PATH: /events
+          AWS_LWA_ERROR_STATUS_CODES: 500-599
+  AllowBucketInvoke:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref Worker
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref AWS::AccountId
+      SourceArn: !Sub arn:${AWS::Partition}:s3:::${BucketName}
+  Uploads:
+    Type: AWS::S3::Bucket
+    DependsOn: AllowBucketInvoke
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Ref BucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedOrigins: !Ref AllowedOrigins
+            AllowedMethods: [POST, GET, HEAD]
+            AllowedHeaders: ['*']
+            MaxAge: 3600
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:Post
+            Function: !GetAtt Worker.Arn
+            Filter:
+              S3Key:
+                Rules: [{ Name: prefix, Value: incoming/ }]
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireOrphanedInputs
+            Status: Enabled
+            Prefix: incoming/
+            ExpirationInDays: 2
+          - Id: ExpireJobReceipts
+            Status: Enabled
+            Prefix: jobs/
+            ExpirationInDays: 7
+  ApiPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles: [!Ref ApiRoleName]
+      PolicyName: !Sub ${AWS::StackName}-api
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: s3:ListBucket
+            Resource: !GetAtt Uploads.Arn
+          - Effect: Allow
+            Action: s3:PutObject
+            Resource:
+              - !Sub ${Uploads.Arn}/incoming/*
+              - !Sub ${Uploads.Arn}/jobs/*
+          - Effect: Allow
+            Action: s3:GetObject
+            Resource:
+              - !Sub ${Uploads.Arn}/jobs/*
+              - !Sub ${Uploads.Arn}/manifests/*
+              - !Sub ${Uploads.Arn}/meshes/*

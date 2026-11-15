@@ -57,5 +57,288 @@
       "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
     }
   ],
-  "structures": {}
+  "structures": {
+    "maxilla_l": [
+      {
+        "text": "The facial portion of the maxilla (anterior to the antorbital fossa) is relatively short compared with total maxilla length, unlike most basal crocodylomorphs of similar size.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The left maxilla tooth row has 14 alveoli with seven preserved teeth; anterior teeth are much larger than posterior ones, with the largest at about M2–M4.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Size-corrected second-moment-of-area measurements show the maxilla is more resistant to bending than those of other early crocodylomorphs sampled in the study, supporting a reinforced short snout.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "maxilla_r": [
+      {
+        "text": "The antorbital fenestra is slit-like and very small—less than 22% the length of the maxilla—shorter than in any other non-crocodyliform crocodylomorph compared in the paper.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The right maxilla tooth row contains 14 alveoli with six preserved teeth; maxillary teeth are narrow, serrated, and labiolingually compressed, with enlarged anterior crowns.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The maxillae meet on the palate to form a short secondary palatal shelf that reaches only the second maxillary tooth and forms the anterior margin of the choanae.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "premaxilla_r": [
+      {
+        "text": "There are alveoli for five teeth in each premaxilla, as in most non-crocodyliform crocodylomorphs including Hesperosuchus agilis (CM 29894).",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The right premaxilla preserves three small serrated, labiolingually compressed teeth; the premaxillae contribute to at least the ventral half of the external nares and most or all of their posterior border.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The premaxillae are folded downward and broken inward along their sutures with the maxillae from ventrolateral compression, so the premaxilla and maxilla dentition now form about a 70° angle.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "jugal_r": [
+      {
+        "text": "The anterior and posterior processes of the jugal are considerably more dorsoventrally expanded than in most other crocodylomorphs, including Hesperosuchus agilis (CM 29894), closer to the robust jugal of Carnufex carolinensis.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The anterior process of the jugal forms the ventral edge of the orbit; at the maxilla–lacrimal–jugal suture a notch between jugal and lacrimal is filled by the maxilla.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Biomechanical sampling of the anterior jugal likewise finds higher size-corrected resistance to bending than in other early crocodylomorphs tested, consistent with a reinforced facial region.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "lacrimal_r": [
+      {
+        "text": "The lacrimal is dorsoventrally tall compared with those of Hesperosuchus agilis (CM 29894), Pseudhesperosuchus jachaleri, and Dibothrosuchus grallator.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Unlike other non-crocodyliform crocodylomorphs, the thin anteroventral portion of the lacrimal is taller and longer than the hollow posterodorsal portion, contributing the entire dorsal part of the large antorbital fossa and the dorsal margin of the slit-like antorbital fenestra.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The species epithet lacrimosa refers to this distinctive lacrimal region; the authors treat the expanded antorbital fossa as an abnormal ossification reinforcing the short face.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "surangular_l": [
+      {
+        "text": "The dorsolateral surface of the surangular bears a prominent longitudinal ridge not previously reported in non-crocodyliform crocodylomorphs.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B / Dryad abstract",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "A large lateral fossa on the surangular, bounded ventrally by a bowed ridge, would have formed around the external adductor musculature and constricts the lateral mandibular fenestra.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The surangular extends along the entire length of the retroarticular process and its dorsal edge is convex, as in Junggarsuchus sloani.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "angular_l": [
+      {
+        "text": "The angular is long and narrow, sharing a long contact with the surangular, and its ventral edge is convex.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Together with the surangular, it forms the posterior left mandibular ramus around a subcircular mandibular fenestra that is anteroposteriorly longer than it is tall.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "quadrate_l": [
+      {
+        "text": "Both quadrates are preserved; they are pillar-like and appear robust and apneumatic, unlike the more complex or pneumatic shafts of several other early crocodylomorphs.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Relative to Hesperosuchus agilis, the quadrate articular surface is more elaborated with rounder condyles; the authors list the quadrate among elements whose robusticity supports a strong bite.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "quadrate_r": [
+      {
+        "text": "The right quadrate is more complete than the left; the head is well-defined, with simple sheet-like lateral processes and pterygoid flanges preserved on both sides.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The mandibular condyles are aligned ventrally, though the medial condyle is relatively more developed than the lateral compared with the Hesperosuchus agilis holotype.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "postorbital_r": [
+      {
+        "text": "The flat, triangular postorbital is autapomorphic—unlike the typical gracile, three-pronged postorbital of early crocodylomorphs.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The postorbital–jugal bar is anteroposteriorly expanded and not inset, forming a broad, even lateral surface rather than the overhanging ridge of Hesperosuchus agilis (CM 29894).",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "This enlarged postorbital is the best-preserved element of the upper temporal arch, which the authors interpret as an attachment site for a well-developed external adductor (mAMES).",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "frontal_l": [
+      {
+        "text": "The frontals are large and paired; relative to their length they are mediolaterally wider than those of the Hesperosuchus agilis holotype.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "A wide plate in the posterolateral corner of each frontal implies an extensive contribution to the anterior margins of the supratemporal fossae.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "frontal_r": [
+      {
+        "text": "The dorsal surface of the frontal has the distinctive longitudinal median ridge present in other crocodylomorphs of this grade, including Hesperosuchus agilis, Dibothrosuchus grallator, and Kayentasuchus walkeri.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The authors list the frontal among skull elements that are autapomorphic in their robusticity, contributing to the reinforced short face.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "nasal_r": [
+      {
+        "text": "The nasals extensively contact the lacrimals along their lateral edges and do not contribute to the antorbital fenestra, as in most non-crocodyliform crocodylomorphs.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The posterior half of the right nasal was too fragmentary to be reliably segmented and is excluded from the published rendering; Dryad Appendix 2 still deposits the segmented nasal mesh used here.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B / Dryad README",
+        "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+      }
+    ],
+    "prefrontal_r": [
+      {
+        "text": "The prefrontal is small and diamond-shaped like that of Hesperosuchus agilis (CM 29894) but lacks the sculpturing and lateral crest of that specimen.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The expanded lacrimal appears to block the prefrontal from the anterodorsal orbital margin on both sides—a potential autapomorphy, though sutural contacts are distorted in this region.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "palpebral_r": [
+      {
+        "text": "On the right side, one large, circular, unsculptured palpebral element is present and is not extensively sutured to the frontal.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Among non-crocodyliform crocodylomorphs, palpebrals are otherwise reported preserved mainly in Hesperosuchus agilis (CM 29894) and Junggarsuchus sloani.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "palatine_r": [
+      {
+        "text": "Along the lateral edge of the right pterygoid, immediately anterior to the transverse process, a small fragment of the right palatine is preserved in slight lateral overlap with the pterygoid.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The palate overall is similar to that of other early-diverging non-crocodyliform crocodylomorphs; the short maxillary secondary shelf forms the anterior choanal margin ahead of this palatine remnant.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "pterygoid_l": [
+      {
+        "text": "The pterygoids are anteroposteriorly long, nearly complete though disarticulated, thin and sheet-like, with a long, narrow vomerine process that would likely have fit a midline dorsal groove of the vomers.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "A dorsoventrally tall, well-developed quadrate process of the pterygoid is present, as in most non-crocodyliform crocodylomorphs including Litargosuchus, Sphenosuchus, and Dibothrosuchus.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "pterygoid_r": [
+      {
+        "text": "The ventral surface of the posterior pterygoid has a broad ventral concavity anterior to the quadrate ramus and medial to the transverse process, rather than the well-defined pit of Terrestrisuchus gracilis.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The elongate transverse process articulates with the posteroventral process of the ectopterygoid, similar to the condition in Hesperosuchus agilis (CM 29894).",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "ectopterygoid_l": [
+      {
+        "text": "Both ectopterygoids are preserved in nearly complete condition; each is double-headed with a bifurcated pterygoid process.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "The posteroventral process is much more elongate than that of Terrestrisuchus gracilis and articulates with the elongate transverse process of the pterygoid.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "ectopterygoid_r": [
+      {
+        "text": "The right ectopterygoid matches the left in being nearly complete, double-headed, and articulating with the pterygoid transverse process in a manner similar to Hesperosuchus agilis (CM 29894).",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      }
+    ],
+    "vomers": [
+      {
+        "text": "The anterior halves of the paired vomers are exposed on the palatal surface and have been pushed anteriorly to overlap dorsally with the short maxillary shelf at their anterior ends.",
+        "source": "Margulis-Ohnuma et al. 2026, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2026.0130"
+      },
+      {
+        "text": "Dryad Appendix 2 deposits a single vomers.stl mesh among the segmented skull elements of YPM VP 41198.",
+        "source": "Dryad dataset README (Appendix 2)",
+        "url": "https://doi.org/10.5061/dryad.q83bk3jvv"
+      }
+    ]
+  }
 }

@@ -18,12 +18,22 @@ from marrow.models.ai import (
     TourRequest,
     TourResponse,
 )
+from marrow.models.specimen import SpecimenResponse
 from marrow.specimens.store import get_specimen_store
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 
 MaybeLLM = Annotated[JsonLLM | None, Depends(get_llm)]
 _ai_rate_limit = Depends(enforce_ai_rate_limit)
+
+
+def _grounded_specimen(specimen_id: str) -> SpecimenResponse:
+    specimen = get_specimen_store().get_specimen(specimen_id)
+    if specimen.citation.datasetUrl is None:
+        raise HTTPException(
+            422, "AI requires a specimen with a supplied source dataset."
+        )
+    return specimen
 
 
 def _require(llm: JsonLLM | None) -> JsonLLM:
@@ -46,7 +56,7 @@ def status(llm: MaybeLLM) -> AIStatus:
 )
 def explain(body: ExplainRequest, llm: MaybeLLM) -> ExplainResponse:
     ready = _require(llm)
-    specimen = get_specimen_store().get_specimen(body.specimenId)
+    specimen = _grounded_specimen(body.specimenId)
     return service.explain(ready, specimen, body.structureId, body.question)
 
 
@@ -57,7 +67,7 @@ def explain(body: ExplainRequest, llm: MaybeLLM) -> ExplainResponse:
 )
 def tour(body: TourRequest, llm: MaybeLLM) -> TourResponse:
     ready = _require(llm)
-    specimen = get_specimen_store().get_specimen(body.specimenId)
+    specimen = _grounded_specimen(body.specimenId)
     return service.tour(ready, specimen, body.topic)
 
 
@@ -68,5 +78,5 @@ def tour(body: TourRequest, llm: MaybeLLM) -> TourResponse:
 )
 def followup(body: FollowupRequest, llm: MaybeLLM) -> FollowupResponse:
     ready = _require(llm)
-    specimen = get_specimen_store().get_specimen(body.specimenId)
+    specimen = _grounded_specimen(body.specimenId)
     return service.followup(ready, specimen, body.structureId, body.note)

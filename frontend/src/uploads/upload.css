@@ -1,0 +1,17 @@
+.upload-form p { margin: 0; max-width: 48ch; color: var(--muted); }
+.upload-form label { font-size: 20px; }
+.upload-form input { max-width: 100%; font: inherit; }
+.upload-form input::file-selector-button {
+  padding: 10px 14px;
+  margin-right: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.upload-form progress { display: block; width: 100%; margin-top: 8px; }
+.upload-form [role='alert'] { color: #ffb4a8; }
+.upload-form button:disabled { opacity: 0.6; cursor: default; }
+.upload-form input:focus-visible { outline: 2px solid var(--rim); outline-offset: 4px; }

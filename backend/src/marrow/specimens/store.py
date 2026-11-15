@@ -19,6 +19,7 @@ from marrow.models.specimen import (
     StructureSummary,
 )
 from marrow.settings import Settings, get_settings
+from marrow.specimens.upload_bucket import UPLOAD_ID, get_upload_bucket
 from marrow.structures import color_for_structure_id, structure_by_id
 
 _SAFE_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
@@ -37,11 +38,9 @@ class SpecimenStore:
 
     def list_specimens(self) -> list[SpecimenListItem]:
         """Scan ASSETS_DIR for directories with a valid manifest.json."""
-        if not self.assets_dir.is_dir():
-            return []
-
         items: list[SpecimenListItem] = []
-        for child in sorted(self.assets_dir.iterdir(), key=lambda p: p.name):
+        children = self.assets_dir.iterdir() if self.assets_dir.is_dir() else ()
+        for child in children:
             if not child.is_dir():
                 continue
             specimen_id = child.name
@@ -52,12 +51,18 @@ class SpecimenStore:
             )
             if summary is not None:
                 items.append(summary)
-        return items
+        bucket = get_upload_bucket()
+        if bucket:
+            items.extend(bucket.catalog())
+        return sorted(items, key=lambda item: item.id)
 
     def load_manifest(self, specimen_id: str) -> dict[str, Any]:
         directory = self.specimen_dir(specimen_id)
         manifest_path = directory / "manifest.json"
         if not manifest_path.is_file():
+            if UPLOAD_ID.fullmatch(specimen_id) and (bucket := get_upload_bucket()):
+                if manifest := bucket.manifest(specimen_id):
+                    return manifest
             raise HTTPException(status_code=404, detail="Unknown specimen")
         try:
             data = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -79,7 +84,11 @@ class SpecimenStore:
             structure_id = raw["id"]
             mesh_url = None
             if status == "ok":
-                mesh_url = f"/specimens/{specimen_id}/meshes/{structure_id}.glb"
+                mesh_url = (
+                    f"/uploads/{specimen_id}/mesh"
+                    if "meshKey" in data
+                    else f"/specimens/{specimen_id}/meshes/{structure_id}.glb"
+                )
             structures.append(
                 StructureSummary(
                     id=structure_id,

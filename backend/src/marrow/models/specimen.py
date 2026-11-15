@@ -13,14 +13,14 @@ Side = Literal["left", "right", "none"]
 class Citation(BaseModel):
     text: str
     datasetDoi: str
-    datasetUrl: HttpUrl
+    datasetUrl: HttpUrl | None = None
     articleDoi: str | None = None
     articleUrl: HttpUrl | None = None
 
 
 class ReuseTerms(BaseModel):
     license: str
-    licenseUrl: HttpUrl
+    licenseUrl: HttpUrl | None = None
     notes: str
 
 

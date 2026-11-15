@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse, RedirectResponse
 
 from marrow.models.specimen import SpecimenListItem, SpecimenResponse
 from marrow.specimens.store import SpecimenStore, get_specimen_store
+from marrow.specimens.upload_bucket import get_upload_bucket
 
 router = APIRouter(tags=["specimens"])
 
@@ -33,4 +34,14 @@ def get_structure_mesh(specimen_id: str, structure_id: str) -> FileResponse:
         media_type="model/gltf-binary",
         filename=f"{structure_id}.glb",
         headers={"Cache-Control": "public, max-age=3600"},
+    )
+
+
+@router.get("/uploads/{upload_id}/mesh")
+def get_uploaded_mesh(upload_id: str) -> RedirectResponse:
+    bucket = get_upload_bucket()
+    if not bucket:
+        raise HTTPException(404, "Unknown uploaded mesh.")
+    return RedirectResponse(
+        bucket.mesh_url(upload_id), headers={"Cache-Control": "no-store"}
     )
