@@ -1,6 +1,7 @@
-import { Component, lazy, Suspense, useEffect, useRef, type ReactNode } from 'react'
+import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Icon } from './workspace/Workspace'
+import { fetchSpecimens, type SpecimenListItem } from './workspace/specimen'
 import './landing.css'
 
 // three.js is large, so the hero skull loads after the page text.
@@ -18,21 +19,18 @@ class SkipOnError extends Component<{ children: ReactNode }, { failed: boolean }
   }
 }
 
-// ponytail: hard-coded catalog of the one curated specimen (spec §5), so these
-// pages need no server. Fetch GET /specimens once the frontend uses it.
-const curated = {
+// The hero's bundled mesh depicts this specimen; it is an example of the collection.
+const featured = {
   id: 'ypm-vp-41198',
   scientificName: 'Eosphorosuchus lacrimosa',
   accession: 'YPM VP 41198',
   institution: 'Yale Peabody Museum',
   source: 'Dryad · CC0-1.0',
 }
-const catalog = [curated]
-const openCurated = `/workspace/${curated.id}`
 
 // Figures from docs/backend-specimen-setup.md (prepared Appendix 2 meshes).
 const stats = [
-  { value: '21', unit: 'elements', label: 'Named skull structures' },
+  { value: '3', unit: 'views', label: 'Solid, X-ray and exploded' },
   { value: '80k', unit: 'max', label: 'Triangles per mesh' },
   { value: 'CC0', unit: 'Dryad', label: 'Open data licence' },
   { value: '0', unit: 'installs', label: 'Runs in the browser' },
@@ -65,8 +63,8 @@ function Page(props: { title: string; children: ReactNode }) {
           <NavLink to="/explore">Explore</NavLink>
           <NavLink to="/upload">Upload</NavLink>
         </nav>
-        <Link className="mk-btn mk-btn-light mk-nav-cta" to={openCurated}>
-          Open specimen
+        <Link className="mk-btn mk-btn-light mk-nav-cta" to="/explore">
+          Browse specimens
           <Arrow />
         </Link>
       </header>
@@ -118,7 +116,7 @@ export function Landing() {
               </Suspense>
             </SkipOnError>
             <p className="mk-illustration">
-              The real skull from the CT study of {curated.accession}.
+              Featured: <i>{featured.scientificName}</i> · {featured.accession}.
             </p>
             <p className="mk-scroll-cue" aria-hidden="true">
               Scroll to take it apart
@@ -126,33 +124,31 @@ export function Landing() {
 
             <div className="mk-hero-body">
               <div>
-                <p className="mk-tag">[ CT study · {curated.accession} ]</p>
+                <p className="mk-tag">[ An open anatomy collection ]</p>
                 <h1 className="mk-display">
-                  A real fossil skull,
+                  Real specimens,
                   <br />
-                  <span className="mk-dim">explored</span> bone by bone,
+                  <span className="mk-dim">explored</span> part by part,
                   <br />
                   <span className="mk-dim">right in your</span> browser.
                 </h1>
                 <div className="mk-actions">
-                  <Link className="mk-btn mk-btn-light" to={openCurated}>
-                    Open the specimen
+                  <Link className="mk-btn mk-btn-light" to="/explore">
+                    Explore the collection
                     <Arrow />
                   </Link>
-                  <Link className="mk-btn mk-btn-dark" to="/explore">
-                    Browse the catalog
-                  </Link>
+                  <a className="mk-btn mk-btn-dark" href="#about">How it works</a>
                 </div>
               </div>
 
               <ul className="mk-checks">
                 <li>
                   <Icon name="check" />
-                  Meshes the researchers extracted, not illustrations
+                  Researcher-prepared meshes from published studies
                 </li>
                 <li>
                   <Icon name="check" />
-                  Every bone traced to the published study
+                  Specimen identities, sources and credits included
                 </li>
                 <li>
                   <Icon name="check" />
@@ -164,24 +160,25 @@ export function Landing() {
         </section>
 
         <section className="mk-band" aria-labelledby="mk-band-title">
-          <h2 id="mk-band-title">Specimen data from</h2>
+          <h2 id="mk-band-title">Built on open research</h2>
           <ul>
-            <li className="mk-serif">Yale Peabody Museum</li>
+            <li className="mk-serif">Museum collections</li>
             <li>Dryad</li>
-            <li className="mk-serif">Proceedings of the Royal Society B</li>
+            <li className="mk-serif">Published studies</li>
           </ul>
         </section>
 
-        <section className="mk-about">
+        <section className="mk-about" id="about">
           <p className="mk-kicker">More about Marrow</p>
           <div className="mk-about-grid">
             <h2 className="mk-statement">
-              Researcher-prepared CT anatomy, named, cited and ready to turn in your hand.
+              A collection to explore. A new perspective on every specimen.
             </h2>
             <p className="mk-small">
-              Marrow opens <i>{curated.scientificName}</i> ({curated.accession}) from a published
-              micro-CT study. Select a bone, hide what is in the way, separate the parts and put
-              them back. Missing or unreadable files are shown as missing, never replaced.
+              Explore fossils and living animals through 3D anatomy from open research.
+              Choose a specimen, inspect its available structures, hide what is in the way,
+              then return to the collection and discover another. Each study keeps its
+              specimen identity, researcher credits and source citation.
             </p>
             <dl className="mk-stats">
               {stats.map((s) => (
@@ -199,49 +196,110 @@ export function Landing() {
       </main>
 
       <footer className="mk-footer">
-        Data: Margulis-Ohnuma, Ruebenstahl, Meyer &amp; Bhullar (2026), Dryad, CC0-1.0.
+        Featured mesh: Margulis-Ohnuma et al. (2026), Dryad, CC0-1.0.
+        Every specimen carries its own citation and reuse terms.
       </footer>
     </Page>
   )
 }
 
-function SpecimenMeta({ entry }: { entry: typeof curated }) {
+function SpecimenMeta({ entry }: { entry: SpecimenListItem }) {
   return (
     <dl className="mk-meta">
       <dt>Specimen</dt>
       <dd>{entry.accession}</dd>
       <dt>Collection</dt>
-      <dd>{entry.institution}</dd>
-      <dt>Data source</dt>
-      <dd>{entry.source}</dd>
+      <dd>{entry.institution || 'Not specified in source'}</dd>
     </dl>
   )
 }
 
 export function Explore() {
+  const [catalog, setCatalog] = useState<SpecimenListItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>()
+  const [attempt, setAttempt] = useState(0)
+  const [query, setQuery] = useState('')
+
+  useEffect(() => {
+    const request = new AbortController()
+    fetchSpecimens(request.signal).then(
+      (items) => {
+        if (request.signal.aborted) return
+        setCatalog(items)
+        setLoading(false)
+      },
+      () => {
+        if (request.signal.aborted) return
+        setError('We could not reach the specimen catalog. Please try again.')
+        setLoading(false)
+      },
+    )
+    return () => request.abort()
+  }, [attempt])
+
+  const search = query.trim().toLocaleLowerCase()
+  const results = catalog.filter((entry) =>
+    [entry.scientificName, entry.commonLabel, entry.accession, entry.institution]
+      .some((value) => value?.toLocaleLowerCase().includes(search)),
+  )
+
   return (
     <Page title="Explore · Marrow">
       <main className="mk-page">
         <p className="mk-tag">[ Catalog ]</p>
-        <h1 className="mk-display">Explore</h1>
-        <p className="mk-lead">Fossil CT studies you can open in the 3D viewer.</p>
+        <h1 className="mk-display">Find your next discovery.</h1>
+        <p className="mk-lead">
+          Explore 3D anatomy from published research. Choose a specimen to begin;
+          come back whenever you are ready for another.
+        </p>
+        <div className="mk-catalog-tools">
+          <label className="mk-search">
+            <span>Find a specimen</span>
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search names, accessions or collections" />
+          </label>
+          {!loading && !error && (
+            <p className="mk-count" role="status">
+              {results.length} {results.length === 1 ? 'specimen' : 'specimens'}
+              {search ? ` matching “${query.trim()}”` : ' ready to explore'}
+            </p>
+          )}
+        </div>
+        {loading && <p className="mk-catalog-status" role="status">Loading the collection…</p>}
+        {error && (
+          <div className="mk-catalog-status" role="alert">
+            <p>{error}</p>
+            <button className="mk-btn mk-btn-light" onClick={() => {
+              setLoading(true)
+              setError(undefined)
+              setAttempt((n) => n + 1)
+            }}>Try again</button>
+          </div>
+        )}
+        {!loading && !error && results.length === 0 && (
+          <p className="mk-catalog-status" role="status">
+            {catalog.length === 0 ? 'The collection has no prepared specimens yet.' : 'No specimens match your search.'}
+          </p>
+        )}
         <ul className="mk-catalog">
-          {catalog.map((entry) => (
+          {!loading && !error && results.map((entry) => (
             <li key={entry.id}>
               <Link className="mk-card" to={`/workspace/${entry.id}`}>
-                {/* ponytail: every card spins the curated skull; give each
-                    specimen its own preview mesh when the catalog grows. */}
                 <div className="mk-card-preview">
-                  <SkipOnError>
+                  {entry.id === featured.id ? <SkipOnError>
                     <Suspense fallback={null}>
                       <SkullPreview />
                     </Suspense>
-                  </SkipOnError>
+                  </SkipOnError> : (
+                    <span className="mk-card-accession">{entry.accession}</span>
+                  )}
                 </div>
-                <span className="mk-tag">[ CT study ]</span>
+                <span className="mk-tag">[ Research collection ]</span>
                 <h2>
                   <i>{entry.scientificName}</i>
                 </h2>
+                <p className="mk-card-description">{entry.commonLabel}</p>
                 <SpecimenMeta entry={entry} />
                 <span className="mk-card-open">
                   Open in viewer <Icon name="arrow" />

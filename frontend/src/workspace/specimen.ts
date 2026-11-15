@@ -41,11 +41,26 @@ export interface Specimen {
   structures: Structure[]
 }
 
+/** The compact discovery response from GET /specimens. */
+export interface SpecimenListItem {
+  id: string
+  scientificName: string
+  commonLabel: string
+  accession: string
+  institution: string | null
+}
+
 const API: string = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'
 
 /** Absolute URL for an API path such as a structure's meshUrl. */
 export function apiUrl(path: string): string {
-  return API + path
+  return API.replace(/\/$/, '') + path
+}
+
+export async function fetchSpecimens(signal?: AbortSignal): Promise<SpecimenListItem[]> {
+  const res = await fetch(apiUrl('/specimens'), { signal })
+  if (!res.ok) throw new Error(`The catalog server answered ${res.status}.`)
+  return res.json()
 }
 
 export async function fetchSpecimen(id: string, signal?: AbortSignal): Promise<Specimen> {
