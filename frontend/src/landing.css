@@ -602,6 +602,22 @@
   box-shadow: 0 0 40px -12px #a9d0e650;
 }
 
+/* Spinning skull at the top of a catalog card, on a faint CT-blue glow. */
+.mk-card-preview {
+  position: relative;
+  height: 190px;
+  margin: -22px -22px 18px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 14px 14px 0 0;
+  background: radial-gradient(ellipse at 50% 60%, #a9d0e61f, transparent 70%);
+  overflow: hidden;
+}
+
+.mk-card-skull {
+  position: absolute !important;
+  inset: 0;
+}
+
 .mk-card .mk-tag {
   display: block;
   margin-bottom: 10px;
