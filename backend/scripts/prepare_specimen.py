@@ -1,4 +1,4 @@
-"""Inventory Appendix 2 STLs and convert them to browser-ready GLBs.
+"""Prepare a configured specimen from source STLs as browser-ready GLBs.
 
 Usage (from backend/):
 
@@ -31,6 +31,10 @@ BACKEND_SRC = Path(__file__).resolve().parents[1] / "src"
 if str(BACKEND_SRC) not in sys.path:
     sys.path.insert(0, str(BACKEND_SRC))
 
+from marrow.specimens.preparation import (  # noqa: E402
+    PreparationConfig,
+    load_config,
+)
 from marrow.structures import (  # noqa: E402
     SPECIMEN_ID,
     STRUCTURE_CATALOG,
@@ -59,21 +63,24 @@ def sha256_file(path: Path, chunk: int = 1024 * 1024) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--specimen", default=SPECIMEN_ID, help="Configured specimen id"
+    )
+    parser.add_argument(
         "--raw-dir",
         type=Path,
-        default=DEFAULT_RAW,
-        help="Directory containing Appendix 2 STL files",
+        default=None,
+        help="Directory containing source STL files",
     )
     parser.add_argument(
         "--out-dir",
         type=Path,
-        default=DEFAULT_OUT,
+        default=None,
         help="Prepared specimen output directory",
     )
     parser.add_argument(
         "--archive",
         type=Path,
-        default=DEFAULT_ARCHIVE,
+        default=None,
         help="Optional Appendix2.zip for checksum verification",
     )
     sub = parser.add_subparsers(dest="command", required=True)
@@ -100,7 +107,15 @@ def parse_args() -> argparse.Namespace:
     all_cmd.add_argument("--verify-archive", action="store_true")
     all_cmd.add_argument("--force", action="store_true")
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.config = load_config(args.specimen)
+    args.raw_dir = args.raw_dir or args.config.raw_dir
+    args.out_dir = args.out_dir or ROOT / "data" / "prepared" / args.specimen
+    if args.out_dir.name != args.specimen:
+        parser.error("Output folder name must match the specimen id")
+    if args.archive is None and args.specimen == SPECIMEN_ID:
+        args.archive = DEFAULT_ARCHIVE
+    return args
 
 
 def verify_archive(archive: Path) -> dict[str, Any]:
@@ -161,21 +176,28 @@ def load_conversion_log(path: Path) -> dict[str, dict[str, Any]]:
     return {row["id"]: row for row in rows if isinstance(row, dict) and "id" in row}
 
 
-def inventory_meshes(raw_dir: Path) -> list[dict[str, Any]]:
+def inventory_meshes(
+    raw_dir: Path,
+    catalog: dict[str, StructureDef] | None = None,
+) -> list[dict[str, Any]]:
+    catalog = STRUCTURE_CATALOG if catalog is None else catalog
     rows: list[dict[str, Any]] = []
-    stl_files = sorted(raw_dir.glob("*.stl"))
-    known = set(STRUCTURE_CATALOG)
-    found = {p.name for p in stl_files}
+    stl_files = sorted(
+        p for p in raw_dir.rglob("*") if p.is_file() and p.suffix.lower() == ".stl"
+    )
+    known = set(catalog)
+    found = {p.relative_to(raw_dir).as_posix() for p in stl_files}
 
     for path in stl_files:
-        entry = STRUCTURE_CATALOG.get(path.name)
+        filename = path.relative_to(raw_dir).as_posix()
+        entry = catalog.get(filename)
         row: dict[str, Any] = {
-            "sourceFilename": path.name,
+            "sourceFilename": filename,
             "bytes": path.stat().st_size,
             "structureId": entry.id if entry else None,
             "name": entry.name if entry else None,
             "side": entry.side if entry else None,
-            "inPublishedInventory": path.name in known,
+            "inPublishedInventory": filename in known,
         }
         try:
             mesh = load_mesh(path)
@@ -205,7 +227,7 @@ def inventory_meshes(raw_dir: Path) -> list[dict[str, Any]]:
         rows.append(row)
 
     for missing_name in sorted(known - found):
-        entry = STRUCTURE_CATALOG[missing_name]
+        entry = catalog[missing_name]
         rows.append(
             {
                 "sourceFilename": missing_name,
@@ -330,54 +352,9 @@ def convert_one(
         }
 
 
-def specimen_metadata() -> dict[str, Any]:
-    return {
-        "id": SPECIMEN_ID,
-        "scientificName": "Eosphorosuchus lacrimosa",
-        "commonLabel": "Eosphorosuchus lacrimosa",
-        "accession": "YPM VP 41198",
-        "institution": "Yale Peabody Museum",
-        "citation": {
-            "text": (
-                "Margulis-Ohnuma, M., Ruebenstahl, A., Meyer, D., & Bhullar, B.-A. "
-                "(2026). Data for: A short-snouted \"sphenosuchian\" with unusual "
-                "feeding anatomy demonstrates that ecological specialization occurred "
-                "early in crocodylomorph evolution. Dryad. "
-                "https://doi.org/10.5061/dryad.q83bk3jvv"
-            ),
-            "datasetDoi": "10.5061/dryad.q83bk3jvv",
-            "datasetUrl": "https://doi.org/10.5061/dryad.q83bk3jvv",
-            "articleDoi": "10.1098/rspb.2026.0130",
-            "articleUrl": "https://doi.org/10.1098/rspb.2026.0130",
-        },
-        "credits": [
-            "Miranda Margulis-Ohnuma",
-            "Alexander Ruebenstahl",
-            "Dalton Meyer",
-            "Bhart-Anjan Bhullar",
-        ],
-        "reuseTerms": {
-            "license": "CC0-1.0",
-            "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
-            "notes": (
-                "Dryad reports CC0-1.0. Retain specimen identity, researcher "
-                "credits, and dataset DOI in the application."
-            ),
-        },
-        "coordinates": {
-            "frame": "source_stl",
-            "units": "unknown",
-            "axisConvention": "unknown",
-            "sourceToDisplay": "identity",
-            "notes": (
-                "Vertices are the Appendix 2 STL positions with an identity "
-                "node transform. Relative placement across bones is preserved "
-                "by not centering or scaling individuals. Units and anatomical "
-                "axis convention are not stated in the Appendix 2 README; CT "
-                "scan metadata (Appendix 1) was not inspected for this mesh pipeline."
-            ),
-        },
-    }
+def specimen_metadata(config: PreparationConfig | None = None) -> dict[str, Any]:
+    config = config or load_config(SPECIMEN_ID)
+    return config.metadata.model_dump(mode="json", exclude={"structures"})
 
 
 def write_manifest(
@@ -387,12 +364,16 @@ def write_manifest(
     *,
     max_faces: int,
     archive_check: dict[str, Any] | None,
+    config: PreparationConfig | None = None,
+    catalog: dict[str, StructureDef] | None = None,
 ) -> Path:
+    config = config or load_config(SPECIMEN_ID)
+    catalog = config.structure_catalog(config.raw_dir) if catalog is None else catalog
     by_id = {row["id"]: row for row in conversion if "id" in row}
     inv_by_file = {row["sourceFilename"]: row for row in inventory}
     structures: list[dict[str, Any]] = []
 
-    for filename, entry in STRUCTURE_CATALOG.items():
+    for filename, entry in catalog.items():
         inv = inv_by_file.get(filename, {})
         conv = by_id.get(entry.id)
         glb_rel = f"meshes/{entry.id}.glb"
@@ -439,7 +420,6 @@ def write_manifest(
                     mesh_file = None
                     error = f"prepared GLB unreadable: {exc}"
 
-
         structures.append(
             {
                 "id": entry.id,
@@ -467,7 +447,7 @@ def write_manifest(
         union_max = maxs if union_max is None else np.maximum(union_max, maxs)
 
     payload = {
-        **specimen_metadata(),
+        **specimen_metadata(config),
         "preparedAt": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "conversion": {
             "version": CONVERSION_VERSION,
@@ -485,7 +465,7 @@ def write_manifest(
         if union_min is None
         else {"min": union_min.tolist(), "max": union_max.tolist()},
         "structures": structures,
-        "catalog": [asdict(v) for v in STRUCTURE_CATALOG.values()],
+        "catalog": [asdict(v) for v in catalog.values()],
     }
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "manifest.json"
@@ -496,11 +476,15 @@ def write_manifest(
 def cmd_inventory(args: argparse.Namespace) -> None:
     archive_check = None
     if getattr(args, "verify_archive", False):
+        if args.specimen != SPECIMEN_ID:
+            raise SystemExit(
+                "Use fetch_specimens.py to verify configured source checksums"
+            )
         archive_check = verify_archive(args.archive)
         print(json.dumps({"archive": archive_check}, indent=2))
         if not archive_check["matchesPublished"]:
             raise SystemExit("Archive checksum mismatch")
-    rows = inventory_meshes(args.raw_dir)
+    rows = inventory_meshes(args.raw_dir, args.config.structure_catalog(args.raw_dir))
     args.out_dir.mkdir(parents=True, exist_ok=True)
     path = args.out_dir / "inventory.json"
     path.write_text(
@@ -512,7 +496,7 @@ def cmd_inventory(args: argparse.Namespace) -> None:
 
 
 def cmd_convert(args: argparse.Namespace) -> list[dict[str, Any]]:
-    entries = list(STRUCTURE_CATALOG.values())
+    entries = list(args.config.structure_catalog(args.raw_dir).values())
     if args.ids:
         wanted = set(args.ids)
         entries = [e for e in entries if e.id in wanted]
@@ -538,9 +522,7 @@ def cmd_convert(args: argparse.Namespace) -> list[dict[str, Any]]:
         )
         results.append(result)
         size = (
-            f" {result.get('bytes', 0) / 1024:.1f} KiB"
-            if result.get("bytes")
-            else ""
+            f" {result.get('bytes', 0) / 1024:.1f} KiB" if result.get("bytes") else ""
         )
         faces = (
             f" faces={result.get('triangleCount')}"
@@ -563,12 +545,14 @@ def cmd_write_manifest(args: argparse.Namespace) -> None:
         data = json.loads(inv_path.read_text(encoding="utf-8"))
         inventory = data.get("structures", [])
     else:
-        inventory = inventory_meshes(args.raw_dir)
+        inventory = inventory_meshes(
+            args.raw_dir, args.config.structure_catalog(args.raw_dir)
+        )
     conversion = []
     if log_path.is_file():
         conversion = json.loads(log_path.read_text(encoding="utf-8"))
     archive_check = None
-    if args.archive.is_file():
+    if args.specimen == SPECIMEN_ID and args.archive and args.archive.is_file():
         try:
             archive_check = verify_archive(args.archive)
         except OSError:
@@ -579,6 +563,8 @@ def cmd_write_manifest(args: argparse.Namespace) -> None:
         conversion,
         max_faces=args.max_faces,
         archive_check=archive_check,
+        config=args.config,
+        catalog=args.config.structure_catalog(args.raw_dir),
     )
     print(f"Wrote {path}")
 

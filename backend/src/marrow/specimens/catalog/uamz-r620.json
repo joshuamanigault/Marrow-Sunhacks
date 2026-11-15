@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "id": "uamz-r620",
+    "scientificName": "Thamnophis radix",
+    "commonLabel": "Embryo garter snake skull",
+    "accession": "UAMZ R620",
+    "institution": "University of Alberta Museum of Zoology",
+    "citation": {
+      "text": "Catherine Strong et al. (2019). Data from: Cranial ontogeny of Thamnophis radix (Serpentes: Colubroidea) with a re-evaluation of current paradigms of snake skull evolution [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.n50st0n",
+      "datasetUrl": "https://doi.org/10.5061/dryad.n50st0n",
+      "articleDoi": "10.1098/rsos.182228",
+      "articleUrl": "https://doi.org/10.1098/rsos.182228"
+    },
+    "credits": [
+      "Catherine Strong",
+      "Tiago Rodrigues Sim\u00f5es",
+      "Michael Caldwell",
+      "Michael Doschak"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Source units and anatomical axes have not been verified. Structure names retain the source STL labels; sidedness is unspecified until curated."
+    }
+  },
+  "rawDir": "data/raw/uamz-r620",
+  "sourceFiles": [
+    {
+      "filename": "Mesh Files (Embryo).zip",
+      "fileId": 104900,
+      "size": 147456720,
+      "digest": "2714c6434572043663aa073b184d72e0",
+      "digestType": "md5"
+    }
+  ],
+  "structures": [],
+  "discoverStructures": true
+}

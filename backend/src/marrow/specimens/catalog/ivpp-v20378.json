@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "id": "ivpp-v20378",
+    "scientificName": "Sinovenator changii",
+    "commonLabel": "Troodontid skull, brain endocast and inner ear",
+    "accession": "IVPP V20378",
+    "institution": "Institute of Vertebrate Paleontology and Paleoanthropology",
+    "citation": {
+      "text": "Congyu Yu et al. (2023). Data from: Convergent avialan brain morphology in Sinovenator (Troodontidae, Theropoda) [Dataset]. Dryad.",
+      "datasetDoi": "10.5061/dryad.41ns1rnk6",
+      "datasetUrl": "https://doi.org/10.5061/dryad.41ns1rnk6"
+    },
+    "credits": [
+      "Congyu Yu",
+      "Xing Xu"
+    ],
+    "reuseTerms": {
+      "license": "CC0-1.0",
+      "licenseUrl": "https://spdx.org/licenses/CC0-1.0.html",
+      "notes": "Retain researcher credits, specimen identity and dataset DOI."
+    },
+    "coordinates": {
+      "frame": "source_stl",
+      "units": "unknown",
+      "axisConvention": "unknown",
+      "sourceToDisplay": "identity",
+      "notes": "Published mesh positions are preserved without per-structure centering or scaling. Source units and anatomical axes have not been verified."
+    }
+  },
+  "rawDir": "data/raw/ivpp-v20378",
+  "sourceFiles": [
+    {
+      "filename": "Sinovenator_Brain_1221.stl",
+      "fileId": 2698563,
+      "size": 15675684,
+      "digest": "76c0a2fbd5755290bc484477d2a1453f0c799d3620cb649ff28e6d17148d0bbe",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Sinovenator_Inner_ear_1221.stl",
+      "fileId": 2698562,
+      "size": 2793384,
+      "digest": "e3b51f688418767c78cfa9bd66c0508c09142bd4e5e1600a791fb75a9a57e6ad",
+      "digestType": "sha-256"
+    },
+    {
+      "filename": "Sinovenator_Skull_001.stl",
+      "fileId": 2698564,
+      "size": 120463184,
+      "digest": "edf6132eb9ea2da443e4f028ae70f81df35691cc12f2e3e47a03a1d8e2527222",
+      "digestType": "sha-256"
+    }
+  ],
+  "structures": [
+    {
+      "id": "skull",
+      "name": "Skull",
+      "side": "none",
+      "sourceFilename": "Sinovenator_Skull_001.stl"
+    },
+    {
+      "id": "endocast",
+      "name": "Brain endocast",
+      "side": "none",
+      "sourceFilename": "Sinovenator_Brain_1221.stl"
+    },
+    {
+      "id": "inner_ear",
+      "name": "Inner ear",
+      "side": "none",
+      "sourceFilename": "Sinovenator_Inner_ear_1221.stl"
+    }
+  ],
+  "discoverStructures": false
+}
