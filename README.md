@@ -166,7 +166,7 @@ That keeps every PR tied to the judge-facing demo story without a separate ops f
 | --- | --- |
 | Joshua | Specimen evidence, conversion, API, deploy |
 | Ananya | 3D viewer, Gemini Ask, hand control |
-| Alex | Scanner workspace UI shell |
+| Alex | Scanner workspace UI shell; AWS S3, Lambda, and CloudFront hosting |}
 | Alexandra | Attribution, pins, demo script |
 
 ---
