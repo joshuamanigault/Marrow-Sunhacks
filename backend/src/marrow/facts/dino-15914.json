@@ -1,0 +1,199 @@
+{
+  "_readme": "Grounded facts the AI features may use for DINO 15914. Every fact names its source. The AI is told to use these and nothing else, so add per-bone facts under `structures` only from the paper or the Dryad README, never from memory. Bone name, side and source file are added automatically from the manifest.",
+  "specimen": [
+    {
+      "text": "Helioscopos dickersonae is a Late Jurassic stem gekkotan (pan-gekkotan) based on a three-dimensionally preserved partial skull from the Morrison Formation of western North America.",
+      "source": "Dryad dataset abstract (Meyer et al. 2023)",
+      "url": "https://doi.org/10.5061/dryad.rbnzs7hjc"
+    },
+    {
+      "text": "Despite its Late Jurassic age, the species already possesses several key characteristics of the gekkotan skull along with retained ancestral features.",
+      "source": "Dryad dataset abstract (Meyer et al. 2023)",
+      "url": "https://doi.org/10.5061/dryad.rbnzs7hjc"
+    },
+    {
+      "text": "The holotype is DINO 15914, a partial skull and mandibles lacking the anterior snout, held at Dinosaur National Monument.",
+      "source": "Meyer et al. 2023, Proc. R. Soc. B",
+      "url": "https://doi.org/10.1098/rspb.2023.2284"
+    },
+    {
+      "text": "Preserved elements include the maxillae, prefrontals, parietal, right postorbitofrontal and squamosal, left jugal, partial palatines and right pterygoid, partial braincase, dentaries, and the fused left postdentary bones.",
+      "source": "Meyer et al. 2023, Proc. R. Soc. B",
+      "url": "https://doi.org/10.1098/rspb.2023.2284"
+    },
+    {
+      "text": "The genus name refers to a prominent pineal foramen (helios + scopós, 'sun-watcher'); the species honors Helen and Shirley Dickerson and Mary Cynthia Dickerson.",
+      "source": "Meyer et al. 2023, Proc. R. Soc. B",
+      "url": "https://doi.org/10.1098/rspb.2023.2284"
+    },
+    {
+      "text": "Fusion of the braincase (sphenoid–basioccipital contact indistinguishably fused) and fused surangular–prearticular indicate skeletal maturity of the holotype.",
+      "source": "Meyer et al. 2023, Proc. R. Soc. B",
+      "url": "https://doi.org/10.1098/rspb.2023.2284"
+    },
+    {
+      "text": "The 3D STLs in this viewer were segmented from microCT data collected at the University of Texas High-Resolution X-ray CT Facility and deposited in Dryad Set 3.",
+      "source": "Dryad dataset README (Meyer et al. 2023)",
+      "url": "https://doi.org/10.5061/dryad.rbnzs7hjc"
+    }
+  ],
+  "structures": {
+    "frontals": [
+      {
+        "text": "The frontals are paired and moderately constricted at their midpoint, a feature shared with other members of Ardeosauridae.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "Each frontal has a prominent subolfactory process that arches ventromedially toward its counterpart but fails to meet on the midline, unlike the fused tubular condition of crown gekkotans.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "parietal": [
+      {
+        "text": "The parietal table is nearly as long anteroposteriorly as it is wide mediolaterally, with a smooth dorsal surface lacking dermal rugosities.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "A prominent pineal foramen perforates the centre of the parietal table; the diagnosis contrasts this with the smaller or absent foramen of some related taxa.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "maxilla_l": [
+      {
+        "text": "The maxilla is anteroposteriorly longer than mediolaterally wide; the facial process rises at a high angle and the lateral margin bears a row of at least three mental foramina.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "The maxilla has spaces for roughly 20 teeth with unicuspid, slightly recurved apices; the suborbital ramus tapers posteriorly and would have terminated in the anterior half of the orbit.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "maxilla_r": [
+      {
+        "text": "The right maxilla appears to preserve the entire suborbital ramus; medially, a palatal shelf extends over the tooth row and would have articulated with the palatine.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "dentary_l": [
+      {
+        "text": "The dentaries are dorsoventrally shallow and taper toward their anterior ends; each lateral surface has a row of four mental foramina of roughly equal size.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "A thickened medial ridge underlies at least 16 unicuspid dentary teeth; Meckel's canal is exposed along the length of the dentary.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "dentary_r": [
+      {
+        "text": "The right dentary shares the shallow, anteriorly tapering form of the left; the catalog notes that in the deposited meshes it lies apart from the main bone cluster (published positions preserved, not an articulated reconstruction).",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B / specimen catalog",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "compound_bone_l": [
+      {
+        "text": "The left prearticular and surangular are fused into a compound (postdentary) bone but lack their anterior and posterior ends.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "This surangular–prearticular fusion is treated as a marker of skeletal maturity in the holotype.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "braincase": [
+      {
+        "text": "The partial braincase is mediolaterally wide and slightly dorsoventrally compressed (possibly taphonomic); the occipital condyle has a transversely flat posterior margin in ventral view.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "The sphenoid–basioccipital contact is fused indistinguishably, a marker of skeletal maturity in squamates used to interpret DINO 15914 as adult.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "jugal_l": [
+      {
+        "text": "The left jugal is mediolaterally thin (possibly a taphonomic artefact) and smoothly arcuate, with a prominent maxillary ramus and a complete postorbital ramus that taper distally.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "A quadratojugal process of the jugal is absent; the diagnosis describes the jugal as more gracile than that of Ardeosaurus brevipes.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "prefrontal_l": [
+      {
+        "text": "The prefrontal is large and robust, with a long, tapering supraorbital process (the anterior process is broken).",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "Medially the prefrontal is bowed posteriorly to form the posterior border of the nasal capsule and has a vertical medial margin; the left prefrontal mesh lies apart from the main cluster in the deposited files.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B / specimen catalog",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "prefrontal_r": [
+      {
+        "text": "Like the left, the right prefrontal is a large, robust element contributing to the orbital margin; facets on the frontal receive the prefrontal anteriorly.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "postorbitofrontal_r": [
+      {
+        "text": "The postorbital and postfrontal are fused into a postorbitofrontal; it is anteroposteriorly elongate with tapering frontal and jugal processes.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "palatine_l": [
+      {
+        "text": "The palatines are incompletely preserved; they are smooth and edentulous, and ventrally bear a choanal fossa that arches strongly over the choana.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "palatine_r": [
+      {
+        "text": "An appreciable portion of the pterygoid process of the palatine is preserved; edentulous palatines are shared with crown gekkotans, though the authors note this may be convergent.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "pterygoid_r": [
+      {
+        "text": "The right pterygoid is partially preserved, showing the confluence of the palatine, transverse, and quadrate rami, though none of these processes are intact.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      },
+      {
+        "text": "The transverse ramus is the thinnest of the three; a ridge runs along the ventral surface, and the pterygoid is edentulous like the palatines.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ],
+    "squamosal_r": [
+      {
+        "text": "The right squamosal is preserved; the differential diagnosis contrasts Helioscopos with Ardeosaurus brevipes in having a narrower anterior squamosal among other skull-roof differences.",
+        "source": "Meyer et al. 2023, Proc. R. Soc. B",
+        "url": "https://doi.org/10.1098/rspb.2023.2284"
+      }
+    ]
+  }
+}
