@@ -76,6 +76,11 @@ export async function startHandTracking(video: HTMLVideoElement, onFrame: FrameH
   } catch (e) {
     stopStream()
     console.warn('Hand tracking failed to start', e)
-    throw new Error('Could not load hand tracking. Check your internet connection (the hand model downloads once).')
+    const timedOut = e instanceof Error && e.message === 'timeout'
+    throw new Error(
+      timedOut
+        ? 'Hand tracking took too long to load. Check your connection and try again.'
+        : 'Could not load hand tracking. Check your internet connection (the hand model downloads once).',
+    )
   }
 }
