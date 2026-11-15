@@ -1,6 +1,7 @@
 import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Icon } from './workspace/Workspace'
+import { UploadForm } from './uploads/UploadForm'
 import { fetchSpecimens, type SpecimenListItem } from './workspace/specimen'
 import './landing.css'
 
@@ -323,20 +324,10 @@ export function Upload() {
   return (
     <Page title="Upload · Marrow">
       <main className="mk-page">
-        <p className="mk-tag">[ Your own scan ]</p>
+        <p className="mk-tag">[ Your own mesh ]</p>
         <h1 className="mk-display">Upload</h1>
-        <p className="mk-lead">Bring your own fossil CT scan and view it in the 3D viewer.</p>
-        <div className="mk-drop">
-          <Icon name="upload" />
-          <strong>Uploading is not available yet</strong>
-          <span>
-            When it is, you will add your scan here and explore it with the same tools as the
-            catalog specimens.
-          </span>
-          <button className="mk-btn mk-btn-light" disabled>
-            Choose a scan
-          </button>
-        </div>
+        <p className="mk-lead">Upload an STL or PLY mesh, convert it to GLB, and explore it in 3D.</p>
+        <UploadForm />
       </main>
     </Page>
   )

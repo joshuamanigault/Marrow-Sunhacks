@@ -31,13 +31,13 @@ export interface Specimen {
   citation: {
     text: string
     datasetDoi: string
-    datasetUrl: string
+    datasetUrl: string | null
     articleDoi?: string | null
     articleUrl?: string | null
   }
   /** Researchers who published the study. */
   credits: string[]
-  reuseTerms: { license: string; licenseUrl: string; notes: string }
+  reuseTerms: { license: string; licenseUrl: string | null; notes: string }
   coordinates: { notes: string }
   structures: Structure[]
 }

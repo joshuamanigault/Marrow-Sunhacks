@@ -75,3 +75,27 @@ def test_new_specimen_with_shared_structure_id_uses_only_its_own_sources() -> No
     assert "UAMZ R636" in rendered and source.sourceFilename in rendered
     for unsupported in ("Appendix 2", "midline", "YPM", "Eosphorosuchus"):
         assert unsupported not in rendered
+
+
+def _assert_curated_shapes(specimen_id: str, *, min_structure_ids: int) -> None:
+    curated = facts._curated(specimen_id)
+    specimen = curated.get("specimen") or []
+    structures = curated.get("structures") or {}
+    assert isinstance(specimen, list) and len(specimen) >= 3
+    assert isinstance(structures, dict) and len(structures) >= min_structure_ids
+    for fact in specimen:
+        assert fact.get("text") and fact.get("source")
+    for structure_id, entries in structures.items():
+        assert structure_id
+        assert isinstance(entries, list) and entries
+        for fact in entries:
+            assert fact.get("text") and fact.get("source")
+
+
+def test_shipped_ypm_structures_facts_are_non_empty() -> None:
+    _assert_curated_shapes("ypm-vp-41198", min_structure_ids=10)
+
+
+def test_shipped_dino_and_fmnh_facts_load() -> None:
+    _assert_curated_shapes("dino-15914", min_structure_ids=5)
+    _assert_curated_shapes("fmnh-pm9476", min_structure_ids=5)

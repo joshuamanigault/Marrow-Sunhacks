@@ -1,0 +1,228 @@
+{
+  "_readme": "Grounded facts the AI features may use for FMNH PM9476. Every fact names its source. The AI is told to use these and nothing else, so add per-bone facts under `structures` only from the paper or the Dryad README, never from memory. Bone name, side and source file are added automatically from the manifest.",
+  "specimen": [
+    {
+      "text": "Palaeolagus haydeni is an early lagomorph important for reconstructing whether the last common ancestor of crown lagomorphs was more leporid-like or more ochotonid-like.",
+      "source": "Dryad dataset abstract (Fostowicz-Frelik & Wolniewicz 2021)",
+      "url": "https://doi.org/10.5061/dryad.crjdfn338"
+    },
+    {
+      "text": "This study presents comprehensive CT-based cranial anatomy of Palaeolagus haydeni, the type species of the genus; the mixed cranial architecture supports its status as a stem lagomorph.",
+      "source": "Dryad dataset abstract (Fostowicz-Frelik & Wolniewicz 2021)",
+      "url": "https://doi.org/10.5061/dryad.crjdfn338"
+    },
+    {
+      "text": "FMNH PM9476 is an almost complete cranium with mandible in occlusion from the early Oligocene Brule Formation of Nebraska, USA.",
+      "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol. / Dryad methods",
+      "url": "https://doi.org/10.3389/fevo.2021.634757"
+    },
+    {
+      "text": "In this specimen the skull roof is partially missing (posterior frontals and parietals lost during sedimentation); the anterior nasals and the left zygomatic arch are also largely damaged.",
+      "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+      "url": "https://doi.org/10.3389/fevo.2021.634757"
+    },
+    {
+      "text": "Of characters scored against crown lagomorphs, Palaeolagus showed many leporid-like and ochotonid-like states plus several unlike either crown group, consistent with a stem position.",
+      "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+      "url": "https://doi.org/10.3389/fevo.2021.634757"
+    },
+    {
+      "text": "The Dryad deposit provides PLY segmentations of individual cranial elements and complexes from the μCT scan of FMNH PM9476.",
+      "source": "Dryad dataset (Fostowicz-Frelik & Wolniewicz 2021)",
+      "url": "https://doi.org/10.5061/dryad.crjdfn338"
+    }
+  ],
+  "structures": {
+    "maxilla_teeth_and_jugal_complex_l": [
+      {
+        "text": "The paired maxillae form the posterolateral rostrum and central palate, bear all cheek teeth, and contribute to the anterior orbital margin; both maxillae are well preserved except the anterior left maxillary corpus, which is extensively damaged.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "Only a small portion of the left zygomatic (jugal), adjacent to the zygomatic process of the maxilla, is preserved in FMNH PM9476.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "maxilla_teeth_and_jugal_complex_r": [
+      {
+        "text": "The maxillary corpus produces two anterior prongs that insert into facets on the premaxilla; the alveolar process bears six alveoli (P2–4 and M1–3), with M1 the largest.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The right zygomatic is almost completely preserved (posterior tip excepted) and is tightly co-ossified with the maxillary zygomatic process; its lateral zygomatic fossa was an attachment for the lateral masseter.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The lateral wall of the maxillary corpus is perforated by a lacework of small openings like extant leporids, rather than a single large facial fenestra as in ochotonids.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "premaxilla_and_incisor_l": [
+      {
+        "text": "The paired premaxillae form the anterolateral rostrum, contribute to the anterior palate, and carry both pairs of upper incisors.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The left premaxilla in FMNH PM9476 is extensively damaged anteriorly relative to the better-preserved right side.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "premaxilla_r": [
+      {
+        "text": "The right premaxilla is well preserved except for slight abrasion of its anterior surface; the alveolus for the anterior upper incisor (dI2) is larger and more anterodorsal than that for the posterior upper incisor (I3).",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "Both upper-incisor alveoli curve dorsally through the premaxillary corpus; the dI2 alveolus continues into the maxilla, whereas the I3 alveolus is contained within the premaxilla.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "mandible_and_dentition_l": [
+      {
+        "text": "The mandible is well preserved except for the posterior portions of both mandibular rami and the right coronoid process, which are broken.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "Each hemimandible has two mental foramina—an anterior one along the diastema and a posterior one below p3—a combination unlike either crown leporids or ochotonids alone.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "mandible_and_dentition_r": [
+      {
+        "text": "Alveoli for di2 and for p3–p4 and m1–m3 are present; the m3 alveolus is markedly smaller than the other cheek-tooth alveoli.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The lateral mandibular ramus forms an extensive masseteric fossa; medially, a pterygoid fovea and pterygoid fossa mark attachments for the lateral and medial pterygoid muscles.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "nasal_l": [
+      {
+        "text": "The paired nasals form the dorsal rostrum and roof of the nasal cavity; in FMNH PM9476 only the posterior parts are preserved, the anterior portions being abraded.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The nasal widens posteriorly to a frontal process with a V-shaped suture against the frontal—more like extant leporids than Ochotona, whose nasals do not broaden in the same way.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "nasal_r": [
+      {
+        "text": "Ventrally each nasal bears a longitudinal nasoturbinate (ethmoidal) crest separating the dorsal nasal meatus from the roof of a relatively shallow ethmoidal fossa.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "frontal_fp_l": [
+      {
+        "text": "Both frontals are well preserved anteriorly, but the supraorbital processes and posterior frontal squamae are missing in FMNH PM9476.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The frontal squama has an approximately flat dorsal surface resembling ochotonids more than the strongly arched leporid braincase roof; ventral fossae mark the olfactory bulbs.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "frontal_fp_r": [
+      {
+        "text": "Anteromedially the frontal forms a triangular nasal process; anterolaterally a maxillary process separates the nasal process of the premaxilla from the maxilla in dorsal view.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "palatine": [
+      {
+        "text": "The palatine is a single unpaired element forming the posterior hard palate; in FMNH PM9476 it is completely preserved.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "Each hemipalatine has a horizontal lamina with a major palatine foramen enclosed within the palatine, plus accessory palatine foramina—more leporid-like than the multiple small openings of ochotonids.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "lacrimal_r": [
+      {
+        "text": "Only the right lacrimal is partially preserved; its orbital plate and facial process are largely abraded, but the lacrimal hamulus is well preserved.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The hamulus forms the medial wall of the posterior nasolacrimal canal and bears a lacrimal crest along its length.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "frontal_presphenoid_basisphenoid_squamosal_complex": [
+      {
+        "text": "In the CT segmentation, the orbital portion of the frontal, presphenoid, basisphenoid, and squamosal are figured as a complex because internal sutures are not visible in the CT data.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "The basisphenoid, alisphenoids, and pterygoids are well preserved in FMNH PM9476 because limited external preparation left the cranial base intact—unlike most other P. haydeni skulls.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "tympanic_l": [
+      {
+        "text": "The ectotympanic forms a greatly expanded tympanic bulla; laterally it bears an osseous external acoustic meatus directed posterolaterally, resembling leporids rather than the short lateral meatus of ochotonids.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "tympanic_r": [
+      {
+        "text": "Posterior to the external acoustic meatus, the dorsal ectotympanic surface forms a fissure for the mastoid process; anteromedially a styliform process underlaps the basisphenoid.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "mastoid_l": [
+      {
+        "text": "The lateral mastoid exposure in Palaeolagus haydeni is more extensive than in leporids and has a smooth surface shared with ochotonids, rather than the extensively pitted mastoid of leporids.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "mastoid_r": [
+      {
+        "text": "The mastoid exposure forms a prominent mastoid (paroccipital) process that inserts into a fissure on the dorsal surface of the ectotympanic; the authors describe the petrosal mastoid exposure as more ochotonid-like than leporid-like overall.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ],
+    "basioccipital_interparietal_complex": [
+      {
+        "text": "The basioccipital is mediolaterally narrowest anteriorly and widens toward the foramen magnum—ochotonid-like rather than the anteriorly broad basioccipital of leporids.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      },
+      {
+        "text": "Ventrolateral crests (tympanic processes) of the basioccipital overlap the medial walls of the tympanic bullae, another ochotonid-like basicranial feature highlighted in the discussion.",
+        "source": "Wolniewicz & Fostowicz-Frelik 2021, Front. Ecol. Evol.",
+        "url": "https://doi.org/10.3389/fevo.2021.634757"
+      }
+    ]
+  }
+}

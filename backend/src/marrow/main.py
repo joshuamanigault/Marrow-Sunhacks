@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from marrow.routes.ai import router as ai_router
 from marrow.routes.specimens import router as specimens_router
+from marrow.routes.uploads import router as uploads_router
 from marrow.settings import get_settings
 
 settings = get_settings()
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(specimens_router)
+app.include_router(uploads_router)
 app.include_router(ai_router)
 
 

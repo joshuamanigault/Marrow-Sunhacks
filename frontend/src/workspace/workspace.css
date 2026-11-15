@@ -260,6 +260,7 @@
 }
 
 .ws .ws-rail button {
+  position: relative;
   width: 36px;
   height: 36px;
   padding: 7px;
@@ -268,6 +269,27 @@
 .ws .ws-rail button[aria-expanded='true'] {
   background: var(--accent);
   color: var(--accent-ink);
+}
+
+.ws-rail-count {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 14px;
+  text-align: center;
+}
+
+.ws .ws-rail button[aria-expanded='true'] .ws-rail-count {
+  background: var(--accent-ink);
+  color: var(--accent);
 }
 
 /* Contextual panel */
@@ -420,6 +442,77 @@
   padding: 1px 7px;
 }
 
+/* Observations (pins) list — same quiet row language as .ws-structures */
+
+.ws-pins-hint {
+  margin-bottom: 12px;
+}
+
+.ws-pins {
+  list-style: none;
+  margin: 6px -6px 0;
+  padding: 0;
+}
+
+.ws-pins li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 4px 4px 4px 6px;
+  border-radius: 7px;
+}
+
+.ws-pins li[data-selected='true'] {
+  background: var(--soft);
+}
+
+.ws .ws-pin-open {
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 4px 2px;
+  text-align: left;
+}
+
+.ws .ws-pin-open:hover:not(:disabled) {
+  background: transparent;
+}
+
+.ws .ws-pin-open .ws-name {
+  flex: none;
+  width: 100%;
+  padding: 0;
+  font-size: 12px;
+}
+
+.ws .ws-pin-open[aria-pressed='true'] .ws-name {
+  color: var(--accent);
+}
+
+.ws-pin-note {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.ws .ws-pin-remove {
+  flex-shrink: 0;
+  padding: 5px 7px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.ws .ws-pin-remove:hover:not(:disabled) {
+  color: var(--ink);
+}
+
 .ws-check {
   display: flex;
   align-items: center;
@@ -549,7 +642,8 @@
 
 @media (pointer: coarse) {
   .ws button,
-  .ws-structures li {
+  .ws-structures li,
+  .ws-pins li {
     min-height: 44px;
   }
 
