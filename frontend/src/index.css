@@ -1,3 +1,17 @@
+/* Global styles. Scanner chrome lives in workspace/workspace.css. */
+
+:root {
+  --scene: #f5f0e9;
+  --panel: #ffffff;
+  --ink: #1a1f24;
+  --muted: #5c6670;
+  --accent: #1f5673;
+  --border: #d9d2c8;
+  --danger: #8b3a3a;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(26, 31, 36, 0.06), 0 8px 24px rgba(26, 31, 36, 0.06);
+}
+
 *,
 *::before,
 *::after {
@@ -6,6 +20,177 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: system-ui, sans-serif;
   line-height: 1.5;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, #fff9f1 0%, transparent 55%),
+    linear-gradient(180deg, #ebe4da 0%, var(--scene) 40%, #efe8de 100%);
+}
+
+code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* —— Plain-language status (Alexandra task 6) —— */
+.status-banner {
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  margin: 0 0 0.75rem;
+}
+
+.status-banner-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.status-banner-body {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.status-banner-retry {
+  margin-top: 0.65rem;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-banner--warning {
+  border-color: #e0cfc0;
+  background: #f8f1e8;
+}
+
+.status-banner--error {
+  border-color: #e0c0c0;
+  background: #f7eeee;
+}
+
+.status-banner--error .status-banner-title {
+  color: var(--danger);
+}
+
+.status-banner--empty {
+  border-style: dashed;
+  background: var(--scene);
+}
+
+.load-screen {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Pin form inside Observations panel */
+.pin-form-label {
+  display: block;
+  margin: 0.75rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.pin-form-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.pin-form-save {
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pin-form-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pin-form-meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pin-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.pin-item {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--scene);
+}
+
+.pin-item-bone {
+  margin: 0 0 0.2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pin-item-note,
+.pin-item-point {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pin-item-delete {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--danger);
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.pin-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.pin-demo-btn {
+  border: 1px solid var(--border);
+  background: var(--scene);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
 }

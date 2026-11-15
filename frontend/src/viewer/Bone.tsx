@@ -2,12 +2,12 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { Mesh, type BufferGeometry, type Color, type Group, type Vector3 } from 'three'
-import { apiUrl, type Structure } from '../workspace/specimen'
+import { apiUrl, NATURAL_BONE, type Structure } from '../workspace/specimen'
 import { useViewer } from '../workspace/viewer'
 import { explodeOffset } from './layout'
 
-/** Natural bone tone when "Color by structure" is off. */
-const BONE = '#d9cba9'
+/** Natural bone tone when "Color by structure" is off or structure.color is null. */
+const BONE = NATURAL_BONE
 const HIGHLIGHT = '#1f5673'
 /** Pointer travel (px) above which a press counts as a drag, not a click. */
 const CLICK_SLOP = 4
@@ -72,6 +72,15 @@ export function Bone({ structure, color, explodeOrigin }: BoneProps) {
   // Faded = see-through: everything but the selection in X-ray, and everything
   // but the focused bone while one is focused.
   const faded = focusing ? !focused : xray && !selected
+
+  // Pointer cursor is set on hover; clear it if we unmount or hide while hovered
+  // (onPointerOut may never fire in those cases).
+  useEffect(() => {
+    if (hidden) document.body.style.cursor = ''
+    return () => {
+      document.body.style.cursor = ''
+    }
+  }, [hidden])
 
   function onClick(e: ThreeEvent<MouseEvent>) {
     // Only the nearest bone under the pointer, and never at the end of a drag.

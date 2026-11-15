@@ -1,46 +1,21 @@
-import { useEffect, useState } from 'react'
-import Workspace from './workspace/Workspace'
-import { fetchSpecimen, type Specimen } from './workspace/specimen'
-import SpecimenScene from './viewer/SpecimenScene'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Explore, Landing, Upload } from './Landing'
+import { WorkspaceRoute } from './pages/WorkspaceRoute'
 
-// The one curated specimen (spec §5).
-const SPECIMEN_ID = 'ypm-vp-41198'
-
-const centered = { display: 'grid', placeItems: 'center', height: '100dvh', padding: 16 } as const
-
+// Deployment note: the host must serve index.html for every path (SPA
+// fallback), or refreshing /explore or a /workspace link returns its 404.
 function App() {
-  const [specimen, setSpecimen] = useState<Specimen>()
-  const [error, setError] = useState<string>()
-
-  useEffect(() => {
-    const request = new AbortController()
-    fetchSpecimen(SPECIMEN_ID, request.signal).then(setSpecimen, (e: unknown) => {
-      if (request.signal.aborted) return
-      // fetch() rejects with a TypeError when the server cannot be reached.
-      setError(e instanceof TypeError ? 'The server is not reachable.' : String((e as Error).message))
-    })
-    return () => request.abort()
-  }, [])
-
-  if (error) {
-    return (
-      <main style={centered}>
-        <div role="alert" style={{ textAlign: 'center' }}>
-          <p>Could not load the specimen. {error}</p>
-          <button onClick={() => location.reload()}>Try again</button>
-        </div>
-      </main>
-    )
-  }
-  if (!specimen) {
-    return (
-      <main style={centered}>
-        <p role="status">Loading specimen…</p>
-      </main>
-    )
-  }
-
-  return <Workspace specimen={specimen} scene={<SpecimenScene specimen={specimen} />} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/workspace/:specimenId" element={<WorkspaceRoute />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App

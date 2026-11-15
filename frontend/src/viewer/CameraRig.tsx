@@ -52,7 +52,12 @@ export function CameraRig({ specimen, box, center }: CameraRigProps) {
         } else {
           const s = specimen.structures.find((x) => x.id === req.id)
           const b = s && structureBox(s)
-          if (!s || !b) return
+          if (!s) return
+          // Missing structure bounds: fit the whole specimen so Focus still moves the camera.
+          if (!b) {
+            if (!box.isEmpty()) void c.fitToSphere(fitTarget(box), true)
+            return
+          }
           // Frame the bone where it will sit: a focused bone stays put, anything
           // else is framed at its exploded position.
           const origin = explodeOrigin(specimen, state.focusedId, center)
@@ -63,7 +68,7 @@ export function CameraRig({ specimen, box, center }: CameraRigProps) {
           void c.fitToSphere(sphere, true)
         }
       }),
-    [specimen, center],
+    [specimen, center, box],
   )
 
   return <CameraControls ref={controls} makeDefault />

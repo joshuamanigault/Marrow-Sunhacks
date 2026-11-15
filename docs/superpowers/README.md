@@ -7,3 +7,7 @@ Start with the [Marrow product spec](../spec.md). For parallel MVP ownership, se
 | Plan | Spec | Status |
 | --- | --- | --- |
 | [2026-11-14 specimen mesh API](plans/2026-11-14-specimen-mesh-api.md) | §§2, 4–5 | Done — 21 GLBs + `/specimens/{id}` handoff |
+
+## Demo
+
+- Judge click-order checklist (Alexandra task 5): [Demo script — mapped to spec §2](../demo-script.md)
