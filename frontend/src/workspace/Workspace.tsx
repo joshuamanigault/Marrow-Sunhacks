@@ -197,6 +197,9 @@ function pickCaption(pick: { structureId: string } | null): string {
 
 /** Grounded blurb from published study language (Alexandra task 2) — no invented bones. */
 function lookingAtBlurb(specimen: Specimen): string {
+  if (specimen.id.startsWith('upload-')) {
+    return 'You are looking at a user-uploaded surface mesh converted to GLB. Anatomy, scale, orientation and source attribution have not been verified.'
+  }
   const ready = specimen.structures.filter((s) => s.status === 'ok').length
   const blocked = specimen.structures.filter(
     (s) => s.status === 'missing' || s.status === 'unreadable',
@@ -221,10 +224,11 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
         <dd>{specimen.coordinates.notes}</dd>
         <dt>Data source</dt>
         <dd>
-          doi:{specimen.citation.datasetDoi} · {specimen.reuseTerms.license}
+          {specimen.citation.datasetDoi ? `doi:${specimen.citation.datasetDoi} · ` : ''}
+          {specimen.reuseTerms.license}
         </dd>
         <dt>Researchers</dt>
-        <dd>{specimen.credits.join(', ')}</dd>
+        <dd>{specimen.credits.join(', ') || 'Not supplied'}</dd>
         <dt>Citation</dt>
         <dd>{specimen.citation.text}</dd>
         {specimen.reuseTerms.notes && (
@@ -236,9 +240,11 @@ function InfoPanel({ specimen }: { specimen: Specimen }) {
       </dl>
       {/* Alexandra task 2: grounded “what you’re looking at” blurb */}
       <p className="ws-subtle">{lookingAtBlurb(specimen)}</p>
-      <a className="ws-source" href={specimen.citation.datasetUrl} target="_blank" rel="noreferrer">
-        View source dataset <Icon name="external" />
-      </a>
+      {specimen.citation.datasetUrl && (
+        <a className="ws-source" href={specimen.citation.datasetUrl} target="_blank" rel="noreferrer">
+          View source dataset <Icon name="external" />
+        </a>
+      )}
     </section>
   )
 }
@@ -252,7 +258,8 @@ interface WorkspaceProps {
 export default function Workspace({ specimen, scene }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
   const v = useViewer()
-  const aiEnabled = useAiEnabled()
+  const serverAiEnabled = useAiEnabled()
+  const aiEnabled = serverAiEnabled && Boolean(specimen.citation.datasetUrl)
   const railTools = aiEnabled ? [...tools, askTool] : tools
   const selected = specimen.structures.find((s) => s.id === v.selectedId)
   const hiddenCount = Object.keys(v.hiddenIds).length
