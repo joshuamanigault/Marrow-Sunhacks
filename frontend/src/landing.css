@@ -591,6 +591,7 @@
 
 .mk-card {
   display: block;
+  overflow-wrap: anywhere;
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -634,6 +635,8 @@
 .mk-card-accession {
   display: grid;
   place-items: center;
+  padding-inline: 12px;
+  text-align: center;
   height: 100%;
   color: var(--rim);
   font-size: 26px;
