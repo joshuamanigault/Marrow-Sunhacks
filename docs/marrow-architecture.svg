@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-label="Marrow architecture">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="990" viewBox="0 0 1400 990" role="img" aria-label="Marrow architecture">
   <defs>
     <style>
       .title { font: 700 28px 'Segoe UI', system-ui, sans-serif; fill: #1a1a1a; }
@@ -7,7 +7,13 @@
       .box-sub { font: 400 11px 'Segoe UI', system-ui, sans-serif; fill: #444; }
       .item { font: 400 12px 'Segoe UI', system-ui, sans-serif; fill: #222; }
       .item-sm { font: 400 11px 'Segoe UI', system-ui, sans-serif; fill: #333; }
-      .arrow-label { font: 500 11px 'Segoe UI', system-ui, sans-serif; fill: #333; }
+      .arrow-label {
+        font: 500 11px 'Segoe UI', system-ui, sans-serif;
+        fill: #333;
+        stroke: #ffffff;
+        stroke-width: 6px;
+        paint-order: stroke fill;
+      }
       .muted { fill: #555; }
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -15,19 +21,18 @@
     </marker>
   </defs>
 
-  <rect width="1400" height="900" fill="#ffffff"/>
+  <rect width="1400" height="990" fill="#ffffff"/>
   <text x="700" y="42" text-anchor="middle" class="title">Marrow architecture</text>
 
   <!-- USERS -->
   <g>
-    <rect x="40" y="70" width="200" height="200" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+    <rect x="40" y="70" width="200" height="180" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
     <text x="140" y="98" text-anchor="middle" class="box-title">Users</text>
-    <rect x="58" y="118" width="164" height="48" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
-    <text x="140" y="138" text-anchor="middle" class="item">Visitor / student</text>
-    <text x="140" y="154" text-anchor="middle" class="item-sm muted">browser</text>
-    <rect x="58" y="180" width="164" height="48" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
-    <text x="140" y="200" text-anchor="middle" class="item">Optional webcam</text>
-    <text x="140" y="216" text-anchor="middle" class="item-sm muted">hand control (local)</text>
+    <rect x="58" y="118" width="164" height="40" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
+    <text x="140" y="143" text-anchor="middle" class="item">Visitor / student</text>
+    <rect x="58" y="174" width="164" height="52" rx="6" fill="#fff" stroke="#c4b5fd" stroke-width="1.5"/>
+    <text x="140" y="196" text-anchor="middle" class="item">Optional webcam</text>
+    <text x="140" y="212" text-anchor="middle" class="item-sm muted">hand control (local)</text>
   </g>
 
   <!-- REACT SPA -->
@@ -36,33 +41,32 @@
     <text x="530" y="98" text-anchor="middle" class="box-title">React SPA</text>
     <text x="530" y="116" text-anchor="middle" class="box-sub">Vite / React 19 / React Router / Zustand</text>
 
-    <rect x="340" y="132" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="530" y="152" text-anchor="middle" class="item">Pages: Landing, Explore, Upload, Workspace</text>
-    <text x="530" y="170" text-anchor="middle" class="item-sm muted">/workspace/:specimenId + SPA fallback host</text>
+    <rect x="340" y="132" width="380" height="40" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="157" text-anchor="middle" class="item">Pages: Landing, Explore, Upload, Workspace</text>
 
-    <rect x="340" y="196" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="530" y="216" text-anchor="middle" class="item">Scanner workspace shell</text>
-    <text x="530" y="234" text-anchor="middle" class="item-sm muted">header / tool rail / anatomy+info / bottom dock</text>
+    <rect x="340" y="184" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="206" text-anchor="middle" class="item">Scanner workspace shell</text>
+    <text x="530" y="222" text-anchor="middle" class="item-sm muted">header / tool rail / anatomy+info / bottom dock</text>
 
-    <rect x="340" y="260" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="530" y="280" text-anchor="middle" class="item">React Three Fiber / three.js fossil scene</text>
-    <text x="530" y="298" text-anchor="middle" class="item-sm muted">Solid / X-ray / explode / focus / bone-space picks</text>
+    <rect x="340" y="248" width="380" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="530" y="270" text-anchor="middle" class="item">React Three Fiber / three.js fossil scene</text>
+    <text x="530" y="286" text-anchor="middle" class="item-sm muted">Solid / X-ray / explode / focus / bone-space picks</text>
 
-    <rect x="340" y="324" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="430" y="348" text-anchor="middle" class="item">Zustand viewer</text>
-    <text x="430" y="366" text-anchor="middle" class="item-sm muted">select / mode / pick</text>
+    <rect x="340" y="312" width="180" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="430" y="334" text-anchor="middle" class="item">Zustand viewer</text>
+    <text x="430" y="350" text-anchor="middle" class="item-sm muted">select / mode / pick</text>
 
-    <rect x="540" y="324" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="630" y="348" text-anchor="middle" class="item">Observations</text>
-    <text x="630" y="366" text-anchor="middle" class="item-sm muted">pins -&gt; localStorage</text>
+    <rect x="540" y="312" width="180" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="630" y="334" text-anchor="middle" class="item">Observations</text>
+    <text x="630" y="350" text-anchor="middle" class="item-sm muted">pins → localStorage</text>
 
-    <rect x="340" y="394" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="430" y="418" text-anchor="middle" class="item">Ask panel</text>
-    <text x="430" y="436" text-anchor="middle" class="item-sm muted">explain / tour / follow-up</text>
+    <rect x="340" y="376" width="180" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="430" y="398" text-anchor="middle" class="item">Ask panel</text>
+    <text x="430" y="414" text-anchor="middle" class="item-sm muted">explain / tour / follow-up</text>
 
-    <rect x="540" y="394" width="180" height="58" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
-    <text x="630" y="418" text-anchor="middle" class="item">Hand control</text>
-    <text x="630" y="436" text-anchor="middle" class="item-sm muted">MediaPipe on-device</text>
+    <rect x="540" y="376" width="180" height="52" rx="6" fill="#fff" stroke="#7dd3fc" stroke-width="1.5"/>
+    <text x="630" y="398" text-anchor="middle" class="item">Hand control</text>
+    <text x="630" y="414" text-anchor="middle" class="item-sm muted">MediaPipe on-device</text>
   </g>
 
   <!-- SPECIMEN API -->
@@ -72,119 +76,147 @@
     <text x="1110" y="116" text-anchor="middle" class="box-sub">FastAPI / Uvicorn / uv / Pydantic settings</text>
 
     <rect x="880" y="132" width="460" height="70" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
-    <text x="1110" y="155" text-anchor="middle" class="item">GET /health / GET /specimens / GET /specimens/{id}</text>
+    <text x="1110" y="155" text-anchor="middle" class="item">GET /health · /specimens · /specimens/{id}</text>
     <text x="1110" y="175" text-anchor="middle" class="item-sm muted">GET /specimens/{id}/meshes/{structureId}.glb</text>
-    <text x="1110" y="191" text-anchor="middle" class="item-sm muted">manifest metadata / structure status / public mesh URLs</text>
+    <text x="1110" y="191" text-anchor="middle" class="item-sm muted">manifest metadata · structure status · public mesh URLs</text>
 
-    <rect x="880" y="216" width="460" height="88" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <rect x="880" y="216" width="460" height="70" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
     <text x="1110" y="240" text-anchor="middle" class="item">AI routes (optional; 503 without key)</text>
-    <text x="1110" y="260" text-anchor="middle" class="item-sm muted">POST /ai/explain / /ai/tour / /ai/followup / GET /ai/status</text>
-    <text x="1110" y="280" text-anchor="middle" class="item-sm muted">grounded on curated facts + manifest only; rate limited</text>
+    <text x="1110" y="260" text-anchor="middle" class="item-sm muted">POST /ai/explain · /ai/tour · /ai/followup · GET /ai/status</text>
+    <text x="1110" y="276" text-anchor="middle" class="item-sm muted">grounded on curated facts + manifest only</text>
 
-    <rect x="880" y="318" width="460" height="64" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
-    <text x="1110" y="344" text-anchor="middle" class="item">ASSETS_DIR (served, not in git)</text>
-    <text x="1110" y="364" text-anchor="middle" class="item-sm muted">manifest.json / *.glb / facts/{specimenId}.json</text>
+    <rect x="880" y="300" width="460" height="70" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="324" text-anchor="middle" class="item">Upload routes</text>
+    <text x="1110" y="344" text-anchor="middle" class="item-sm muted">POST /uploads/init · GET /uploads/{id}</text>
+    <text x="1110" y="360" text-anchor="middle" class="item-sm muted">presigned S3 POST · job status for converted meshes</text>
 
-    <rect x="880" y="396" width="460" height="54" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
-    <text x="1110" y="418" text-anchor="middle" class="item">Secrets stay server-side</text>
-    <text x="1110" y="436" text-anchor="middle" class="item-sm muted">GEMINI_API_KEY / CORS / no browser AI keys</text>
+    <rect x="880" y="384" width="460" height="64" rx="6" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="1110" y="410" text-anchor="middle" class="item">ASSETS_DIR + secrets stay server-side</text>
+    <text x="1110" y="428" text-anchor="middle" class="item-sm muted">manifest / *.glb / facts · GEMINI_API_KEY / CORS</text>
   </g>
 
-  <!-- EXTERNAL -->
+  <!-- Bottom row top = 575; mid gutter = 470–575 -->
   <g>
-    <rect x="40" y="520" width="280" height="340" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
-    <text x="180" y="548" text-anchor="middle" class="box-title">External services</text>
+    <rect x="40" y="575" width="280" height="360" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="180" y="603" text-anchor="middle" class="box-title">External services</text>
 
-    <rect x="58" y="570" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
-    <text x="180" y="592" text-anchor="middle" class="item">Dryad dataset</text>
-    <text x="180" y="610" text-anchor="middle" class="item-sm muted">YPM VP 41198 / CC0-1.0</text>
+    <rect x="58" y="641" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="663" text-anchor="middle" class="item">Dryad dataset</text>
+    <text x="180" y="679" text-anchor="middle" class="item-sm muted">YPM VP 41198 / CC0-1.0</text>
 
-    <rect x="58" y="636" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
-    <text x="180" y="658" text-anchor="middle" class="item">Google Gemini</text>
-    <text x="180" y="676" text-anchor="middle" class="item-sm muted">grounded explain / tour</text>
+    <rect x="58" y="707" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="729" text-anchor="middle" class="item">Google Gemini</text>
+    <text x="180" y="745" text-anchor="middle" class="item-sm muted">grounded explain / tour</text>
 
-    <rect x="58" y="702" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
-    <text x="180" y="724" text-anchor="middle" class="item">MediaPipe Tasks</text>
-    <text x="180" y="742" text-anchor="middle" class="item-sm muted">HandLandmarker (browser)</text>
+    <rect x="58" y="773" width="244" height="52" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="795" text-anchor="middle" class="item">MediaPipe Tasks</text>
+    <text x="180" y="811" text-anchor="middle" class="item-sm muted">HandLandmarker</text>
 
-    <rect x="58" y="768" width="244" height="68" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
-    <text x="180" y="792" text-anchor="middle" class="item">Published study</text>
-    <text x="180" y="810" text-anchor="middle" class="item-sm muted">Margulis-Ohnuma et al.</text>
-    <text x="180" y="824" text-anchor="middle" class="item-sm muted">citation + DOI in UI</text>
+    <rect x="58" y="839" width="244" height="72" rx="6" fill="#fff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="180" y="867" text-anchor="middle" class="item">Published study</text>
+    <text x="180" y="885" text-anchor="middle" class="item-sm muted">citation + DOI in UI</text>
   </g>
 
-  <!-- EVIDENCE PREP -->
   <g>
-    <rect x="360" y="520" width="500" height="340" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
-    <text x="610" y="548" text-anchor="middle" class="box-title">Evidence prep (offline)</text>
-    <text x="610" y="566" text-anchor="middle" class="box-sub">scripts / inventory / no invented anatomy</text>
+    <rect x="360" y="575" width="360" height="360" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+    <text x="540" y="603" text-anchor="middle" class="box-title">Evidence prep (offline)</text>
+    <text x="540" y="621" text-anchor="middle" class="box-sub">scripts / inventory / no invented anatomy</text>
 
-    <rect x="380" y="586" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
-    <text x="610" y="610" text-anchor="middle" class="item">fetch / inspect Dryad Appendix 2 STLs</text>
-    <text x="610" y="628" text-anchor="middle" class="item-sm muted">accession / credits / reuse terms / side-aware ids</text>
+    <rect x="378" y="641" width="324" height="52" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="540" y="663" text-anchor="middle" class="item">Fetch / inspect Dryad STLs</text>
+    <text x="540" y="679" text-anchor="middle" class="item-sm muted">accession / credits / side-aware ids</text>
 
-    <rect x="380" y="658" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
-    <text x="610" y="682" text-anchor="middle" class="item">prepare_specimen: STL to GLB</text>
-    <text x="610" y="700" text-anchor="middle" class="item-sm muted">stable structure ids / status ok / missing / unreadable</text>
+    <rect x="378" y="707" width="324" height="52" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="540" y="729" text-anchor="middle" class="item">prepare_specimen: STL → GLB</text>
+    <text x="540" y="745" text-anchor="middle" class="item-sm muted">status ok / missing / unreadable</text>
 
-    <rect x="380" y="730" width="460" height="58" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
-    <text x="610" y="754" text-anchor="middle" class="item">Write ASSETS_DIR + curated facts</text>
-    <text x="610" y="772" text-anchor="middle" class="item-sm muted">manifest.json / meshes / facts/{id}.json</text>
+    <rect x="378" y="773" width="324" height="52" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="540" y="795" text-anchor="middle" class="item">Write ASSETS_DIR + facts</text>
+    <text x="540" y="811" text-anchor="middle" class="item-sm muted">manifest.json / meshes / facts</text>
 
-    <rect x="380" y="802" width="460" height="40" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
-    <text x="610" y="828" text-anchor="middle" class="item">Binaries stay out of git; served by FastAPI</text>
+    <rect x="378" y="839" width="324" height="72" rx="6" fill="#fff" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="540" y="867" text-anchor="middle" class="item">Binaries stay out of git</text>
+    <text x="540" y="885" text-anchor="middle" class="item-sm muted">baked into the Lambda API image</text>
   </g>
 
-  <!-- BROWSER LOCAL -->
   <g>
-    <rect x="900" y="520" width="460" height="340" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
-    <text x="1130" y="548" text-anchor="middle" class="box-title">Browser-local state</text>
-    <text x="1130" y="566" text-anchor="middle" class="box-sub">no accounts / no shared room (MVP)</text>
+    <rect x="760" y="575" width="600" height="360" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="1060" y="603" text-anchor="middle" class="box-title">AWS</text>
+    <text x="1060" y="621" text-anchor="middle" class="box-sub">us-east-1 · CloudFront edge for the live demo</text>
 
-    <rect x="920" y="586" width="420" height="70" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
-    <text x="1130" y="612" text-anchor="middle" class="item">localStorage pins</text>
-    <text x="1130" y="632" text-anchor="middle" class="item-sm muted">marrow:pins:{specimenId}</text>
-    <text x="1130" y="648" text-anchor="middle" class="item-sm muted">bone id + bone-space (x,y,z) + note</text>
+    <rect x="780" y="641" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="915" y="663" text-anchor="middle" class="item">CloudFront</text>
+    <text x="915" y="679" text-anchor="middle" class="item-sm muted">SPA + API path routing</text>
 
-    <rect x="920" y="670" width="420" height="70" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
-    <text x="1130" y="696" text-anchor="middle" class="item">Coordinate rule</text>
-    <text x="1130" y="716" text-anchor="middle" class="item-sm muted">picks independent of camera and explode</text>
-    <text x="1130" y="732" text-anchor="middle" class="item-sm muted">survive reassemble / reset / refresh</text>
+    <rect x="1068" y="641" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="1203" y="663" text-anchor="middle" class="item">S3 · marrow-web</text>
+    <text x="1203" y="679" text-anchor="middle" class="item-sm muted">static frontend build</text>
 
-    <rect x="920" y="754" width="420" height="84" rx="6" fill="#fff" stroke="#86efac" stroke-width="1.5"/>
-    <text x="1130" y="782" text-anchor="middle" class="item">What we deliberately deferred</text>
-    <text x="1130" y="802" text-anchor="middle" class="item-sm muted">auth / shared notes / LiveKit / Tiger Data</text>
-    <text x="1130" y="818" text-anchor="middle" class="item-sm muted">uploads / processing / linked CT slices</text>
+    <rect x="780" y="707" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="915" y="729" text-anchor="middle" class="item">Lambda · marrow-api</text>
+    <text x="915" y="745" text-anchor="middle" class="item-sm muted">container · Function URL</text>
+
+    <rect x="1068" y="707" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="1203" y="729" text-anchor="middle" class="item">ECR · marrow-api</text>
+    <text x="1203" y="745" text-anchor="middle" class="item-sm muted">prepared assets in image</text>
+
+    <rect x="780" y="773" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="915" y="795" text-anchor="middle" class="item">S3 · uploads bucket</text>
+    <text x="915" y="811" text-anchor="middle" class="item-sm muted">incoming / meshes / manifests</text>
+
+    <rect x="1068" y="773" width="270" height="52" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="1203" y="795" text-anchor="middle" class="item">Lambda · upload worker</text>
+    <text x="1203" y="811" text-anchor="middle" class="item-sm muted">ObjectCreated · STL/PLY → GLB</text>
+
+    <rect x="780" y="839" width="558" height="72" rx="6" fill="#fff" stroke="#fcd34d" stroke-width="1.5"/>
+    <text x="1059" y="867" text-anchor="middle" class="item">Edge routes</text>
+    <text x="1059" y="887" text-anchor="middle" class="item-sm muted">/* → S3 web · /specimens* /health /ai* /uploads* → Lambda API</text>
   </g>
 
-  <!-- ARROWS (short gutters between adjacent boxes) -->
-  <line x1="240" y1="142" x2="318" y2="142" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
-  <text x="279" y="132" text-anchor="middle" class="arrow-label">open</text>
+  <!-- ARROWS -->
+  <line x1="240" y1="138" x2="318" y2="138" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="279" y="126" text-anchor="middle" class="arrow-label">open</text>
 
-  <path d="M 240 204 H 280 V 423 H 338" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="248" y="300" class="arrow-label">gestures</text>
-  <text x="248" y="314" class="arrow-label muted">(local only)</text>
+  <path d="M 240 200 H 280 V 402 H 538" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="252" y="310" class="arrow-label">gestures</text>
 
-  <line x1="740" y1="155" x2="858" y2="155" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
-  <line x1="858" y1="175" x2="740" y2="175" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
-  <text x="799" y="145" text-anchor="middle" class="arrow-label">fetch specimen</text>
-  <text x="799" y="196" text-anchor="middle" class="arrow-label">+ GLB meshes</text>
+  <line x1="740" y1="152" x2="858" y2="152" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <line x1="858" y1="172" x2="740" y2="172" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="799" y="140" text-anchor="middle" class="arrow-label">fetch specimen</text>
+  <text x="799" y="194" text-anchor="middle" class="arrow-label">+ GLB meshes</text>
 
-  <line x1="740" y1="250" x2="858" y2="250" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="799" y="242" text-anchor="middle" class="arrow-label">Ask -&gt; /ai/*</text>
+  <line x1="740" y1="250" x2="858" y2="250" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="799" y="238" text-anchor="middle" class="arrow-label">Ask → /ai/*</text>
 
-  <line x1="320" y1="596" x2="358" y2="596" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
-  <text x="339" y="586" text-anchor="middle" class="arrow-label">STLs</text>
+  <line x1="740" y1="335" x2="858" y2="335" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="799" y="323" text-anchor="middle" class="arrow-label">Upload → init</text>
 
-  <path d="M 780 520 V 505 H 1110 V 468" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
-  <text x="960" y="498" class="arrow-label">write assets</text>
+  <line x1="320" y1="667" x2="358" y2="667" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <text x="339" y="653" text-anchor="middle" class="arrow-label">STLs</text>
 
-  <path d="M 302 662 H 340 V 495 H 820 V 300 H 858" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="480" y="488" class="arrow-label">Gemini API (server-side)</text>
+  <path d="M 540 935 V 955 H 1203 V 765" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <rect x="748" y="960" width="144" height="18" rx="3" fill="#ffffff"/>
+  <text x="820" y="973" text-anchor="middle" class="arrow-label">bake assets → ECR</text>
 
-  <path d="M 302 728 H 340 V 423 H 538" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="348" y="690" class="arrow-label">HandLandmarker</text>
+  <!-- Mid gutter routes, then opaque label chips so text never sits on strokes/borders -->
+  <path d="M 302 799 H 330 V 488 H 538 V 402" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <path d="M 915 641 V 540 H 740" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <path d="M 915 707 V 540 H 1110 V 468" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <path d="M 302 733 H 340 V 540 H 860 V 250 H 858" fill="none" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
 
-  <path d="M 720 353 H 850 V 480 H 1130 V 518" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="1040" y="472" class="arrow-label">persist pins</text>
+  <rect x="368" y="498" width="124" height="20" rx="3" fill="#ffffff"/>
+  <text x="430" y="513" text-anchor="middle" class="arrow-label">HandLandmarker</text>
+
+  <rect x="724" y="508" width="92" height="20" rx="3" fill="#ffffff"/>
+  <text x="770" y="523" text-anchor="middle" class="arrow-label">CDN → SPA</text>
+
+  <rect x="988" y="508" width="74" height="20" rx="3" fill="#ffffff"/>
+  <text x="1025" y="523" text-anchor="middle" class="arrow-label">hosts API</text>
+
+  <rect x="528" y="548" width="184" height="20" rx="3" fill="#ffffff"/>
+  <text x="620" y="563" text-anchor="middle" class="arrow-label">Gemini API (server-side)</text>
+
+  <line x1="1050" y1="799" x2="1066" y2="799" stroke="#333" stroke-width="1.75" marker-end="url(#arrow)"/>
+  <rect x="1030" y="774" width="56" height="18" rx="3" fill="#ffffff"/>
+  <text x="1058" y="787" text-anchor="middle" class="arrow-label">notify</text>
 </svg>
