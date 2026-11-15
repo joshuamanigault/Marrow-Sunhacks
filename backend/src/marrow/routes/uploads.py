@@ -14,13 +14,12 @@ from uuid import uuid4
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from pydantic import BaseModel
 
-from marrow.models.specimen import Citation, Coordinates, ReuseTerms, SpecimenResponse
-from marrow.specimens.conversion import convert_one
 from marrow.specimens.store import get_specimen_store
-from marrow.structures import StructureDef
+from marrow.specimens.upload_bucket import MAX_BYTES as MAX_UPLOAD_BYTES
+from marrow.specimens.upload_bucket import get_upload_bucket
+from marrow.specimens.upload_mesh import prepare_uploaded_mesh
 
 router = APIRouter(prefix="/uploads", tags=["uploads"])
-MAX_UPLOAD_BYTES = 100 * 1024 * 1024
 _slots = BoundedSemaphore(2)
 _active: set[str] = set()
 logger = logging.getLogger(__name__)
@@ -33,6 +32,22 @@ class UploadStatus(BaseModel):
     error: str | None = None
 
 
+class UploadRequest(BaseModel):
+    filename: str
+    size: int
+
+
+class BucketUpload(BaseModel):
+    mode: Literal["direct"] = "direct"
+    id: str
+    url: str
+    fields: dict[str, str]
+
+
+class LocalUpload(BaseModel):
+    mode: Literal["local"] = "local"
+
+
 def _save_status(directory: Path, job: UploadStatus) -> None:
     temporary = directory / "status.tmp"
     temporary.write_text(job.model_dump_json(), encoding="utf-8")
@@ -43,49 +58,7 @@ def _convert(directory: Path, assets: Path, filename: str) -> None:
     job = UploadStatus(id=directory.name, status="processing")
     staging = directory / "prepared"
     try:
-        source_name = f"source{Path(filename).suffix.lower()}"
-        entry = StructureDef("uploaded_mesh", Path(filename).stem, "none", source_name)
-        result = convert_one(
-            entry,
-            directory / "raw",
-            staging / "meshes",
-            max_faces=80_000,
-            force=True,
-        )
-        if result["status"] != "ok":
-            raise ValueError("The file could not be read as a triangle mesh.")
-        metadata = SpecimenResponse(
-            id=job.id,
-            scientificName=Path(filename).stem,
-            commonLabel="User-uploaded mesh",
-            accession=job.id,
-            institution="User provided",
-            citation=Citation(
-                text="User-uploaded mesh; source not supplied.",
-                datasetDoi="",
-            ),
-            credits=[],
-            reuseTerms=ReuseTerms(
-                license="Not specified",
-                notes="No reuse license supplied.",
-            ),
-            coordinates=Coordinates(
-                frame="source_ply"
-                if filename.lower().endswith(".ply")
-                else "source_stl",
-                notes="Original coordinates preserved; units and orientation unknown.",
-            ),
-        )
-        manifest = metadata.model_dump(mode="json")
-        manifest["structures"] = [
-            {
-                **result,
-                "sourceFilename": filename,
-                "name": entry.name,
-                "side": "none",
-                "color": entry.color,
-            }
-        ]
+        manifest = prepare_uploaded_mesh(job.id, filename, directory / "raw", staging)
         (staging / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         staging.rename(assets / job.id)
         job.status = "ready"
@@ -109,13 +82,7 @@ def _convert(directory: Path, assets: Path, filename: str) -> None:
             _slots.release()
 
 
-@router.post("", response_model=UploadStatus, status_code=202)
-async def upload(
-    request: Request,
-    background_tasks: BackgroundTasks,
-    filename: str,
-) -> UploadStatus:
-    # Raw body: no multipart parsing or whole-file buffering.
+def _validate_filename(filename: str) -> None:
     if (
         not filename
         or len(filename) > 180
@@ -126,6 +93,31 @@ async def upload(
         or re.search(r'[<>:"|?*]', filename)
     ):
         raise HTTPException(400, "Choose an STL or PLY file with a plain filename.")
+
+
+@router.post("/init")
+def initiate_upload(upload: UploadRequest) -> BucketUpload | LocalUpload:
+    _validate_filename(upload.filename)
+    if upload.size <= 0:
+        raise HTTPException(400, "The file is empty.")
+    if upload.size > MAX_UPLOAD_BYTES:
+        raise HTTPException(413, "Files must be 100 MB or smaller.")
+    bucket = get_upload_bucket()
+    if bucket is None:
+        return LocalUpload()
+    return BucketUpload.model_validate(bucket.initiate(upload.filename, upload.size))
+
+
+@router.post("", response_model=UploadStatus, status_code=202)
+async def upload(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    filename: str,
+) -> UploadStatus:
+    # Local installations stream the body without multipart or whole-file buffering.
+    _validate_filename(filename)
+    if get_upload_bucket() is not None:
+        raise HTTPException(400, "Start a direct upload with POST /uploads/init.")
     if not _slots.acquire(blocking=False):
         raise HTTPException(429, "The converter is busy. Try again shortly.")
     assets = get_specimen_store().assets_dir
@@ -161,6 +153,9 @@ async def upload(
 def status(upload_id: str) -> UploadStatus:
     if not re.fullmatch(r"upload-[a-f0-9]{32}", upload_id):
         raise HTTPException(404, "Unknown upload.")
+    bucket = get_upload_bucket()
+    if bucket is not None:
+        return UploadStatus.model_validate(bucket.status(upload_id))
     assets = get_specimen_store().assets_dir
     directory = assets / ".uploads" / upload_id
     path = directory / "status.json"

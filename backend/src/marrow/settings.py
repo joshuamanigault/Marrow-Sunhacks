@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     )
 
     assets_dir: Path = Field(default_factory=lambda: _DEFAULT_ASSETS)
+    upload_bucket: str | None = None
+    upload_worker: bool = False
 
     database_url: str | None = None
     gemini_api_key: str | None = None
