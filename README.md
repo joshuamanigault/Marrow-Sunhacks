@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="docs/marrow-logo.svg" alt="Marrow" width="280" />
+</p>
+
+<p align="center">
+  <img src="docs/marrow-demo.gif" alt="Marrow interactive fossil workspace demo" width="720" />
+</p>
+
 # Marrow
 
 **Marrow turns real fossil CT studies into an interactive 3D learning workspace in the browser.**
