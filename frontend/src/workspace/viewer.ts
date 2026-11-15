@@ -49,12 +49,13 @@ export interface ViewerState {
   setMode(mode: DisplayMode): void
   setSeparation(value: number): void
   setColorByStructure(on: boolean): void
-  /** Scene (Ananya) or demo UI sets the bone-space pick for pins. */
-  setPick(pick: { structureId: string; point: [number, number, number] } | null): void
   rotateBy(radians: number): void
   reset(): void
-  /** Scene only: a click landed on a bone. Selects it and records the point. */
-  setPick(pick: Pick): void
+  /**
+   * A click landed on a bone (scene) or the pin flow sets a point: selects that
+   * bone and records the bone-space point. null clears the pick only.
+   */
+  setPick(pick: Pick | null): void
 }
 
 const initial = {
@@ -153,10 +154,14 @@ export const useViewer = create<ViewerState>()((set) => ({
   // Restores the initial display and camera. Pins live elsewhere and are kept.
   reset: () => set({ ...initial, camera: { seq: ++seq, kind: 'reset' } }),
   setPick: (pick) =>
-    set((s) => ({
-      pick,
-      selectedId: pick.structureId,
-      hiddenIds: without(s.hiddenIds, pick.structureId),
-      ...followFocus(s, pick.structureId),
-    })),
+    set((s) =>
+      pick
+        ? {
+            pick,
+            selectedId: pick.structureId,
+            hiddenIds: without(s.hiddenIds, pick.structureId),
+            ...followFocus(s, pick.structureId),
+          }
+        : { pick: null },
+    ),
 }))

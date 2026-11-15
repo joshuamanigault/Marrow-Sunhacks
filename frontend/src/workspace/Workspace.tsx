@@ -4,6 +4,8 @@ import { StatusBanner } from '../components/StatusBanner'
 import { STATUS_COPY } from '../statusCopy'
 import { NATURAL_BONE, structureColor, structureLabel, type Specimen } from './specimen'
 import { useViewer, type DisplayMode } from './viewer'
+import AskPanel from '../ai/AskPanel'
+import { useAiEnabled } from '../ai/api'
 import './workspace.css'
 
 const icons = {
@@ -50,6 +52,7 @@ const icons = {
   upload: <path d="M12 16V4M7 9l5-5 5 5M4 20h16" />,
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
   check: <path d="M5 12l5 5 9-10" />,
+  sparkle: <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z" />,
 }
 
 export function Icon({ name }: { name: keyof typeof icons }) {
@@ -68,13 +71,16 @@ export function Icon({ name }: { name: keyof typeof icons }) {
   )
 }
 
-type PanelId = 'info' | 'anatomy' | 'notes'
+type PanelId = 'info' | 'anatomy' | 'notes' | 'ask'
 
 const tools: { id: PanelId; label: string; icon: keyof typeof icons }[] = [
   { id: 'info', label: 'Specimen information', icon: 'info' },
   { id: 'anatomy', label: 'Anatomy and display', icon: 'sliders' },
   { id: 'notes', label: 'Observations', icon: 'note' },
 ]
+
+// Shown only when the server has a Gemini key (spec §4: viewer works without AI).
+const askTool = { id: 'ask', label: 'Ask about the fossil', icon: 'sparkle' } as const
 
 const modes: { id: DisplayMode; label: string }[] = [
   { id: 'solid', label: 'Solid' },
@@ -240,6 +246,8 @@ interface WorkspaceProps {
 export default function Workspace({ specimen, scene }: WorkspaceProps) {
   const [panel, setPanel] = useState<PanelId | null>('anatomy')
   const v = useViewer()
+  const aiEnabled = useAiEnabled()
+  const railTools = aiEnabled ? [...tools, askTool] : tools
   const selected = specimen.structures.find((s) => s.id === v.selectedId)
   const hiddenCount = Object.keys(v.hiddenIds).length
   const problemCount = specimen.structures.filter(
@@ -284,7 +292,7 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
       </header>
 
       <nav className="ws-rail ws-float" aria-label="Workspace tools">
-        {tools.map((t) => (
+        {railTools.map((t) => (
           <button
             key={t.id}
             type="button"
@@ -358,6 +366,7 @@ export default function Workspace({ specimen, scene }: WorkspaceProps) {
           )}
           {panel === 'info' && <InfoPanel specimen={specimen} />}
           {panel === 'notes' && <ObservationsPanel specimen={specimen} />}
+          {panel === 'ask' && aiEnabled && <AskPanel specimen={specimen} />}
         </aside>
       )}
     </div>
