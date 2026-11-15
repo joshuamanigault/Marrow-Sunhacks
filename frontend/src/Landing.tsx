@@ -134,7 +134,7 @@ function Reveal({
   id?: string
   'aria-labelledby'?: string
 }) {
-  const ref = useRef<HTMLSectionElement>(null)
+  const ref = useRef<HTMLElement>(null)
   useEffect(() => {
     const el = ref.current
     if (!el) return
